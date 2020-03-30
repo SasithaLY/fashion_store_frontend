@@ -1,0 +1,9 @@
+.dropdown:hover>.dropdown-menu{
+        display: block;
+        margin-top: 0;
+}
+
+.dropdown-item.active {
+    color: #fff;
+    background-color: goldenrod;
+}

@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from "react-router-dom";
 
-function App() {
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+
+import Header from "./shared/components/navigation/MainHeader";
+import Footer from "./shared/components/footer/Footer";
+import Home from "./home/pages/home";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main-container">
+      <Header />
+
+      <div className="container-fluid">
+        <Router>
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/products" exact>
+              <h2>Add products page here</h2>
+            </Route>
+            <Route path="/cart" exact>
+              <h2>Add cart page here</h2>
+            </Route>
+            <Route path="/order" exact>
+              <h2>Add order page here</h2>
+            </Route>
+            <Route path="/payment" exact>
+              <h2>Add payment page here</h2>
+            </Route>
+            <Route path="/contact" exact>
+              <h2>Add contact page here</h2>
+            </Route>
+            <Route path="/about" exact>
+              <h2>Add about page here</h2>
+            </Route>
+            <Route path="/login" exact>
+              <h2>Add login page here</h2>
+            </Route>
+            <Route path="/register" exact>
+              <h2>Add register page here</h2>
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        </Router>
+      </div>
+      <div className="cusfooter">
+        <Footer />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
