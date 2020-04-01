@@ -1,0 +1,6 @@
+@media (min-width: 500px) and (max-width: 750px), (min-width: 20px) {
+    .w-lg-100 {
+      width: 100% !important; 
+     } 
+   }
+   
