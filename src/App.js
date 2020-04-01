@@ -18,7 +18,7 @@ const App = () => {
     <div className="main-container">
       <Header />
 
-      <div className="container-fluid">
+      <div>
         <Router>
           <Switch>
             <Route path="/" exact>
@@ -52,6 +52,7 @@ const App = () => {
           </Switch>
         </Router>
       </div>
+      
       <div className="cusfooter">
         <Footer />
       </div>
