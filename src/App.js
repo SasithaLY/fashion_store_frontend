@@ -13,6 +13,7 @@ import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
+import Checkout from './payment/pages/Checkout';
 
 const App = () => {
   return (
@@ -34,8 +35,8 @@ const App = () => {
             <Route path="/order" exact>
               <h2>Add order page here</h2>
             </Route>
-            <Route path="/payment" exact>
-              <Payment />
+            <Route path="/checkout" exact>
+              <Checkout />
             </Route>
             <Route path="/contact" exact>
               <h2>Add contact page here</h2>
