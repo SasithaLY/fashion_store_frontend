@@ -6,32 +6,23 @@ import "./MainHeader.css";
 const MainHeader = props => {
   return (
     <header>
-      <nav className="navbar-static-top navbar-dark bg-dark">
-        <div class="container-fluid">
-          <div class="d-flex justify-content-around">
-            <div class="p-2">
-              <div class="text-light">
-                <i class="fas fa-phone icon-white"></i>&nbsp;
-                {process.env.REACT_APP_PHONE}
-                &nbsp; &nbsp;<i class="fas fa-envelope icon-white"></i>&nbsp;
-                {process.env.REACT_APP_EMAIL}
-              </div>
-            </div>
+      <div className="col-md-12 navbar-dark bg-dark text-light">
+        <div className="row container-fluid">
+          <div className="col-md-3 p-2">
+            <i className="fas fa-phone icon-white"></i>&nbsp;
+            {process.env.REACT_APP_PHONE}
+          </div>
+          <div className="col-md-3 p-2">
+            <i className="fas fa-envelope icon-white"></i>&nbsp;
+            {process.env.REACT_APP_EMAIL}
+          </div>
 
+          <div className="col-md-6 text-right">
             <div id="ex4" className="p-1">
-            <a href={"/cart"}>
-                <span className="p1 fa-stack has-badge" data-count="0">
-                  <i
-                    className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white"
-                    data-count=""
-                  ></i>
-                </span>
-              </a>
-
               <a
                 style={{ textDecoration: "none" }}
                 href={"/login"}
-                className="mx-3 text-success"
+                className="text-success"
               >
                 <span>Login</span>
               </a>
@@ -44,11 +35,18 @@ const MainHeader = props => {
                 Register
               </a>
 
-              
+              <a href={"/cart"}>
+                <span className="p1 fa-stack has-badge" data-count="0">
+                  <i
+                    className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white"
+                    data-count=""
+                  ></i>
+                </span>
+              </a>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       <div className="my-3">
         <MainNavigation />
