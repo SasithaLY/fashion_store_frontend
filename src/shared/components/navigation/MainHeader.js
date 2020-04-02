@@ -9,11 +9,11 @@ const MainHeader = props => {
       <div className="col-md-12 navbar-dark bg-dark text-light">
         <div className="row container-fluid">
           <div className="col-md-3 p-2">
-            <i class="fas fa-phone icon-white"></i>&nbsp;
+            <i className="fas fa-phone icon-white"></i>&nbsp;
             {process.env.REACT_APP_PHONE}
           </div>
           <div className="col-md-3 p-2">
-            <i class="fas fa-envelope icon-white"></i>&nbsp;
+            <i className="fas fa-envelope icon-white"></i>&nbsp;
             {process.env.REACT_APP_EMAIL}
           </div>
 
