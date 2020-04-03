@@ -16,24 +16,19 @@ const NavLinks = props => {
   return (
     
     <ul className="navbar-nav mx-5 mr-auto">
-      <div class="d-flex justify-content-center list-group list-group-horizontal" role="group" aria-label="First group">
-        <button className="list-group-item mr-2 bg-transparent text-white" >New Arrivals</button>
         {categories.map((item, key) =>
-            <button className="list-group-item mr-2 bg-transparent text-white">{item.item}</button>
-        )
-        }
-      </div>
-
+            <button className="list-group-item mr-2 mb-2 bg-transparent text-white">{item.item}</button>
+        )}
       <div className="dropdown">
-        <button className="list-group-item mr-2 bg-primary text-white dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button className="list-group-item mr-2 mb-2 bg-warning text-white dropdown-toggle w-100 rounded-lg" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
           More Categories
         </button>
-        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a className="dropdown-item" href="#">Action</a>
-          <a className="dropdown-item" href="#">Another action</a>
-          <a className="dropdown-item" href="#">Something else here</a>
-        </div>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a className="dropdown-item" href="#">Action</a>
+            <a className="dropdown-item" href="#">Another action</a>
+            <a className="dropdown-item" href="#">Something else here</a>
+          </div>
       </div>
   </ul>
   );
