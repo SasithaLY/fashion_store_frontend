@@ -27,8 +27,9 @@ const NavLinks = props => {
         </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {PostData.map((postDetail, index) => {
-              return <a className="dropdown-item" href="/products">{postDetail.title}</a>
+              return <a className="dropdown-item" href={"/products/" + postDetail.id} >{postDetail.title}</a>
             })}
+            <a className="dropdown-item" href="/products">All Products</a>
           </div>
       </div>
   </ul>

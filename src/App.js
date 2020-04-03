@@ -29,6 +29,9 @@ const App = () => {
             <Route path="/products" exact>
               <h2>Add products page here</h2>
             </Route>
+            <Route path="/products/:id" exact>
+              <h2>Add products page here</h2>
+            </Route>
             <Route path="/cart" exact>
               <h2>Add cart page here</h2>
             </Route>
