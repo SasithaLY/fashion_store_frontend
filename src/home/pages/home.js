@@ -13,7 +13,7 @@ const home = () => {
       
       <hr />
 
-        <div className="container-fluid">
+        <div className="container-fluid" id="#section1">
             <h1 className="text-center">New Arrivals</h1>
         </div>
 <br /><br />

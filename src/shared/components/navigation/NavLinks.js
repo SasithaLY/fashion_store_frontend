@@ -1,35 +1,31 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 
-import './NavLinks.css';  
+import './NavLinks.css';
 
 const NavLinks = props => {
+
+  const categories = [
+    {id: 1, item: 'Women'},
+    {id: 2, item: 'Men'},
+    {id: 3, item: 'Hot'},
+    {id: 4, item: 'Summer'},
+  ];
+
   return (
     
     <ul className="navbar-nav mx-5 mr-auto">
-    <li className="nav-item dropdown">
-      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Main Cat 1
-      </a>
-      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a className="dropdown-item" href="#">Sub Cat 1</a>
-        <a className="dropdown-item" href="#">Sub Cat 2</a>
+      <div class="list-group list-group-horizontal" role="group" aria-label="First group">
+        <button className="list-group-item mr-2 bg-transparent text-white" >New Arrivals</button>
+        {categories.map((item, key) =>
+            <button className="list-group-item mr-2 bg-transparent text-white">{item.item}</button>
+        )
+        }
+        {/*<button type="button" className="btn btn-secondary mr-2">New Arrivals</button>*/}
+        {/*<button type="button" className="btn btn-secondary mr-2">Products</button>*/}
+        {/*<button type="button" className="btn btn-secondary mr-2">T-shirts</button>*/}
       </div>
-    </li>
-
-    <li className="nav-item dropdown">
-      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Main Cat 2
-      </a>
-      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a className="dropdown-item" href="#">Sub Cat 1</a>
-        <a className="dropdown-item" href="#">Sub Cat 2</a>
-      </div>
-    </li>
   </ul>
-
-    
-    
   );
 };
 
