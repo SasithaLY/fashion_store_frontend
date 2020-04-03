@@ -1,5 +1,6 @@
 import React from "react";
-import SearchBar from "./SearchBar";
+import PostData from "../../../Components/Products/posts.json"
+
 
 import './NavLinks.css';
 
@@ -8,9 +9,9 @@ const NavLinks = props => {
   const categories = [
     {id: 1, item: 'Women'},
     {id: 2, item: 'Men'},
-    {id: 3, item: 'Hot'},
-    {id: 4, item: 'Summer'},
-    {id: 4, item: 'Nights'},
+    {id: 3, item: 'Kids & Babies'},
+    {id: 4, item: 'Sportsware'},
+    {id: 4, item: 'Homeware'},
   ];
 
   return (
@@ -25,9 +26,9 @@ const NavLinks = props => {
           More Categories
         </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a className="dropdown-item" href="#">Action</a>
-            <a className="dropdown-item" href="#">Another action</a>
-            <a className="dropdown-item" href="#">Something else here</a>
+            {PostData.map((postDetail, index) => {
+              return <a className="dropdown-item" href="/products">{postDetail.title}</a>
+            })}
           </div>
       </div>
   </ul>
