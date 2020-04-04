@@ -13,7 +13,7 @@ import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Checkout from './payment/pages/Checkout';
-import Register from "./user/pages/Register";
+import Register from "./user/pages/register";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 
@@ -37,7 +37,7 @@ const App = () => {
             </Route>
             <Route path="/products/:id" exact>
               <Header />
-              <h2>Add products page here</h2>
+              <SingleIProductDetails />
             </Route>
             <Route path="/cart" exact>
               <Header />
@@ -64,7 +64,7 @@ const App = () => {
               <h2>Add login page here</h2>
             </Route>
             <Route path="/register" exact>
-              <Register></Register>
+              <Register/>
               <Header />
               <h2>Add register page here</h2>
             </Route>
