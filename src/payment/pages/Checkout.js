@@ -16,7 +16,7 @@ export default class Checkout extends Component {
       editAddress: null,
       shippingAddress: null,
       billingSame: false,
-      paymentMethod:null,
+      paymentMethod: null,
       addresses: [
         {
           id: 1,
@@ -46,7 +46,9 @@ export default class Checkout extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleBillingAddressChange = this.handleBillingAddressChange.bind(this);
+    this.handleBillingAddressChange = this.handleBillingAddressChange.bind(
+      this
+    );
     this.onAddressChange = this.onAddressChange.bind(this);
   }
 
@@ -58,7 +60,7 @@ export default class Checkout extends Component {
 
     this.setState({
       [name]: value,
-    });
+    },);
 
     console.log(this.state);
   };
@@ -77,11 +79,11 @@ export default class Checkout extends Component {
 
   onAddressChange = (event) => {
     const address = this.state.addresses.find(
-      address => address.id == event.target.value
+      (address) => address.id == event.target.value
     );
 
     this.setState({
-      shippingAddress: address
+      shippingAddress: address,
     });
     console.log(this.state);
   };
@@ -219,9 +221,7 @@ export default class Checkout extends Component {
                     <div>
                       {billingSame ? null : (
                         <BillingAddress
-                        handleInputChange={
-                            this.handleInputChange
-                          }
+                          handleInputChange={this.handleInputChange}
                         />
                       )}
                     </div>
@@ -276,13 +276,11 @@ export default class Checkout extends Component {
                         </label>
                       </div>
                     </div>
-                    {paymentMethod === 'card' ? (
-                        <CreditCardInput
-                        handleInputChange={
-                            this.handleInputChange
-                          }
-                        />
-                      ) : null}
+                    {paymentMethod === "card" ? (
+                      <CreditCardInput
+                        handleInputChange={this.handleInputChange}
+                      />
+                    ) : null}
                     <hr className="mb-4" />
                     <button
                       className="btn btn-primary btn-lg btn-block"

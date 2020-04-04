@@ -11,7 +11,7 @@ export default class AddressInput extends Component {
 
         <form
           className="needs-validation"
-          noValidate
+          
           onSubmit={submitNewAddress}
         >
           <div className="row">
