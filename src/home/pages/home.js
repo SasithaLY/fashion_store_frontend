@@ -7,6 +7,7 @@ const home = () => {
     <div>
         <div style={{marginTop:'-15px'}}>
         <ImageSlider />
+        <hr />
         <NewArrivals />
         </div>
       
