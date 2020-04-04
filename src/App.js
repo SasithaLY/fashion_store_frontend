@@ -14,6 +14,7 @@ import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Checkout from './payment/pages/Checkout';
+import UploadProducts from "./Components/Upload Products/uploadProducts";
 
 const App = () => {
   return (
@@ -23,7 +24,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route path="/addProduct" exact>
-              <h1>Add Products</h1>
+              <UploadProducts />
             </Route>
             <Route path="/" exact>
               <Header />
