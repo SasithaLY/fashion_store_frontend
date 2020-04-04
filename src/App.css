@@ -2,6 +2,7 @@ html,
 body {
   height: 100%;
   position: relative;
+  background-color: black;
 }
 
 .main-container {
@@ -16,4 +17,8 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+h2, label, input{
+  color: gold;
 }

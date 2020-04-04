@@ -14,6 +14,7 @@ import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Checkout from './payment/pages/Checkout';
+import Register from "./user/pages/Register";
 
 const App = () => {
   return (
@@ -48,7 +49,7 @@ const App = () => {
               <h2>Add login page here</h2>
             </Route>
             <Route path="/register" exact>
-              <h2>Add register page here</h2>
+              <Register></Register>
             </Route>
             <Redirect to="/" />
           </Switch>
