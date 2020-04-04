@@ -15,11 +15,15 @@ class UploadProducts extends Component {
 
     uploadMultipleFiles(e) {
         if (e.target.files.length <= 5) {
+            console.log('array length', this.fileArray.length);
+
             this.fileObj.push(e.target.files);
-            for (let i = 0; i < this.fileObj[0].length; i++) {
-                this.fileArray.push(URL.createObjectURL(this.fileObj[0][i]))
+            console.log('dannathi length', this.fileObj[0].length);
+            for (let i = 0 ; i < this.fileObj[0].length; i++) {
+                this.fileArray.push(URL.createObjectURL(this.fileObj[0][i]));
             }
-            this.setState({file: this.fileArray})
+
+            this.setState({file: this.fileArray});
         }
     }
 
@@ -40,12 +44,19 @@ class UploadProducts extends Component {
                     <form>
                         <div className="form-group multi-preview">
                             {(this.fileArray || []).map(url => (
-                                <img src={url} alt="..." className="w-25 m-4"/>
+                                <img src={url} alt="..." className="w-25 m-2"/>
                             ))}
                         </div>
 
-                        <div className="form-group">
-                            <input type="file" className="form-control" onChange={this.uploadMultipleFiles} multiple disabled={this.fileArray.length>4}/>
+                        {/*<div className="form-group">*/}
+                        {/*    <input type="file" className="form-control" onChange={this.uploadMultipleFiles} multiple disabled={this.fileArray.length>4}/>*/}
+                        {/*</div>*/}
+                        <div className="input-group">
+                            <div className="custom-file">
+                                <input type="file" className="custom-file-input" id="inputGroupFile01"
+                                       aria-describedby="inputGroupFileAddon01" onChange={this.uploadMultipleFiles} multiple disabled={this.fileArray.length>4}/>
+                                    <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
+                            </div>
                         </div>
                         <button type="button" className="btn btn-danger btn-block" onClick={this.uploadFiles}>Upload
                         </button>

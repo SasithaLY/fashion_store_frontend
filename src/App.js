@@ -15,6 +15,7 @@ import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Checkout from './payment/pages/Checkout';
 import UploadProducts from "./Components/Upload Products/uploadProducts";
+import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 
 const App = () => {
   return (
@@ -36,7 +37,7 @@ const App = () => {
             </Route>
             <Route path="/products/:id" exact>
               <Header />
-              <h2>Add products page here</h2>
+              <SingleIProductDetails />
             </Route>
             <Route path="/cart" exact>
               <Header />
