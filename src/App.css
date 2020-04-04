@@ -2,6 +2,7 @@ html,
 body {
   height: 100%;
   position: relative;
+  background-color: black;
 }
 
 .main-container {
@@ -18,6 +19,12 @@ body {
   width: 100%;
 }
 
+<<<<<<< HEAD
+h2, label, input{
+  color: gold;
+}
+=======
 .icon-gold{
   color: goldenrod;
 }
+>>>>>>> b113599a628d232019f308374dc75f446deac12b
