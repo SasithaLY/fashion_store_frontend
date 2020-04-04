@@ -14,11 +14,8 @@ import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Checkout from './payment/pages/Checkout';
-<<<<<<< HEAD
 import Register from "./user/pages/Register";
-=======
 import UploadProducts from "./Components/Upload Products/uploadProducts";
->>>>>>> b113599a628d232019f308374dc75f446deac12b
 
 const App = () => {
   return (
@@ -67,12 +64,7 @@ const App = () => {
               <h2>Add login page here</h2>
             </Route>
             <Route path="/register" exact>
-<<<<<<< HEAD
               <Register></Register>
-=======
-              <Header />
-              <h2>Add register page here</h2>
->>>>>>> b113599a628d232019f308374dc75f446deac12b
             </Route>
             <Redirect to="/" />
           </Switch>
