@@ -18,7 +18,7 @@ const NavLinks = props => {
     
     <ul className="navbar-nav mx-5 mr-auto">
         {categories.map((item, key) =>
-            <button className="list-group-item mr-2 mb-2 bg-transparent text-white">{item.item}</button>
+            <button key={key} className="list-group-item mr-2 mb-2 bg-transparent text-white">{item.item}</button>
         )}
       <div className="dropdown">
         <button className="list-group-item mr-2 mb-2 bg-warning text-white dropdown-toggle w-100 rounded-lg" type="button" id="dropdownMenuButton"
@@ -27,7 +27,7 @@ const NavLinks = props => {
         </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {PostData.map((postDetail, index) => {
-              return <a className="dropdown-item" href={"/products/" + postDetail.id} >{postDetail.title}</a>
+              return <a className="dropdown-item" key={postDetail.id} href={"/products/" + postDetail.id} >{postDetail.title}</a>
             })}
             <a className="dropdown-item" href="/products">All Products</a>
           </div>

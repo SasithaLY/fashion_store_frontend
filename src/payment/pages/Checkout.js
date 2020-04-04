@@ -46,9 +46,7 @@ export default class Checkout extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleBillingAddressChange = this.handleBillingAddressChange.bind(
-      this
-    );
+    this.handleBillingAddressChange = this.handleBillingAddressChange.bind(this);
     this.onAddressChange = this.onAddressChange.bind(this);
   }
 
@@ -60,9 +58,9 @@ export default class Checkout extends Component {
 
     this.setState({
       [name]: value,
-    },);
+    }, () => {console.log(this.state)});
 
-    console.log(this.state);
+
   };
 
   handleBillingAddressChange = (event) => {
@@ -72,9 +70,9 @@ export default class Checkout extends Component {
 
     this.setState({
       [name]: value,
-    });
+    }, () => {console.log(this.state)});
 
-    console.log(this.state);
+  
   };
 
   onAddressChange = (event) => {
@@ -84,8 +82,8 @@ export default class Checkout extends Component {
 
     this.setState({
       shippingAddress: address,
-    });
-    console.log(this.state);
+    }, () => {console.log(this.state)});
+    
   };
 
   submitNewAddress = (e) => {
