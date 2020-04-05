@@ -161,7 +161,7 @@ export default class Checkout extends Component {
                               className="btn btn-sm button-transparent mx-2"
                               onClick={() => this.handleEdit(address.id)}
                             >
-                              <i className="fas fa-pen icon-gold"></i>
+                              <i className="fas fa-pen icon-white"></i>
                             </button>
                           </div>
                         );
