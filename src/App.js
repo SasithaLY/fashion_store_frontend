@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
 } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,7 +12,7 @@ import "./App.css";
 import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
-import Checkout from './payment/pages/Checkout';
+import Checkout from "./payment/pages/Checkout";
 import Register from "./user/pages/register";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
@@ -20,7 +20,6 @@ import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 const App = () => {
   return (
     <div className="main-container">
-
       <div>
         <Router>
           <Switch>
@@ -64,15 +63,14 @@ const App = () => {
               <h2>Add login page here</h2>
             </Route>
             <Route path="/register" exact>
-              <Register/>
               <Header />
-              <h2>Add register page here</h2>
+              <Register />
             </Route>
             <Redirect to="/" />
           </Switch>
         </Router>
       </div>
-      
+
       <div className="cusfooter">
         <Footer />
       </div>
