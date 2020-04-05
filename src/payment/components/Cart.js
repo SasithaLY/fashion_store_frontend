@@ -1,36 +1,38 @@
 import React from "react";
 
+import './Cart.css';
+
 const Cart = () => {
   return (
-    <div>
+    <div className="custom-div">
       <div className="order-md-2 mb-4">
         <h4 className="d-flex justify-content-between align-items-center mb-3">
-          <span className="text-muted">Your cart</span>
+          <span>Your cart</span>
           <span className="badge badge-danger badge-pill">3</span>
         </h4>
         <ul className="list-group mb-3">
           <li className="list-group-item d-flex justify-content-between lh-condensed">
             <div>
               <h6 className="my-0">Product name</h6>
-              <small className="text-muted">Brief description</small>
+              <small className="custom-span">Brief description</small>
             </div>
-            <span className="text-muted">$12</span>
+            <span className="custom-span">$12</span>
           </li>
           <li className="list-group-item d-flex justify-content-between lh-condensed">
             <div>
               <h6 className="my-0">Second product</h6>
-              <small className="text-muted">Brief description</small>
+              <small className="custom-span">Brief description</small>
             </div>
-            <span className="text-muted">$8</span>
+            <span className="custom-span">$8</span>
           </li>
           <li className="list-group-item d-flex justify-content-between lh-condensed">
             <div>
               <h6 className="my-0">Third item</h6>
-              <small className="text-muted">Brief description</small>
+              <small className="custom-span">Brief description</small>
             </div>
-            <span className="text-muted">$5</span>
+            <span className="custom-span">$5</span>
           </li>
-          <li className="list-group-item d-flex justify-content-between bg-light">
+          <li className="list-group-item d-flex justify-content-between bg-dark">
             <div className="text-success">
               <h6 className="my-0">Promo code</h6>
               <small>EXAMPLECODE</small>
