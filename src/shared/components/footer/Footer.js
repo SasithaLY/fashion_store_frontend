@@ -7,8 +7,23 @@ const Footer = () => {
       <div className="container-fluid text-center text-md-left">
         <div className="row">
           <div className="col-md-6 mt-md-0 mt-3">
-            <h5 className="text-uppercase">FASHION STORE</h5>
-            <p>Company Description</p>
+            <div className="row">
+            <div className="col-md-6">
+              <h5 className="text-uppercase">FASHION STORE</h5>
+              <p>Company Description</p>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-3 p-2 mx-2">
+                <i className="fas fa-phone icon-white"></i>&nbsp;
+                {process.env.REACT_APP_PHONE}
+              </div>
+              <div className="col-md-3 p-2">
+                <i className="fas fa-envelope icon-white"></i>&nbsp;
+                {process.env.REACT_APP_EMAIL}
+              </div>
+            </div>
           </div>
 
           <hr className="clearfix w-100 d-md-none pb-3" />
@@ -44,29 +59,22 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
         </div>
       </div>
 
       <div className="footer-copyright text-center py-3">
         © 2020 Copyright:
         <a href="#"> {process.env.REACT_APP_COMPANY}</a>
-
-       
-            <a href="#">
-              <i className="fab fa-facebook-f icon-white mx-3"></i>
-            </a>
-
-            <a href="#">
-              <i className="fab fa-instagram icon-white mx-3"></i>
-            </a>
-
-            <a href="#">
-              <i className="fab fa-twitter icon-white mx-3"></i>
-            </a>
-          
+        <a href="#">
+          <i className="fab fa-facebook-f icon-white mx-3"></i>
+        </a>
+        <a href="#">
+          <i className="fab fa-instagram icon-white mx-3"></i>
+        </a>
+        <a href="#">
+          <i className="fab fa-twitter icon-white mx-3"></i>
+        </a>
       </div>
-      
     </footer>
   );
 };
