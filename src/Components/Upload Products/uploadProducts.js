@@ -41,7 +41,7 @@ class UploadProducts extends Component {
                         <p><b>5 images</b> of your Product can only be uploaded. Actual Images should be attached!</p>
                     </div>
                     <br/>
-                    <form>
+                    <form action="/upload" method="POST">
                         <div className="form-group multi-preview">
                             {(this.fileArray || []).map(url => (
                                 <img src={url} alt="..." className="w-25 m-2"/>
@@ -53,13 +53,12 @@ class UploadProducts extends Component {
                         {/*</div>*/}
                         <div className="input-group">
                             <div className="custom-file">
-                                <input type="file" className="custom-file-input" id="inputGroupFile01"
+                                <input name="productImages" type="file" className="custom-file-input" id="inputGroupFile01"
                                        aria-describedby="inputGroupFileAddon01" onChange={this.uploadMultipleFiles} multiple disabled={this.fileArray.length>4}/>
                                     <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
                             </div>
                         </div>
-                        <button type="button" className="btn btn-danger btn-block" onClick={this.uploadFiles}>Upload
-                        </button>
+                        <button type="submit" className="btn btn-danger btn-block" onClick={this.uploadFiles}>Upload</button>
                     </form>
                 </div>
             </div>

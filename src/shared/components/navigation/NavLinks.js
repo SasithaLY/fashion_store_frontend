@@ -49,7 +49,7 @@ class NavLinks extends Component {
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {this.state.moreCategories.map((postDetail, index) => {
-                            return <a className="dropdown-item" key={postDetail.id}
+                            return <a className="dropdown-item" key={postDetail._id}
                                       href={"/products/" + postDetail._id}>{postDetail.categoryName}</a>
                         })}
                         <a className="dropdown-item" href="/products">All Products</a>
