@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export default class AddressInput extends Component {
   render() {
 
-    const{submitNewAddress, setShowing} = this.props;
+    const{submitNewAddress, setShowing, handleInputChange, addressErrors, validateAddress} = this.props;
 
     return (
       <div>
@@ -21,12 +21,15 @@ export default class AddressInput extends Component {
                 type="text"
                 className="form-control"
                 id="firstName"
+                name="firstName"
                 placeholder=""
+                onChange={handleInputChange}
+                onKeyUp={validateAddress}
                 required
               />
-              <div className="invalid-feedback">
-                Valid first name is required.
-              </div>
+              <div className="cus-invalid-feedback">
+                  {addressErrors.firstName}
+                </div>
             </div>
             <div className="col-md-6 mb-3">
               <label htmlFor="lastName">Last name</label>
@@ -34,27 +37,33 @@ export default class AddressInput extends Component {
                 type="text"
                 className="form-control"
                 id="lastName"
+                name="lastName"
                 placeholder=""
+                onChange={handleInputChange}
+                onKeyUp={validateAddress}
                 required
               />
-              <div className="invalid-feedback">
-                Valid last name is required.
-              </div>
+             <div className="cus-invalid-feedback">
+                  {addressErrors.lastName}
+                </div>
             </div>
           </div>
 
           <div className="mb-3">
-            <label htmlFor="address">Address</label>
+            <label htmlFor="address1">Address</label>
             <input
               type="text"
               className="form-control"
-              id="address"
+              id="address1"
+              name="address1"
               placeholder="1234 Main St"
+              onChange={handleInputChange}
+              onKeyUp={validateAddress}
               required
             />
-            <div className="invalid-feedback">
-              Please enter your shipping address.
-            </div>
+           <div className="cus-invalid-feedback">
+                  {addressErrors.address1}
+                </div>
           </div>
 
           <div className="mb-3">
@@ -65,7 +74,9 @@ export default class AddressInput extends Component {
               type="text"
               className="form-control"
               id="address2"
+              name="address2"
               placeholder="Apartment or suite"
+              onChange={handleInputChange}
             />
           </div>
           <div className="mb-3">
@@ -74,10 +85,15 @@ export default class AddressInput extends Component {
               type="text"
               className="form-control"
               id="city"
+              name="city"
               placeholder="ex: Colombo"
+              onChange={handleInputChange}
+              onKeyUp={validateAddress}
               required
             />
-            <div className="invalid-feedback">Please enter your city.</div>
+            <div className="cus-invalid-feedback">
+                  {addressErrors.city}
+                </div>
           </div>
 
           <div className="row">
@@ -86,39 +102,51 @@ export default class AddressInput extends Component {
               <select
                 className="custom-select d-block w-100"
                 id="country"
+                name="country"
+                onInput={handleInputChange}
+                onChange={validateAddress}
                 required
               >
                 <option value="">Choose...</option>
                 <option>United States</option>
               </select>
-              <div className="invalid-feedback">
-                Please select a valid country.
-              </div>
+              <div className="cus-invalid-feedback">
+                  {addressErrors.country}
+                </div>
             </div>
             <div className="col-md-4 mb-3">
               <label htmlFor="state">State</label>
               <select
                 className="custom-select d-block w-100"
                 id="state"
+                name="state"
+                onInput={handleInputChange}
+                onChange={validateAddress}
+            
                 required
               >
                 <option value="">Choose...</option>
                 <option>California</option>
               </select>
-              <div className="invalid-feedback">
-                Please provide a valid state.
-              </div>
+              <div className="cus-invalid-feedback">
+                  {addressErrors.state}
+                </div>
             </div>
             <div className="col-md-3 mb-3">
-              <label htmlFor="zip">Zip/Postal Code</label>
+              <label htmlFor="postal">Zip/Postal Code</label>
               <input
                 type="text"
                 className="form-control"
-                id="zip"
+                id="postal"
+                name="postal"
                 placeholder=""
+                onChange={handleInputChange}
+                onKeyUp={validateAddress}
                 required
               />
-              <div className="invalid-feedback">Zip/Postal code required.</div>
+              <div className="cus-invalid-feedback">
+                  {addressErrors.postal}
+                </div>
             </div>
           </div>
           <div className="row ">

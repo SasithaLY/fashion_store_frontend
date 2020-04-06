@@ -14,9 +14,17 @@ export default class Checkout extends Component {
       showing: false,
       isEdit: false,
       editAddress: null,
-      shippingAddress: null,
+      shippingAddress: "",
       billingSame: false,
-      paymentMethod: null,
+      paymentMethod: "",
+      firstName: "",
+      lastName: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      country: "",
+      postal: "",
       addresses: [
         {
           id: 1,
@@ -53,6 +61,22 @@ export default class Checkout extends Component {
         billingPostal: "",
         paymentMethod: "",
         shippingAddress: "",
+        firstName: "",
+        lastName: "",
+        address1: "",
+        city: "",
+        country: "",
+        state: "",
+        postal: "",
+      },
+      addressErrors: {
+        firstName: "",
+        lastName: "",
+        address1: "",
+        city: "",
+        country: "",
+        state: "",
+        postal: "",
       },
       billingFirstName: "",
       billingLastName: "",
@@ -78,7 +102,7 @@ export default class Checkout extends Component {
     const name = target.name;
     const value = target.id === "billingSame" ? target.checked : target.value;
 
-    this.validate();
+    //this.validate();
 
     this.setState(
       {
@@ -122,6 +146,11 @@ export default class Checkout extends Component {
 
   submitNewAddress = (e) => {
     e.preventDefault();
+    const isAddressValid = this.validateAddress();
+
+    if (isAddressValid) {
+      console.log("input new address");
+    }
   };
 
   submitCheckout = (e) => {
@@ -151,6 +180,82 @@ export default class Checkout extends Component {
       editAddress: selectAddress,
       isEdit: true,
     });
+  };
+
+  validateAddress = () => {
+    let firstName = "";
+    let lastName = "";
+    let address1 = "";
+    let city = "";
+    let country = "";
+    let state = "";
+    let postal = "";
+    let count = 0;
+
+    if (this.state.showing) {
+      if (this.state.firstName === "") {
+        firstName = "Valid first name is required.";
+        count++;
+      } else {
+        firstName = null;
+      }
+      if (this.state.lastName === "") {
+        lastName = "Valid last name is required.";
+        count++;
+      } else {
+        lastName = null;
+      }
+      if (this.state.address1 === "") {
+        address1 = "Please enter your billing address.";
+        count++;
+      } else {
+        address1 = null;
+      }
+      if (this.state.city === "") {
+        city = "Please enter your city.";
+        count++;
+      } else {
+        city = null;
+      }
+      if (this.state.country === "") {
+        country = "Please select a country.";
+        count++;
+      } else {
+        country = null;
+      }
+      if (this.state.state === "") {
+        state = "Please provide a valid state.";
+        count++;
+      } else {
+        state = null;
+      }
+      if (this.state.postal === "") {
+        postal = "Zip/Postal code required.";
+        count++;
+      } else {
+        postal = null;
+      }
+    }
+
+    let addressErrors = {
+      firstName: firstName,
+      lastName: lastName,
+      address1: address1,
+      city: city,
+      country: country,
+      state: state,
+      postal: postal,
+    };
+
+    this.setState({
+      addressErrors: addressErrors,
+    });
+
+    if (count > 0) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   validate = () => {
@@ -241,9 +346,9 @@ export default class Checkout extends Component {
     });
 
     if (count > 0) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   };
 
@@ -254,6 +359,7 @@ export default class Checkout extends Component {
       billingSame,
       paymentMethod,
       errors,
+      addressErrors,
     } = this.state;
 
     return (
@@ -331,6 +437,9 @@ export default class Checkout extends Component {
                           <AddressInput
                             setShowing={this.setShowing}
                             editAddress={this.state.editAddress}
+                            handleInputChange={this.handleInputChange}
+                            addressErrors={addressErrors}
+                            validateAddress={this.validateAddress}
                           />
                         ) : null}
                       </div>
