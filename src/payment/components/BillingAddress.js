@@ -26,7 +26,6 @@ export default class BillingAddress extends Component {
                   placeholder=""
                   required
                   onChange={handleInputChange}
-                  onKeyUp={validate}
                 />
                 <div className="cus-invalid-feedback">
                   {errors.billingFirstName}
@@ -48,7 +47,6 @@ export default class BillingAddress extends Component {
                   placeholder=""
                   required
                   onChange={handleInputChange}
-                  onKeyUp={validate}
                 />
                 <div className="cus-invalid-feedback">
                   {errors.billingLastName}
@@ -72,7 +70,6 @@ export default class BillingAddress extends Component {
                 placeholder="1234 Main St"
                 required
                 onChange={handleInputChange}
-                onKeyUp={validate}
               />
               <div className="cus-invalid-feedback">
                 {errors.billingAddress1}
@@ -90,7 +87,6 @@ export default class BillingAddress extends Component {
                 name="billingAddress2"
                 placeholder="Apartment or suite"
                 onChange={handleInputChange}
-                onKeyUp={validate}
               />
             </div>
 
@@ -110,7 +106,6 @@ export default class BillingAddress extends Component {
                 placeholder="ex: Colombo"
                 required
                 onChange={handleInputChange}
-                onKeyUp={validate}
               />
               <div className="cus-invalid-feedback">{errors.billingCity}</div>
             </div>
@@ -130,7 +125,6 @@ export default class BillingAddress extends Component {
                   name="billingCountry"
                   required
                   onChange={handleInputChange}
-                  onClick={validate}
                 >
                   <option value="">Choose...</option>
                   <option>United States</option>
@@ -153,7 +147,6 @@ export default class BillingAddress extends Component {
                   name="billingState"
                   required
                   onChange={handleInputChange}
-                  onClick={validate}
                 >
                   <option value="">Choose...</option>
                   <option>California</option>
@@ -178,7 +171,6 @@ export default class BillingAddress extends Component {
                   placeholder=""
                   required
                   onChange={handleInputChange}
-                  onKeyUp={validate}
                 />
                 <div className="cus-invalid-feedback">
                   {errors.billingPostal}
