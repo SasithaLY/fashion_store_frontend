@@ -14,9 +14,17 @@ export default class Checkout extends Component {
       showing: false,
       isEdit: false,
       editAddress: null,
-      shippingAddress: null,
+      shippingAddress: "",
       billingSame: false,
-      paymentMethod: null,
+      paymentMethod: "",
+      firstName: "",
+      lastName: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      country: "",
+      postal: "",
       addresses: [
         {
           id: 1,
@@ -43,10 +51,48 @@ export default class Checkout extends Component {
           isPrimary: false,
         },
       ],
+      errors: {
+        billingFirstName: "",
+        billingLastName: "",
+        billingAddress1: "",
+        billingCity: "",
+        billingCountry: "",
+        billingState: "",
+        billingPostal: "",
+        paymentMethod: "",
+        shippingAddress: "",
+        firstName: "",
+        lastName: "",
+        address1: "",
+        city: "",
+        country: "",
+        state: "",
+        postal: "",
+      },
+      addressErrors: {
+        firstName: "",
+        lastName: "",
+        address1: "",
+        city: "",
+        country: "",
+        state: "",
+        postal: "",
+      },
+      billingFirstName: "",
+      billingLastName: "",
+      billingAddress1: "",
+      billingCity: "",
+      billingCountry: "",
+      billingState: "",
+      billingPostal: "",
+      paymentMethod: "",
+      shippingAddress: "",
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleBillingAddressChange = this.handleBillingAddressChange.bind(this);
+    this.handleBillingAddressChange = this.handleBillingAddressChange.bind(
+      this
+    );
     this.onAddressChange = this.onAddressChange.bind(this);
   }
 
@@ -56,11 +102,16 @@ export default class Checkout extends Component {
     const name = target.name;
     const value = target.id === "billingSame" ? target.checked : target.value;
 
-    this.setState({
-      [name]: value,
-    }, () => {console.log(this.state)});
+    //this.validate();
 
-
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   };
 
   handleBillingAddressChange = (event) => {
@@ -68,11 +119,14 @@ export default class Checkout extends Component {
     const name = target.name;
     const value = target.value;
 
-    this.setState({
-      [name]: value,
-    }, () => {console.log(this.state)});
-
-  
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   };
 
   onAddressChange = (event) => {
@@ -80,14 +134,32 @@ export default class Checkout extends Component {
       (address) => address.id == event.target.value
     );
 
-    this.setState({
-      shippingAddress: address,
-    }, () => {console.log(this.state)});
-    
+    this.setState(
+      {
+        shippingAddress: address,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   };
 
   submitNewAddress = (e) => {
     e.preventDefault();
+    const isAddressValid = this.validateAddress();
+
+    if (isAddressValid) {
+      console.log("input new address");
+    }
+  };
+
+  submitCheckout = (e) => {
+    e.preventDefault();
+
+    const isValid = this.validate();
+    if (isValid) {
+      console.log("Valid!");
+    }
   };
 
   setShowing = (e) => {
@@ -110,8 +182,185 @@ export default class Checkout extends Component {
     });
   };
 
+  validateAddress = () => {
+    let firstName = "";
+    let lastName = "";
+    let address1 = "";
+    let city = "";
+    let country = "";
+    let state = "";
+    let postal = "";
+    let count = 0;
+
+    if (this.state.showing) {
+      if (this.state.firstName === "") {
+        firstName = "Valid first name is required.";
+        count++;
+      } else {
+        firstName = null;
+      }
+      if (this.state.lastName === "") {
+        lastName = "Valid last name is required.";
+        count++;
+      } else {
+        lastName = null;
+      }
+      if (this.state.address1 === "") {
+        address1 = "Please enter your billing address.";
+        count++;
+      } else {
+        address1 = null;
+      }
+      if (this.state.city === "") {
+        city = "Please enter your city.";
+        count++;
+      } else {
+        city = null;
+      }
+      if (this.state.country === "") {
+        country = "Please select a country.";
+        count++;
+      } else {
+        country = null;
+      }
+      if (this.state.state === "") {
+        state = "Please provide a valid state.";
+        count++;
+      } else {
+        state = null;
+      }
+      if (this.state.postal === "") {
+        postal = "Zip/Postal code required.";
+        count++;
+      } else {
+        postal = null;
+      }
+    }
+
+    let addressErrors = {
+      firstName: firstName,
+      lastName: lastName,
+      address1: address1,
+      city: city,
+      country: country,
+      state: state,
+      postal: postal,
+    };
+
+    this.setState({
+      addressErrors: addressErrors,
+    });
+
+    if (count > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  validate = () => {
+    let billingFirstName = "";
+    let billingLastName = "";
+    let billingAddress1 = "";
+    let billingCity = "";
+    let billingCountry = "";
+    let billingState = "";
+    let billingPostal = "";
+    let paymentMethod = "";
+    let shippingAddress = "";
+
+    let count = 0;
+
+    if (!this.state.billingSame) {
+      if (this.state.billingFirstName === "") {
+        billingFirstName = "Valid first name is required.";
+        count++;
+      } else {
+        billingFirstName = null;
+      }
+      if (this.state.billingLastName === "") {
+        billingLastName = "Valid last name is required.";
+        count++;
+      } else {
+        billingLastName = null;
+      }
+      if (this.state.billingAddress1 === "") {
+        billingAddress1 = "Please enter your billing address.";
+        count++;
+      } else {
+        billingAddress1 = null;
+      }
+      if (this.state.billingCity === "") {
+        billingCity = "Please enter your city.";
+        count++;
+      } else {
+        billingCity = null;
+      }
+      if (this.state.billingCountry === "") {
+        billingCountry = "Please select a country.";
+        count++;
+      } else {
+        billingCountry = null;
+      }
+      if (this.state.billingState === "") {
+        billingState = "Please provide a valid state.";
+        count++;
+      } else {
+        billingState = null;
+      }
+      if (this.state.billingPostal === "") {
+        billingPostal = "Zip/Postal code required.";
+        count++;
+      } else {
+        billingPostal = null;
+      }
+    }
+
+    if (this.state.paymentMethod === "") {
+      paymentMethod = "Please select a payment method.";
+      count++;
+    } else {
+      paymentMethod = null;
+    }
+    if (this.state.shippingAddress === "") {
+      shippingAddress = "Please Select a shipping address";
+      count++;
+    } else {
+      shippingAddress = null;
+    }
+
+    let errors = {
+      billingFirstName: billingFirstName,
+      billingLastName: billingLastName,
+      billingAddress1: billingAddress1,
+      billingCity: billingCity,
+      billingCountry: billingCountry,
+      billingState: billingState,
+      billingPostal: billingPostal,
+      paymentMethod: paymentMethod,
+      shippingAddress: shippingAddress,
+    };
+
+    this.setState({
+      errors: errors,
+    });
+
+    if (count > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   render() {
-    const { showing, addresses, billingSame, paymentMethod } = this.state;
+    const {
+      showing,
+      addresses,
+      billingSame,
+      paymentMethod,
+      errors,
+      addressErrors,
+    } = this.state;
 
     return (
       <div className="container-lg">
@@ -157,15 +406,19 @@ export default class Checkout extends Component {
                                 ", " +
                                 address.country}
                             </label>
+
                             <button
                               className="btn btn-sm button-transparent mx-2"
                               onClick={() => this.handleEdit(address.id)}
                             >
-                              <i className="fas fa-pen icon-gold"></i>
+                              <i className="fas fa-pen icon-white"></i>
                             </button>
                           </div>
                         );
                       })}
+                      <div className="cus-invalid-feedback">
+                        {errors.shippingAddress}
+                      </div>
                     </div>
                     <div className="row">
                       <div className="my-2">
@@ -184,6 +437,9 @@ export default class Checkout extends Component {
                           <AddressInput
                             setShowing={this.setShowing}
                             editAddress={this.state.editAddress}
+                            handleInputChange={this.handleInputChange}
+                            addressErrors={addressErrors}
+                            validateAddress={this.validateAddress}
                           />
                         ) : null}
                       </div>
@@ -220,6 +476,8 @@ export default class Checkout extends Component {
                       {billingSame ? null : (
                         <BillingAddress
                           handleInputChange={this.handleInputChange}
+                          errors={errors}
+                          validate={this.validate}
                         />
                       )}
                     </div>
@@ -273,6 +531,9 @@ export default class Checkout extends Component {
                           <span className="checkmark"></span>
                         </label>
                       </div>
+                      <div className="cus-invalid-feedback">
+                        {errors.paymentMethod}
+                      </div>
                     </div>
                     {paymentMethod === "card" ? (
                       <CreditCardInput
@@ -283,6 +544,7 @@ export default class Checkout extends Component {
                     <button
                       className="btn btn-primary btn-lg btn-block"
                       type="submit"
+                      onClick={this.submitCheckout}
                     >
                       Continue to checkout
                     </button>
