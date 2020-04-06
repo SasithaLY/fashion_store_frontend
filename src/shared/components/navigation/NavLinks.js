@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import PostData from "../../../Components/Products/posts.json"
-import axios from 'axios';
+import API from '../../../Utils/API'
 
 import './NavLinks.css';
 
@@ -24,7 +23,7 @@ class NavLinks extends Component {
     }
 
     componentDidMount() {
-      axios.get('http://localhost:8000/categoriesRouter/all')
+        API.get('categoriesRouter/all')
           .then(response => {
             this.setState({
               moreCategories: response.data
