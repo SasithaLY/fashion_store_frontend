@@ -16,6 +16,8 @@ import Payment from './payment/pages/Payment';
 import Checkout from './payment/pages/Checkout';
 import Register from "./user/pages/Register";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
+import Login from "./user/pages/Login";
+import Profile from "./user/pages/Profile";
 
 const App = () => {
   return (
@@ -61,16 +63,21 @@ const App = () => {
             </Route>
             <Route path="/login" exact>
               <Header />
-              <h2>Add login page here</h2>
+              <Login></Login>
             </Route>
             <Route path="/register" exact>
+              <Header />
               <Register></Register>
+            </Route>
+            <Route path="/profile" exact>
+              <Header />
+              <Profile></Profile>
             </Route>
             <Redirect to="/" />
           </Switch>
         </Router>
       </div>
-      
+
       <div className="cusfooter">
         <Footer />
       </div>

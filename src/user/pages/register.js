@@ -44,9 +44,9 @@ class Register extends Component {
                     </div>
 
                     <div className="form-row">
-                        <div className="form-check">
+                        <div className="custom-control custom-checkbox">
                             <input className="form-check-input" type="checkbox" />
-                            <label className="form-check-label" for="gridCheck">
+                            <label className="form-check-label">
                                 I agree to Terms and Conditions.
                             </label>
                         </div>
