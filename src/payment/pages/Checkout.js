@@ -25,6 +25,14 @@ export default class Checkout extends Component {
       state: "",
       country: "",
       postal: "",
+      billingFirstName: "",
+      billingLastName: "",
+      billingAddress1: "",
+      billingAddress2: "",
+      billingCity: "",
+      billingCountry: "",
+      billingState: "",
+      billingPostal: "",
       addresses: [
         {
           id: 1,
@@ -69,24 +77,23 @@ export default class Checkout extends Component {
         state: "",
         postal: "",
       },
-      addressErrors: {
-        firstName: "",
-        lastName: "",
-        address1: "",
-        city: "",
-        country: "",
-        state: "",
-        postal: "",
-      },
-      billingFirstName: "",
-      billingLastName: "",
-      billingAddress1: "",
-      billingCity: "",
-      billingCountry: "",
-      billingState: "",
-      billingPostal: "",
-      paymentMethod: "",
-      shippingAddress: "",
+    };
+
+    this.err = {
+      billingFirstName: "Valid first name is required.",
+      billingLastName: "Valid last name is required.",
+      billingAddress1: "Please enter your billing address.",
+      billingCity: "Please enter your city.",
+      billingCountry: "Please select a country.",
+      billingState: "Please provide a valid state.",
+      billingPostal: "Zip/Postal code required.",
+      firstName: "Valid first name is required.",
+      lastName: "Valid last name is required.",
+      address1: "Please enter your address.",
+      city: "Please enter your city.",
+      country: "Please select a country.",
+      state: "Please provide a valid state.",
+      postal: "Zip/Postal code required.",
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -102,11 +109,22 @@ export default class Checkout extends Component {
     const name = target.name;
     const value = target.id === "billingSame" ? target.checked : target.value;
 
-    //this.validate();
+    const newErr = this.state.errors;
+
+    //validate while typing
+    if (name != "billingSame") {
+      if (value.replace(/\s/g, "") === "") {
+        let e = this.err[name];
+        newErr[name] = e;
+      } else {
+        newErr[name] = null;
+      }
+    }
 
     this.setState(
       {
         [name]: value,
+        errors: newErr,
       },
       () => {
         console.log(this.state);
@@ -134,9 +152,19 @@ export default class Checkout extends Component {
       (address) => address.id == event.target.value
     );
 
+    const newErr = this.state.errors;
+
+    if (this.state.shippingAddress === "") {
+      let e = this.err[event.target.name];
+      newErr["shippingAddress"] = e;
+    } else {
+      newErr["shippingAddress"] = null;
+    }
+
     this.setState(
       {
         shippingAddress: address,
+        errors: newErr,
       },
       () => {
         console.log(this.state);
@@ -183,72 +211,56 @@ export default class Checkout extends Component {
   };
 
   validateAddress = () => {
-    let firstName = "";
-    let lastName = "";
-    let address1 = "";
-    let city = "";
-    let country = "";
-    let state = "";
-    let postal = "";
     let count = 0;
+    const newErr = this.state.errors;
 
     if (this.state.showing) {
       if (this.state.firstName === "") {
-        firstName = "Valid first name is required.";
+        newErr["firstName"] = "Valid first name is required.";
         count++;
       } else {
-        firstName = null;
+        newErr["firstName"] = null;
       }
       if (this.state.lastName === "") {
-        lastName = "Valid last name is required.";
+        newErr["lastName"] = "Valid last name is required.";
         count++;
       } else {
-        lastName = null;
+        newErr["lastName"] = null;
       }
       if (this.state.address1 === "") {
-        address1 = "Please enter your billing address.";
+        newErr["address1"] = "Please enter your billing address.";
         count++;
       } else {
-        address1 = null;
+        newErr["address1"] = null;
       }
       if (this.state.city === "") {
-        city = "Please enter your city.";
+        newErr["city"] = "Please enter your city.";
         count++;
       } else {
-        city = null;
+        newErr["city"] = null;
       }
       if (this.state.country === "") {
-        country = "Please select a country.";
+        newErr["country"] = "Please select a country.";
         count++;
       } else {
-        country = null;
+        newErr["country"] = null;
       }
       if (this.state.state === "") {
-        state = "Please provide a valid state.";
+        newErr["state"] = "Please provide a valid state.";
         count++;
       } else {
-        state = null;
+        newErr["state"] = null;
       }
       if (this.state.postal === "") {
-        postal = "Zip/Postal code required.";
+        newErr["postal"] = "Zip/Postal code required.";
         count++;
       } else {
-        postal = null;
+        newErr["postal"] = null;
       }
     }
 
-    let addressErrors = {
-      firstName: firstName,
-      lastName: lastName,
-      address1: address1,
-      city: city,
-      country: country,
-      state: state,
-      postal: postal,
-    };
-
     this.setState({
-      addressErrors: addressErrors,
+      errors: newErr,
     });
 
     if (count > 0) {
@@ -259,90 +271,69 @@ export default class Checkout extends Component {
   };
 
   validate = () => {
-    let billingFirstName = "";
-    let billingLastName = "";
-    let billingAddress1 = "";
-    let billingCity = "";
-    let billingCountry = "";
-    let billingState = "";
-    let billingPostal = "";
-    let paymentMethod = "";
-    let shippingAddress = "";
-
+    const newErr = this.state.errors;
     let count = 0;
 
     if (!this.state.billingSame) {
       if (this.state.billingFirstName === "") {
-        billingFirstName = "Valid first name is required.";
+        newErr["billingFirstName"] = "Valid first name is required.";
         count++;
       } else {
-        billingFirstName = null;
+        newErr["billingFirstName"] = null;
       }
       if (this.state.billingLastName === "") {
-        billingLastName = "Valid last name is required.";
+        newErr["billingLastName"] = "Valid last name is required.";
         count++;
       } else {
-        billingLastName = null;
+        newErr["billingLastName"] = null;
       }
       if (this.state.billingAddress1 === "") {
-        billingAddress1 = "Please enter your billing address.";
+        newErr["billingAddress1"] = "Please enter your billing address.";
         count++;
       } else {
-        billingAddress1 = null;
+        newErr["billingAddress1"] = null;
       }
       if (this.state.billingCity === "") {
-        billingCity = "Please enter your city.";
+        newErr["billingCity"] = "Please enter your city.";
         count++;
       } else {
-        billingCity = null;
+        newErr["billingCity"] = null;
       }
       if (this.state.billingCountry === "") {
-        billingCountry = "Please select a country.";
+        newErr["billingCountry"] = "Please select a country.";
         count++;
       } else {
-        billingCountry = null;
+        newErr["billingCountry"] = null;
       }
       if (this.state.billingState === "") {
-        billingState = "Please provide a valid state.";
+        newErr["billingState"] = "Please provide a valid state.";
         count++;
       } else {
-        billingState = null;
+        newErr["billingState"] = null;
       }
       if (this.state.billingPostal === "") {
-        billingPostal = "Zip/Postal code required.";
+        newErr["billingPostal"] = "Zip/Postal code required.";
         count++;
       } else {
-        billingPostal = null;
+        newErr["billingPostal"] = null;
       }
     }
 
     if (this.state.paymentMethod === "") {
-      paymentMethod = "Please select a payment method.";
+      newErr["paymentMethod"] = "Please select a payment method.";
       count++;
     } else {
-      paymentMethod = null;
+      newErr["paymentMethod"] = null;
     }
     if (this.state.shippingAddress === "") {
-      shippingAddress = "Please Select a shipping address";
+      newErr["shippingAddress"] = "Please Select a shipping address";
       count++;
     } else {
-      shippingAddress = null;
+      newErr["shippingAddress"] = null;
     }
 
-    let errors = {
-      billingFirstName: billingFirstName,
-      billingLastName: billingLastName,
-      billingAddress1: billingAddress1,
-      billingCity: billingCity,
-      billingCountry: billingCountry,
-      billingState: billingState,
-      billingPostal: billingPostal,
-      paymentMethod: paymentMethod,
-      shippingAddress: shippingAddress,
-    };
-
     this.setState({
-      errors: errors,
+      errors: newErr,
     });
 
     if (count > 0) {
@@ -359,7 +350,6 @@ export default class Checkout extends Component {
       billingSame,
       paymentMethod,
       errors,
-      addressErrors,
     } = this.state;
 
     return (
@@ -438,8 +428,8 @@ export default class Checkout extends Component {
                             setShowing={this.setShowing}
                             editAddress={this.state.editAddress}
                             handleInputChange={this.handleInputChange}
-                            addressErrors={addressErrors}
-                            validateAddress={this.validateAddress}
+                            submitNewAddress={this.submitNewAddress}
+                            errors={errors}
                           />
                         ) : null}
                       </div>

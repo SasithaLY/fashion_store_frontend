@@ -13,12 +13,12 @@ import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
-import Register from "./user/pages/Register";
+import Register from "./user/pages/register";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
 import Login from "./user/pages/Login";
 import Profile from "./user/pages/Profile";
 import Checkout from "./payment/pages/Checkout";
-import UploadProducts from "./Components/Upload Products/uploadProducts";
+
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 
 const App = () => {
