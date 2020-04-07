@@ -7,6 +7,10 @@ import slide3 from "../../shared/assets/tempImages/shop_model_3.png";
 
 class ImageSlider extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
 
 
     render() {
