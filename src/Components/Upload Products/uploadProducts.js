@@ -10,7 +10,14 @@ class UploadProducts extends Component {
             file: [null]
         };
         this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this);
-        this.uploadFiles = this.uploadFiles.bind(this)
+        this.uploadFiles = this.uploadFiles.bind(this);
+        this.onSubmitFunction = this.onSubmitFunction.bind(this)
+    }
+
+    onSubmitFunction(e){
+        e.preventDefault();
+        console.log('submit');
+        window.location.assign("http://localhost:3000/");
     }
 
     uploadMultipleFiles(e) {
@@ -41,7 +48,9 @@ class UploadProducts extends Component {
                         <p><b>5 images</b> of your Product can only be uploaded. Actual Images should be attached!</p>
                     </div>
                     <br/>
-                    <form action="/upload" method="POST">
+                    <form action="http://localhost:8000/upload" method="POST" encType="multipart/form-data">
+
+                        <input type="text" className="input-group" required name="productName" />
                         <div className="form-group multi-preview">
                             {(this.fileArray || []).map(url => (
                                 <img src={url} alt="..." className="w-25 m-2"/>
@@ -53,12 +62,12 @@ class UploadProducts extends Component {
                         {/*</div>*/}
                         <div className="input-group">
                             <div className="custom-file">
-                                <input name="productImages" type="file" className="custom-file-input" id="inputGroupFile01"
+                                <input name="files" type="file" className="custom-file-input" id="inputGroupFile01"
                                        aria-describedby="inputGroupFileAddon01" onChange={this.uploadMultipleFiles} multiple disabled={this.fileArray.length>4}/>
                                     <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-danger btn-block" onClick={this.uploadFiles}>Upload</button>
+                        <button type="submit" className="btn btn-danger btn-block" onSubmit={this.onSubmitFunction}>Upload</button>
                     </form>
                 </div>
             </div>
