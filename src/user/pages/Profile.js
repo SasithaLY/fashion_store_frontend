@@ -64,9 +64,10 @@ class Profile extends Component {
                                     </blockquote>
                                     <p>
                                         fionagallager@shameless.com <br />
-                                        www.bootsnipp.com <br />
-                                        June 18, 1990
+                                        Female
                                     </p>
+                                    <a href="#">Edit Profile</a><br/>
+                                    <a href="#">Change Password</a>
                                 </div>
                             </div>
                         </div>

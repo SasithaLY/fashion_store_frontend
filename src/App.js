@@ -18,7 +18,7 @@ import Login from "./user/pages/Login";
 import Profile from "./user/pages/Profile";
 import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
-import Register from "./user/pages/register";
+import Register from "./user/pages/Register";
 
 const App = () => {
   return (
