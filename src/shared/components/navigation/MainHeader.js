@@ -8,16 +8,9 @@ const MainHeader = props => {
     <header>
       <div className="col-md-12 navbar-dark bg-dark text-light">
         <div className="row container-fluid">
-          <div className="col-md-3 p-2">
-            <i className="fas fa-phone icon-white"></i>&nbsp;
-            {process.env.REACT_APP_PHONE}
-          </div>
-          <div className="col-md-3 p-2">
-            <i className="fas fa-envelope icon-white"></i>&nbsp;
-            {process.env.REACT_APP_EMAIL}
-          </div>
+          
 
-          <div className="col-md-6 text-right">
+          <div className="col-md-12 text-right">
             <div id="ex4" className="p-1">
               <a
                 style={{ textDecoration: "none" }}

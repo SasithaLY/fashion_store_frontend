@@ -1,0 +1,68 @@
+.container{
+    padding:5%;
+}
+.container .img{
+    text-align:center;
+}
+.container .details{
+    border-left:3px solid #ded4da;
+}
+.container .details p{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.clickable{
+    cursor: pointer;   
+}
+
+.panel-heading div {
+    margin-top: -18px;
+    font-size: 15px;
+}
+.panel-heading div span{
+    margin-left:5px;
+}
+.panel-body{
+    display: none;
+}
+
+
+.nav-link{
+    color: gold;
+    
+}
+.nav-pills .nav-link {
+    background-color:transparent;
+    color: white;
+}
+
+.nav-pills .nav-link.active {
+    background-color:goldenrod;
+    color: black;
+}
+
+.col-md-10{
+    background-color: #181818;
+
+}
+
+
+.table{
+    color: white;
+}
+
+.table>thead{
+    color: gold;
+}
+
+a{
+    text-decoration: none;
+    color: goldenrod;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: white;
+  }
+
+  

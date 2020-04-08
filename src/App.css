@@ -2,6 +2,8 @@ html,
 body {
   height: 100%;
   position: relative;
+  background-color: black;
+  color: white;
 }
 
 .main-container {
@@ -9,11 +11,31 @@ body {
   overflow: hidden;
   display: block;
   position: relative;
-  padding-bottom: 500px;
+  padding-bottom: 550px;
 }
 
 .cusfooter {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+h2, label, input{
+  color: gold;
+}
+.icon-gold{
+  color: goldenrod;
+}
+
+.icon-gold{
+  color: goldenrod;
+}
+
+.card{
+  background-color: #292929;
+  color: white;
+}
+
+.card-header{
+  background-color: #181818;
 }

@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
 } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,47 +15,76 @@ import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Checkout from './payment/pages/Checkout';
 import Cart from "./cart/cart";
+import UploadProducts from "./Components/Upload Products/uploadProducts";
+import Login from "./user/pages/Login";
+import Profile from "./user/pages/Profile";
+import Checkout from "./payment/pages/Checkout";
+import SingleIProductDetails from "./Components/Products/singleIProductDetails";
+import Register from "./user/pages/register";
+
 
 const App = () => {
   return (
     <div className="main-container">
-      <Header />
-
       <div>
         <Router>
           <Switch>
+            <Route path="/addProduct" exact>
+              <UploadProducts />
+            </Route>
             <Route path="/" exact>
+              <Header />
               <Home />
             </Route>
             <Route path="/products" exact>
+              <Header />
               <h2>Add products page here</h2>
             </Route>
+            <Route path="/products/:id" exact>
+              <Header />
+              <SingleIProductDetails />
+            </Route>
             <Route path="/cart" exact>
+
               <Cart/>
+
+              <Header />
+              <h2>Add cart page here</h2>
+
             </Route>
             <Route path="/order" exact>
+              <Header />
               <h2>Add order page here</h2>
             </Route>
             <Route path="/checkout" exact>
+              <Header />
               <Checkout />
             </Route>
             <Route path="/contact" exact>
+              <Header />
               <h2>Add contact page here</h2>
             </Route>
             <Route path="/about" exact>
+              <Header />
               <h2>Add about page here</h2>
             </Route>
             <Route path="/login" exact>
-              <h2>Add login page here</h2>
+              <Header />
+              <Login></Login>
             </Route>
             <Route path="/register" exact>
-              <h2>Add register page here</h2>
+              <Header />
+              <Register></Register>
+            </Route>
+            <Route path="/profile" exact>
+              <Header />
+              <Profile></Profile>
             </Route>
             <Redirect to="/" />
           </Switch>
         </Router>
       </div>
-      
+
       <div className="cusfooter">
         <Footer />
       </div>

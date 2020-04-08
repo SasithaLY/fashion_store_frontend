@@ -28,33 +28,33 @@ const MainNavigation = props => {
         <NavLinks />
         <SearchBar />
         <div>
-        <ul className="navbar-nav ml-auto">
-        <li className="nav-item dropdown">
-          <a
-            className="nav-link dropdown-toggle"
-            id="navbarDropdownMenuLink-4"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <i className="fas fa-user"></i> Profile{" "}
-          </a>
-          <div
-            className="dropdown-menu dropdown-menu-right dropdown-info"
-            aria-labelledby="navbarDropdownMenuLink-4"
-          >
-            <a className="dropdown-item" href="#">
-              My account
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                id="navbarDropdownMenuLink-4"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i className="fas fa-user"></i> Profile{" "}
+              </a>
+              <div
+                className="dropdown-menu dropdown-menu-right dropdown-info"
+                aria-labelledby="navbarDropdownMenuLink-4"
+              >
+                <a className="dropdown-item" href={"/profile"}>
+                  My account
             </a>
-            <a className="dropdown-item" href="#">
-              Log out
+                <a className="dropdown-item" href="#">
+                  Log out
             </a>
-          </div>
-        </li>
-        </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      </div>
-      
+
     </nav>
   );
 };
