@@ -14,6 +14,7 @@ import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Checkout from './payment/pages/Checkout';
+import Cart from "./cart/cart";
 
 const App = () => {
   return (
@@ -30,7 +31,7 @@ const App = () => {
               <h2>Add products page here</h2>
             </Route>
             <Route path="/cart" exact>
-              <h2>Add cart page here</h2>
+              <Cart/>
             </Route>
             <Route path="/order" exact>
               <h2>Add order page here</h2>
