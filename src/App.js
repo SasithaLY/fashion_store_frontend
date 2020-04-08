@@ -44,12 +44,8 @@ const App = () => {
               <SingleIProductDetails />
             </Route>
             <Route path="/cart" exact>
-
-              <Cart/>
-
               <Header />
-              <h2>Add cart page here</h2>
-
+              <Cart/>
             </Route>
             <Route path="/order" exact>
               <Header />
