@@ -13,7 +13,6 @@ import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
-import Checkout from './payment/pages/Checkout';
 import Cart from "./cart/cart";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
 import Login from "./user/pages/Login";
