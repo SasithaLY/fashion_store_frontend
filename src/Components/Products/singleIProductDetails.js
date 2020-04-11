@@ -1,5 +1,95 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import ProductImagesSlider from "../ProductImageSlider/ProductImagesSlider";
+import {addItem,updateItem} from '../../cart/cartHelper'
+import {Link, Redirect} from "react-router-dom";
+import moment from "moment";
+import{showAddToCartButton} from '../../cart/cart';
+
+
+const cart = ({product,showAddToCartButton = true, cartUpdate = false}) =>{
+    
+    const[redirect, setRedirect] = useState(false);
+    const[count, setCount] = useState(product.count);
+
+    const showViewButton = showViewProductButton =>{
+        return(
+            showViewProductButton &&(
+                    <Link to={'../Products'} className="mr-2">
+                        <button className="btn btn-outline-blue mt-2 mb-2">
+                            View Product
+                        </button>
+                    </Link>
+            )
+        );
+    };
+
+    const showAddToCartButton =(showAddToCartButton) =>{
+        return(
+            showAddToCartButton &&(
+            <button onClick={addToCart} className="btn btn-outline-warning mt-2 mb-2">Add to Cart</button>
+        )
+        );
+    };
+
+    const showStock = quantity =>{
+        return quantity > 0 ?(
+            <span className="badge badge-primary badge-pill">In stock</span>
+        ):(
+            <span className="badge badge-danger badge-pill">Out of stock</span>
+        )
+
+    };
+    const handleChange = productId => event =>{
+        setCount(event.target.value < 1 ? 1 : event.target.value)
+        if(event.target.value >= 1){
+            UpdateItem(productId,event.target.value)
+        }
+    }
+
+    const showCartUpdateOptions = cartUpdate =>{
+        return cartUpdate && (
+        <div>
+            <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text">Adjust Quantity</span>
+                </div>
+                <input type="number" className="form-control" value={count} onChange={handleChange()}/>
+            </div>
+        </div>
+        )
+    }
+
+
+const addToCart = () =>{
+    addItem(product, ()=>{
+        setRedirect(true)
+    })
+}
+
+const shouldRedirect = redirect =>{
+    if(redirect){
+        return <Redirect to="../../cart/cart.js"/>
+    }
+}
+
+}
+    //     return(
+    //         <div className="col-4 mb-3">
+    //             <div className="card">
+    //                 <div className="card-header">{product.name}</div>
+    //                 <div className="card-body">
+    //                     <p>{product.description}</p>
+    //                     <p>${product.price}</p>
+    //                     <Link to="/">
+    //                         <button className="btn btn-outline-default mt-2 mb-2">
+                                
+    //                         </button>
+    //                     </Link>
+    //                 </div>
+    //             </div>
+    
+    //         </div>
+    //     )
 
 class SingleIProductDetails extends Component {
 
@@ -19,6 +109,7 @@ class SingleIProductDetails extends Component {
                     {/*</div>*/}
 
                     {/*<script src="js/addons/rating.js"></script>*/}
+                    {shouldRedirect(redirect)}
 
                     <div className="row">
                         <div className="card p-1 col-md-6 " >
@@ -38,8 +129,10 @@ class SingleIProductDetails extends Component {
                                 <li>Adipiscing Elit</li>
                             </ul>
                             <div className="p-1 align-content-between">
+                                {showAddToCart(showAddToCartButton)}
+                                {showCartUpdateOptions(cartUpdate)}
                                 <button className="btn btn-danger mr-2">Buy Now</button>
-                                <button className="btn btn-warning">Add to Cart</button>
+                                <button on click= {addToCart} className="btn btn-warning">Add to Cart</button>
                             </div>
                         </div>
                     </div>

@@ -1,34 +1,53 @@
-import React, { Component } from 'react'
+import React, {useState, useEffect} from 'react';
 import moment from "moment";
-//import {addItem} from './cartHelper'
+import {getCart} from './cartHelper';
 import { Link } from 'react-router-dom';
+import singleIProductDetails from'../Components/Products/singleIProductDetails'; 
 
-// const cart = ({product}) =>{
-//     return(
-//         <div className="col-4 mb-3">
-//             <div className="card">
-//                 <div className="card-header">{product.name}</div>
-//                 <div className="card-body">
-//                     <p>{product.description}</p>
-//                     <p>${product.price}</p>
-//                     <Link to="/">
-//                         <button className="btn btn-outline-default mt-2 mb-2">
-                            
-//                         </button>
-//                     </Link>
-//                 </div>
-//             </div>
+const Cart = () =>{
+    const [items, setItems] = useState([])
 
-//         </div>
-//     )
-// }
-export default class cart extends Component {
-    render() {
-        return (
-            <div>
-               <h1>cart page thadiya</h1> 
-            </div>
-        )
-    }
+    useEffect(() =>{
+        setItems(getCart())
+    },[])
+
+const showItems = items =>{
+    return (
+        <div>
+            <h2>Your cart has{'${items.length}'} items</h2>
+            <hr></hr>
+            {items.map((product,i) => (<singleIProductDetails key={i} product={product} showAddToCartButton={false} cartUpdate={true}/>))}
+        </div>
+    )
 }
+
+const noItemMessage = ()=>(
+    <h2>Your cart is Empty.<br/><Link to="../Components/Products">Continue Shopping...</Link></h2>
+);
+return(
+    <Layout
+        title="Shopping Cart"
+        description ="Manage your cart items.."
+        className="container-fluid"
+    >
+        <div className='row'>
+            <div className="col-6">
+                {items.length > 0 ? showItems(items): noItemMessage()}
+            </div>
+            <div className="col-6">
+                <p>Show checkout options</p>
+            </div>
+        </div>
+    </Layout>
+)
+}
+// export default class cart extends Component {
+//     render() {
+//         return (
+//             <div>
+//                <h1>cart page thadiya</h1> 
+//             </div>
+//         )
+//     }
+// }
 
