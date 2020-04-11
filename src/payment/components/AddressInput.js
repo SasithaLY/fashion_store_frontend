@@ -32,7 +32,7 @@ export default class AddressInput extends Component {
                 }
                 id="firstName"
                 name="firstName"
-                value={isEdit ? editAddress.firstName : ""}
+                value={editAddress.firstName}
                 onChange={handleInputChange}
                 required
               />
@@ -51,7 +51,7 @@ export default class AddressInput extends Component {
                 }
                 id="lastName"
                 name="lastName"
-                value={isEdit ? editAddress.lastName : ""}
+                value={editAddress.lastName}
                 onChange={handleInputChange}
                 required
               />
@@ -73,7 +73,7 @@ export default class AddressInput extends Component {
               id="address1"
               name="address1"
               placeholder="1234 Main St"
-              value={isEdit ? editAddress.address1 : ""}
+              value={editAddress.address1}
               onChange={handleInputChange}
               required
             />
@@ -90,7 +90,7 @@ export default class AddressInput extends Component {
               id="address2"
               name="address2"
               placeholder="Apartment or suite"
-              value={isEdit ? editAddress.address2 : ""}
+              value={editAddress.address2}
               onChange={handleInputChange}
             />
           </div>
@@ -108,7 +108,7 @@ export default class AddressInput extends Component {
               id="city"
               name="city"
               placeholder="ex: Colombo"
-              value={isEdit ? editAddress.city : ""}
+              value={editAddress.city}
               onChange={handleInputChange}
               required
             />
@@ -128,7 +128,7 @@ export default class AddressInput extends Component {
                 }
                 id="country"
                 name="country"
-                value={isEdit ? editAddress.country : ""}
+                value={editAddress.country}
                 onInput={handleInputChange}
                 onChange={handleInputChange}
                 required
@@ -151,7 +151,7 @@ export default class AddressInput extends Component {
                 }
                 id="state"
                 name="state"
-                value={isEdit ? editAddress.state : ""}
+                value={editAddress.state}
                 onInput={handleInputChange}
                 onChange={handleInputChange}
                 required
@@ -175,7 +175,7 @@ export default class AddressInput extends Component {
                 }
                 id="postal"
                 name="postal"
-                value={isEdit ? editAddress.postal : ""}
+                value={editAddress.postal}
                 onChange={handleInputChange}
                 required
               />

@@ -250,9 +250,9 @@ export default class Checkout extends Component {
 
   setShowing = (e) => {
     e.preventDefault();
-
+    
     this.setState({
-      showing: false,
+      showing: true,
     });
   };
 
@@ -515,6 +515,7 @@ export default class Checkout extends Component {
                             handleUpdateAddress={this.handleUpdateAddress}
                             handleCancel={this.handleCancel}
                             errors={errors}
+
                           />
                         ) : null}
                       </div>
