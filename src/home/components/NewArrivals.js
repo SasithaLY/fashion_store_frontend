@@ -12,7 +12,7 @@ class NewArrivals extends Component {
                 </div>
                 <br /><br />
                 <div className="d-flex justify-content-around">
-                    <div className="row">
+                    <div className="row m-5">
                         <div className="card m-2" style={{width: '18rem'}}>
                             <img className="card-img-top" src={model1} alt="Card image cap" />
                             <div className="card-body">
