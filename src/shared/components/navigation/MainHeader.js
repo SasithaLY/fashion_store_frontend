@@ -1,16 +1,14 @@
 import React from "react";
-import {itemTotal} from '../../../cart/cartHelper';
+import { itemTotal } from "../../../cart/cartHelper";
 import MainNavigation from "./MainNavigation";
 import "./MainHeader.css";
 import { Link } from "react-router-dom";
 
-const MainHeader = props => {
+const MainHeader = (props) => {
   return (
     <header>
       <div className="col-md-12 navbar-dark bg-dark text-light">
         <div className="row container-fluid">
-          
-
           <div className="col-md-12 text-right">
             <div id="ex4" className="p-1">
               <a
@@ -28,16 +26,14 @@ const MainHeader = props => {
               >
                 Register
               </a>
-             
 
-               <a href={"/cart"}>
-                <span className="p1 fa-stack has-badge">
-                  <i
-                    className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white"
-                   
-  ><sup><small className="cart-badge">{itemTotal()}</small></sup></i>
+              <a href={"/cart"}>
+                <span className="p1 fa-stack has-badge" data-count={itemTotal()}>
+                  <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white">
+                    
+                  </i>
                 </span>
-              </a> 
+              </a>
             </div>
           </div>
         </div>

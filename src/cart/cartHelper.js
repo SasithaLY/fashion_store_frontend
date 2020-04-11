@@ -21,7 +21,9 @@ export const addItem = (item,next)=>{
 export const itemTotal = () =>{
     if(typeof Window !== 'undefined'){
         if(localStorage.getItem('cart')){
-           return JSON.parse (localStorage.getItem('çart')).length;
+           return JSON.parse (localStorage.getItem('cart').length);
+        }else{
+            return 0;
         }
     }
 };
