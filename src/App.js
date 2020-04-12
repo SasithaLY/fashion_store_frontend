@@ -15,6 +15,7 @@ import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Cart from "./cart/cart";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
+import UploadCategories from "./Components/UploadCategories/UploadCategories";
 import Login from "./user/pages/Login";
 import Profile from "./user/pages/Profile";
 import Checkout from "./payment/pages/Checkout";
@@ -30,6 +31,9 @@ const App = () => {
           <Switch>
             <Route path="/addProduct" exact>
               <UploadProducts />
+            </Route>
+            <Route path="/addCategory" exact>
+              <UploadCategories />
             </Route>
             <Route path="/" exact>
               <Header />
