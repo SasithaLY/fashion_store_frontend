@@ -21,6 +21,8 @@ import Profile from "./user/pages/Profile";
 import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 import Register from "./user/pages/register";
+import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";
+
 
 
 const App = () => {
@@ -78,6 +80,9 @@ const App = () => {
             <Route path="/profile" exact>
               <Header />
               <Profile></Profile>
+            </Route>
+            <Route path="/uploadMultiple" exact>
+              <UploadProductsMultiple />
             </Route>
             <Redirect to="/" />
           </Switch>

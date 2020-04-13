@@ -1,61 +1,69 @@
 import React, {Component} from 'react';
-import API from "../../Utils/API";
+import API from '../../Utils/API'
 
 class UploadCategories extends Component {
 
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onchangeCategoryName = this.onchangeCategoryName.bind(this);
 
         this.state = {
-            ProductsArray: [],
-            word: String
+            categoryName: ''
         };
     }
 
-    async componentDidMount() {
-        console.log('use effect');
-        await API.get('productsRouter/')
-            .then(response => {
-                this.setState({
-                    ProductsArray: response.data
-                });
-            });
+    async handleSubmit(event) {
+        event.preventDefault();
+        const data = {
+            categoryName: this.state.categoryName
+        };
 
-        console.log('array', this.state.ProductsArray);
-    };
+        await API.post('categoriesRouter/addCategory', data).then(r => {
+            console.log(r);
+            alert('Category Created Successfully!');
+            window.location = "/";
+        }).catch(error => {
+            console.log(error);
+            alert(error);
+        });
 
+        this.setState({
+            categoryName: ''
+        });
+    }
+
+    onchangeCategoryName(e) {
+        this.setState({
+            categoryName: e.target.value
+        })
+    }
 
     render() {
         return (
-            <div className="container-fluid">
-                {/*<form>*/}
-                {/*    <div className="form-group">*/}
-                {/*        <label htmlFor="exampleInputEmail1">Email address</label>*/}
-                {/*        <input type="email" className="form-control" id="exampleInputEmail1"*/}
-                {/*               aria-describedby="emailHelp" placeholder="Enter email" />*/}
-                {/*            <small id="emailHelp" className="form-text text-muted">We'll never share your email with*/}
-                {/*                anyone else.</small>*/}
-                {/*    </div>*/}
-                {/*    <div className="form-group">*/}
-                {/*        <label htmlFor="exampleInputPassword1">Password</label>*/}
-                {/*        <input type="password" className="form-control" id="exampleInputPassword1"*/}
-                {/*               placeholder="Password" />*/}
-                {/*    </div>*/}
-                {/*    <div className="form-check">*/}
-                {/*        <input type="checkbox" className="form-check-input" id="exampleCheck1" />*/}
-                {/*            <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>*/}
-                {/*    </div>*/}
-                {/*    <button type="submit" className="btn btn-primary">Submit</button>*/}
-                {/*</form>*/}
+            <div className="container">
+                <div className="card">
+                    <div className="card-header">
+                        Add Category
+                    </div>
+                    <div className="m-4">
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="exampleInputEmail1">Category Name</label>
+                                <input onChange={this.onchangeCategoryName} name="categoryName" type="text"
+                                       className="form-control" placeholder="Enter Category Name.."
+                                       value={this.state.categoryName} required/>
+                                <small id="emailHelp" className="form-text text-muted">Existing categories cannot be
+                                    entered!</small>
+                            </div>
 
-                {this.state.ProductsArray.map((postDetail, index) => {
-                    this.state.word = "data:image/jpeg;base64," + postDetail.image[0].data.data;
-                    return (
-                        <div>
-                            <img src={this.state.word}></img>
-                        </div>
-                    )
-                })}
+                            <button type="submit" className="btn btn-warning">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <a href="/" className="badge badge-warning mt-3" style={{float :'right'}}>Back to DashBoard</a>
+
             </div>
         );
     }
