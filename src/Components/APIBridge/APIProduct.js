@@ -2,12 +2,14 @@ import React from "react";
 import API from '../../Utils/API'
 
 export const createProduct = (product) => {
-    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/create/`, {
+    console.log(product);
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/create`, {
         method: 'POST',
         body: product
     })
         .then(response => {
             return response.json();
+            console.log(response.json());
         })
         .catch(err => {
             console.log(err);
@@ -17,6 +19,16 @@ export const createProduct = (product) => {
 export const getProducts = () => {
     return fetch(`${API}/products?limit=undefined`, {
         method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const getProductsForHome = sortBy => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products?sortBy=${sortBy}&order=desc&limit=4`, {
+        method: "GET"
     })
         .then(response => {
             return response.json();

@@ -1,65 +1,52 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import model1 from "../../shared/assets/tempImages/shop_model_1.png";
-import model2 from "../../shared/assets/tempImages/shop_model_2.png";
-import model3 from "../../shared/assets/tempImages/shop_model_3.png";
+import ProductCard from "../../Components/Products/productCard";
+import {getProductsForHome} from "../../Components/APIBridge/APIProduct";
 
-class NewArrivals extends Component {
-    render() {
-        return (
-            <div>
-                <div className="container-fluid" id="#section1">
-                    <h1 className="text-center">New Arrivals</h1>
-                </div>
-                <br /><br />
-                <div className="d-flex justify-content-around">
-                    <div className="row m-5">
-                        <div className="card m-2" style={{width: '18rem'}}>
-                            <img className="card-img-top" src={model1} alt="Card image cap" />
-                            <div className="card-body">
-                                <h5 className="card-title">Card title</h5>
-                                <p className="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" className="btn btn-warning text-white">Buy</a>
-                            </div>
-                        </div>
-                        <div className="card m-2" style={{width: '18rem'}}>
-                            <img className="card-img-top" src={model2} alt="Card image cap" />
-                            <div className="card-body">
-                                <h5 className="card-title">Card title</h5>
-                                <p className="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" className="btn btn-warning text-white">Buy</a>
-                            </div>
-                        </div>
-                        <div className="card m-2" style={{width: '18rem'}}>
-                            <img className="card-img-top" src={model3} alt="Card image cap" />
-                            <div className="card-body">
-                                <h5 className="card-title">Card title</h5>
-                                <p className="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" className="btn btn-warning text-white">Buy</a>
-                            </div>
-                        </div>
-                        <div className="card m-2" style={{width: '18rem'}}>
-                            <img className="card-img-top" src={model1} alt="Card image cap" />
-                            <div className="card-body">
-                                <h5 className="card-title">Card title</h5>
-                                <p className="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" className="btn btn-warning text-white">Buy</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br /><br />
+const {useState} = require("react");
 
-                <div className="d-flex justify-content-center">
-                    <button className='btn btn-outline-primary'>Load More </button>
-                </div>
+const NewArrivals = () => {
 
+    const [NewArrivalsOfProducts, setNewArrivalsOfProducts] = useState([]);
+    const [error, setError] = useState(false);
+
+    const getNewArrivals = () => {
+        getProductsForHome('createdAt').then(data => {
+            setNewArrivalsOfProducts(data);
+
+        }).catch(error => {
+            console.log(error);
+        });
+    };
+
+    useEffect(() => {
+        getNewArrivals();
+    });
+
+    return (
+        <div>
+            <div className="container-fluid" id="#section1">
+                <h1 className="text-center">New Arrivals</h1>
             </div>
-        );
-    }
-}
+            <br/><br/>
+            <div className="d-flex justify-content-around">
+                <div className="row m-5">
+                    {NewArrivalsOfProducts.map((product, i) => (
+                        <div key={i} className="col mt-2">
+                            <ProductCard Product={product} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <br/><br/>
+
+            <div className="d-flex justify-content-center">
+                <button className='btn btn-outline-primary'>Load More</button>
+            </div>
+
+        </div>
+    );
+
+};
 
 export default NewArrivals;
