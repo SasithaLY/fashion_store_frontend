@@ -16,8 +16,8 @@ export const createProduct = (product) => {
         });
 };
 
-export const getProducts = () => {
-    return fetch(`${API}/products?limit=undefined`, {
+export const getProductsByCategory = (CATEGORY_ID) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/category/${CATEGORY_ID}`, {
         method: 'GET'
     })
         .then(response => {

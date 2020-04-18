@@ -22,6 +22,7 @@ import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 import Register from "./user/pages/register";
 import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";
+import AllProductsByCategory from "./Components/Products/AllProductsByCategory";
 
 
 
@@ -41,9 +42,9 @@ const App = () => {
               <Header />
               <Home />
             </Route>
-            <Route path="/products" exact>
+            <Route path="/allProducts/:categoryId" exact>
               <Header />
-              <h2>Add products page here</h2>
+              <AllProductsByCategory />
             </Route>
             <Route path="/products/:id" exact>
               <Header />

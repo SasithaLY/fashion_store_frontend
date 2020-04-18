@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import API from '../../../Utils/API'
+import { Link } from 'react-router-dom';
 
 import './NavLinks.css';
 
@@ -48,8 +49,8 @@ class NavLinks extends Component {
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {this.state.moreCategories.map((postDetail, index) => {
-                            return <a className="dropdown-item" key={postDetail._id}
-                                      href={"/products/" + postDetail._id}>{postDetail.categoryName}</a>
+                            return <Link className="dropdown-item" key={postDetail._id}
+                                      to={`/allProducts/${postDetail._id}`} params={{ categoryId: '123' }}>{postDetail.categoryName}</Link>
                         })}
                         <a className="dropdown-item" href="/products">All Products</a>
                     </div>
