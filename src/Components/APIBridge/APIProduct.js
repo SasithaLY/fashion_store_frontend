@@ -6,13 +6,13 @@ export const createProduct = (product) => {
     return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/create`, {
         method: 'POST',
         body: product
-    })
-        .then(response => {
+    }).then(response => {
             return response.json();
             console.log(response.json());
         })
         .catch(err => {
-            console.log(err);
+            console.log('ddddddddddddddddddddddd',err);
+            alert(err);
         });
 };
 
@@ -35,6 +35,16 @@ export const getProductsForHome = sortBy => {
         })
         .catch(err => console.log(err));
 };
+//
+// export const getPhotoForHome = PRODUCT_ID => {
+//     return fetch(`http://localhost:8000/productsRouter/product/photo/5e99b26c40555909f89a8a18`, {
+//         method: "GET"
+//     })
+//         .then(response => {
+//             return response.json();
+//         })
+//         .catch(err => console.log('errrrresssssssssssssssssssssssssssssssssssss', err));
+// };
 
 export const deleteProduct = (productId, userId, token) => {
     return fetch(`${API}/product/${productId}/${userId}`, {
@@ -51,11 +61,12 @@ export const deleteProduct = (productId, userId, token) => {
         .catch(err => console.log(err));
 };
 
-export const getProduct = productId => {
-    return fetch(`${API}/product/${productId}`, {
+export const getSingleProduct = productId => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/${productId}`, {
         method: 'GET'
     })
         .then(response => {
+            console.log(response)
             return response.json();
         })
         .catch(err => console.log(err));

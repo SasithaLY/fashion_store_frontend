@@ -21,7 +21,7 @@ const NewArrivals = () => {
 
     useEffect(() => {
         getNewArrivals();
-    });
+    },[]);
 
     return (
         <div>
