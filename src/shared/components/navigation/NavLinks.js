@@ -56,7 +56,7 @@ class NavLinks extends Component {
                                          to={`/allProducts/${postDetail._id}`}
                                          params={{categoryId: '123'}}>{postDetail.categoryName}</Link>
                         })}
-                        <a className="dropdown-item" href="/products">All Products</a>
+                        <a className="dropdown-item" href="/allProducts">All Products</a>
                     </div>
                 </div>
             </ul>

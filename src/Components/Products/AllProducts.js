@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import RadioBox from "./RadioBox";
 import {getFilteredProducts} from "../APIBridge/APIProduct";
 import ProductCard from "./productCard";
@@ -7,21 +7,20 @@ import {prices} from "./Prices";
 const AllProducts = () => {
 
     const [myFilters, setMyFilters] = useState({
-        filters: { category: [], price: [] }
+        filters: {category: [], price: []}
     });
     const [error, setError] = useState(false);
-    const [limit, setLimit] = useState(2);
+    const [limit, setLimit] = useState(4);
     const [skip, setSkip] = useState(0);
     const [size, setSize] = useState(0);
     const [filteredResults, setFilteredResults] = useState([]);
 
 
-
     const loadFilteredResults = newFilters => {
         getFilteredProducts(skip, limit, newFilters).then(data => {
-                setFilteredResults(data.data);
-                setSize(data.size);
-                setSkip(0);
+            setFilteredResults(data.data);
+            setSize(data.size);
+            setSkip(0);
 
         });
     };
@@ -40,11 +39,11 @@ const AllProducts = () => {
         });
     };
 
-    const loadMoreButton = () => {
+    const LoadMore = () => {
         return (
             size > 0 &&
             size >= limit && (
-                <button onClick={loadMore} className="btn btn-warning mb-5">
+                <button onClick={loadMore} className="btn btn-primary mb-5">
                     Load more
                 </button>
             )
@@ -58,7 +57,7 @@ const AllProducts = () => {
 
     const handleFilters = (filters, filterBy) => {
         // console.log("SHOP", filters, filterBy);
-        const newFilters = { ...myFilters };
+        const newFilters = {...myFilters};
         newFilters.filters[filterBy] = filters;
 
         if (filterBy === "price") {
@@ -82,15 +81,16 @@ const AllProducts = () => {
     };
 
     return (
-        <div
-            title="Shop Page"
-            description="Search and find books of your choice"
-            className="container-fluid"
-        >
-            <div className="row">
-                <div className="col-4">
-                    <h4>Filter by price range</h4>
-                    <div>
+        <div className="container-fluid">
+            <p>
+                <a class="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+                   aria-expanded="false" aria-controls="collapseExample">
+                    More Filters
+                </a>
+            </p>
+            <div className="collapse" id="collapseExample" >
+                <div className="bg-dark rounded d-flex justify-content-center">
+                    <div className="row h-25">
                         <RadioBox
                             prices={prices}
                             handleFilters={filters =>
@@ -99,18 +99,20 @@ const AllProducts = () => {
                         />
                     </div>
                 </div>
+            </div>
 
-                <div className="col-8">
-                    <h2 className="mb-4">Products</h2>
-                    <div className="row">
-                        {filteredResults.map((product, i) => (
-                            <div key={i} className="col-4 mb-3">
-                                <ProductCard Product={product} />
-                            </div>
-                        ))}
-                    </div>
-                    <hr />
-                    {loadMoreButton()}
+
+            <div>
+                <div className="row mt-4 m-5 d-flex justify-content-center">
+                    {filteredResults.map((product, i) => (
+                        <div key={i} className="row m-2 ">
+                            <ProductCard Product={product}/>
+                        </div>
+                    ))}
+                </div>
+                <hr/>
+                <div className="d-flex justify-content-center">
+                    {LoadMore()}
                 </div>
             </div>
         </div>
