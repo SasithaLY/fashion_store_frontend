@@ -23,6 +23,7 @@ import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 import Register from "./user/pages/register";
 import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";
 import AllProductsByCategory from "./Components/Products/AllProductsByCategory";
+import AllProducts from "./Components/Products/AllProducts";
 
 
 
@@ -84,6 +85,10 @@ const App = () => {
             </Route>
             <Route path="/uploadMultiple" exact>
               <UploadProductsMultiple />
+            </Route>
+            <Route path="/allProducts" exact>
+              <Header />
+              <AllProducts />
             </Route>
             <Redirect to="/" />
           </Switch>

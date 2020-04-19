@@ -8,16 +8,22 @@ const {useState} = require("react");
 const NewArrivals = () => {
 
     const [NewArrivalsOfProducts, setNewArrivalsOfProducts] = useState([]);
-    const [error, setError] = useState(false);
+
+    let limit = 4;
 
     const getNewArrivals = () => {
-        getProductsForHome('createdAt').then(data => {
+        getProductsForHome('createdAt', limit).then(data => {
             setNewArrivalsOfProducts(data);
 
         }).catch(error => {
             console.log(error);
         });
     };
+
+    const changeLimit = () =>{
+        console.log('called')
+        limit = limit + 4;
+    }
 
     useEffect(() => {
         getNewArrivals();
@@ -41,7 +47,7 @@ const NewArrivals = () => {
             <br/><br/>
 
             <div className="d-flex justify-content-center">
-                <button className='btn btn-outline-primary'>Load More</button>
+                <button onClick={changeLimit} className='btn btn-primary'>Load More</button>
             </div>
 
         </div>

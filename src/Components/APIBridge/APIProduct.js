@@ -26,8 +26,8 @@ export const getProductsByCategory = (CATEGORY_ID) => {
         .catch(err => console.log(err));
 };
 
-export const getProductsForHome = sortBy => {
-    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products?sortBy=${sortBy}&order=desc&limit=4`, {
+export const getProductsForHome = (sortBy,limit) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products?sortBy=${sortBy}&order=desc&limit=${limit}`, {
         method: "GET"
     })
         .then(response => {
@@ -97,4 +97,26 @@ export const getCategories = () => {
             return response.json();
         })
         .catch(err => console.log(err));
+};
+
+export const getFilteredProducts = (skip, limit, filters = {}) => {
+    const data = {
+        limit,
+        skip,
+        filters
+    };
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/by/search`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };
