@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 const ProductImageDisplay = ({Product, xsize, ysize}) => {
-    console.log(Product)
+    // console.log(Product)
 return (
     <div className="card-img-top">
 

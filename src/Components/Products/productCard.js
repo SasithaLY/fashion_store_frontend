@@ -3,7 +3,7 @@ import model1 from "../../shared/assets/tempImages/shop_model_1.png";
 import ProductImageDisplay from "./ProductImageDisplay";
 
 const ProductCard = ({Product}) => {
-    console.log(Product)
+    // console.log(Product)
 
     return (
         <div className="card m-2" style={{width: '18rem', height: '25rem'}}>

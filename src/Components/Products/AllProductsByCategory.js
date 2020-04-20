@@ -1,75 +1,132 @@
-import React, {Component} from 'react';
-import {getProductsByCategory} from "../APIBridge/APIProduct";
-import {withRouter} from 'react-router-dom';
+import React, {useState, useEffect} from "react";
+import RadioBox from "./RadioBox";
+import {getFilteredProducts} from "../APIBridge/APIProduct";
 import ProductCard from "./productCard";
+import {prices} from "./Prices";
+import {useParams} from "react-router-dom";
 
-class AllProductsByCategory extends Component {
 
-    ProductsByCategory = [];
+const AllProductsByCategory = () => {
 
-    constructor(props) {
-        super(props);
+    const params = useParams();
+    console.log('jkhkjhkjh' ,params.categoryId);
 
-        this.state = {
-            ProductsByCategory: [],
-            categoryID: this.props.match.params.categoryId,
-            spinner: true
+    const [myFilters, setMyFilters] = useState({
+        filters: {category: [], price: []}
+    });
+    const [error, setError] = useState(false);
+    const [limit, setLimit] = useState(4);
+    const [skip, setSkip] = useState(0);
+    const [size, setSize] = useState(0);
+    const [filteredResults, setFilteredResults] = useState([]);
+
+
+    const loadFilteredResults = newFilters => {
+        let price = newFilters.price;
+        newFilters = {
+            category: [params.categoryId],
+            price : price
         };
-        console.log(this.state.categoryID);
-        this.getAllProductsByCategory(this.state.categoryID).then();
+        getFilteredProducts(skip, limit, newFilters).then(data => {
+            setFilteredResults(data.data);
+            setSize(data.size);
+            setSkip(0);
 
-    }
-
-    componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-        this.ProductsByCategory = [];
-        this.setState({
-            ProductsByCategory: [],
-            categoryID: this.props.match.params.categoryId,
-            spinner: true
-        })
-
-        console.log(this.props.match.params.categoryId)
-        this.getAllProductsByCategory(this.state.categoryID).then();
-
-    }
-
-    async getAllProductsByCategory(CATEGORY_ID) {
-        await getProductsByCategory(CATEGORY_ID).then(data => {
-            data.map(value => {
-                this.ProductsByCategory.push(value);
-            });
-
-            this.setState({
-                ProductsByCategory: this.ProductsByCategory,
-                spinner: false
-            })
-            console.log(this.state.ProductsByCategory);
-        }).catch(error => {
-            console.log(error);
         });
-    }
+    };
 
-    render() {
+    const loadMore = () => {
+        let toSkip = skip + limit;
+        // console.log(newFilters);
+        getFilteredProducts(toSkip, limit, myFilters.filters).then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResults([...filteredResults, ...data.data]);
+                setSize(data.size);
+                setSkip(toSkip);
+            }
+        });
+    };
+
+    const LoadMore = () => {
         return (
-            <div className="container-fluid">
-                <div className=" d-flex justify-content-center">
-                    <div className="spinner-grow text-warning text-center justify-content-center" role="status"
-                         hidden={this.state.spinner === false}>
-                        <span className="sr-only">Loading...</span>
+            size > 0 &&
+            size >= limit && (
+                <button onClick={loadMore} className="btn btn-primary mb-5">
+                    Load more
+                </button>
+            )
+        );
+    };
+
+    useEffect(() => {
+        loadFilteredResults(skip, limit, myFilters.filters);
+    }, []);
+
+    const handleFilters = (filters, filterBy) => {
+        // console.log("SHOP", filters, filterBy);
+        const newFilters = {...myFilters};
+        newFilters.filters[filterBy] = filters;
+
+        if (filterBy === "price") {
+            let priceValues = handlePrice(filters);
+            newFilters.filters[filterBy] = priceValues;
+        }
+        loadFilteredResults(myFilters.filters);
+        setMyFilters(newFilters);
+    };
+
+    const handlePrice = value => {
+        const data = prices;
+        let array = [];
+
+        for (let key in data) {
+            if (data[key]._id === parseInt(value)) {
+                array = data[key].array;
+            }
+        }
+        return array;
+    };
+
+    return (
+        <div className="container-fluid">
+            <p>
+                <a class="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+                   aria-expanded="false" aria-controls="collapseExample">
+                    More Filters
+                </a>
+            </p>
+            <div className="collapse" id="collapseExample" >
+                <div className="bg-dark rounded d-flex justify-content-center">
+                    <div className="row h-25">
+                        <RadioBox
+                            prices={prices}
+                            handleFilters={filters =>
+                                handleFilters(filters, "price")
+                            }
+                        />
                     </div>
-
                 </div>
-                <div className="row m-5">
+            </div>
 
-                    {this.state.ProductsByCategory.map((product, i) => (
-                        <div key={i} className="col mt-2">
+
+            <div>
+                <div className="row mt-4 m-5 d-flex justify-content-center">
+                    {filteredResults.map((product, i) => (
+                        <div key={i} className="row m-2 ">
                             <ProductCard Product={product}/>
                         </div>
                     ))}
                 </div>
+                <hr/>
+                <div className="d-flex justify-content-center">
+                    {LoadMore()}
+                </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
-export default withRouter(AllProductsByCategory);
+
+export default AllProductsByCategory;

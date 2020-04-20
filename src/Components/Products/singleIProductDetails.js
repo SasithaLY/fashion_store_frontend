@@ -108,7 +108,7 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                 className="pr-5 pl-5 pt-2 pb-5"
                 style={{backgroundColor: "#515251"}}
             >
-                <h1 className="my-4">Summer Sale Item</h1>
+                <h1 className="my-4 text-capitalize">{singleProductDetails.name}</h1>
                 <br/>
                 {/*<div className="container">*/}
                 {/*    <span id="rateMe1"></span>*/}
@@ -141,6 +141,39 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className="container-fluid bg-dark mt-4 p-3">
+                <h4 className="text-warning mb-3">Product's Reviews and Ratings</h4>
+                <div className="container-fluid rounded m2 p-3 mt-2" style={{backgroundColor: "#515251"}}>
+                    <h6 className="text-warning">Perfect as described!</h6>
+                    <p className="card-text overflow-hidden" style= {{height:"40px", lineHeight:"20px", overflow:"hidden"}}>dasdsdsdasdasdasdasdasdadadasdassdasdasdas</p>
+                </div>
+                <div className="container-fluid rounded m2 p-3 mt-2" style={{backgroundColor: "#515251"}}>
+                    <h6 className="text-warning">Perfect as described!</h6>
+                    <p className="card-text overflow-hidden" style= {{height:"40px", lineHeight:"20px", overflow:"hidden"}}>dasdsdsdasdasdasdasdasdadadasdassdasdasdas</p>
+                </div>
+            </div>
+            <p className="d-flex justify-content-center mt-4">
+                <a className="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+                   aria-expanded="false" aria-controls="collapseExample">
+                    Add a Review
+                </a>
+            </p>
+
+
+            <div className="container-fluid bg-dark mt-4 p-3 collapse" id="collapseExample">
+                <h4 className="text-warning mb-3">Add a Review</h4>
+                <div className="container-fluid rounded m2 p-3 mt-2" style={{backgroundColor: "#515251"}}>
+                    <form>
+                        <div className="form-group">
+                            <textarea type="text" className="form-control" id="exampleInputEmail1"
+                                   aria-describedby="emailHelp" placeholder="Add your Review Here..." style= {{height:"80px"}} />
+                        </div>
+
+                        <button type="submit" className="btn btn-warning">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
