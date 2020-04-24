@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { getCart } from "./cartHelper";
 import { Link } from "react-router-dom";
-import singleIProductDetails from "../Components/Products/singleIProductDetails";
+import ProductCard from "../Components/Products/productCard";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
@@ -12,14 +12,17 @@ const Cart = () => {
   }, []);
 
   const showItems = (items) => {
+    console.log(items);
     return (
-      <div>
-        <h2>Your cart has{"${items.length}"} items</h2>
+      <div className="container">
+        <h5>Your cart has {items.length} items</h5>
         <hr></hr>
+        
         {items.map((product, i) => (
-          <singleIProductDetails
+          
+          <ProductCard
             key={i}
-            product={product}
+            Product={product}
             showAddToCartButton={false}
             cartUpdate={true}
           />
@@ -36,11 +39,8 @@ const Cart = () => {
     </h2>
   );
   return (
-    <div
-      title="Shopping Cart"
-      description="Manage your cart items.."
-      className="container-fluid"
-    >
+    <div className="container-fluid">
+      <center><h3>Shopping Cart</h3></center>
       <div className="row">
         <div className="col-6">
           {items.length > 0 ? showItems(items) : noItemMessage()}

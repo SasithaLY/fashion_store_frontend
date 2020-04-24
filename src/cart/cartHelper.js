@@ -19,18 +19,19 @@ export const addItem = (item,next)=>{
     }
 };
 export const itemTotal = () =>{
-    if(typeof Window !== 'undefined'){
-        if(localStorage.getItem('cart')){
-           return JSON.parse (localStorage.getItem('cart').length);
-        }else{
-            return 0;
+    if(typeof Window !== "undefined"){
+        if(localStorage.getItem("cart")){
+           return JSON.parse(localStorage.getItem("cart")).length;
         }
     }
+
+    return 0;
 };
+
 export const getCart = () =>{
-    if(typeof Window !== 'undefined'){
-        if(localStorage.getItem('cart')){
-           return JSON.parse (localStorage.getItem('çart'));
+    if(typeof Window !== "undefined"){
+        if(localStorage.getItem("cart")){
+           return JSON.parse (localStorage.getItem("cart"));
         }
     }
     return [];
@@ -44,7 +45,7 @@ export const updateItem =(productId,count) =>{
         }
 
         cart.map((product, i) =>{
-                if(product._id=== productId){
+                if(product._id === productId){
                     cart[i].count = count
                 }
         })
