@@ -91,14 +91,14 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
     };
 
     const addToCart = () => {
-        addItem(product, () => {
+        addItem(singleProductDetails, () => {
             setRedirect(true);
         });
     };
 
     const shouldRedirect = (redirect) => {
         if (redirect) {
-            return <Redirect to="../../cart/cart.js"/>;
+            return <Redirect to="/cart"/>;
         }
     };
 
