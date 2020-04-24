@@ -136,7 +136,7 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                             {showAddToCartButton(showAddToCartButton)}
                             {showCartUpdateOptions(cartUpdate)}
                             <button className="btn btn-danger mr-2">Buy Now</button>
-                            <button on click={addToCart} className="btn btn-warning">
+                            <button onClick={addToCart} className="btn btn-warning">
                                 Add to Cart
                             </button>
                         </div>
