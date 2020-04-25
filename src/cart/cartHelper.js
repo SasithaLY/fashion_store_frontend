@@ -1,8 +1,8 @@
 export const addItem = (item,next)=>{
     let cart =[];
-    if(typeof window !== 'undefined'){
-        if(localStorage.getItem('cart')){
-            cart = JSON.parse(localStorage.getItem('cart'))
+    if(typeof window !== "undefined"){
+        if(localStorage.getItem("cart")){
+            cart = JSON.parse(localStorage.getItem("cart"))
         }
 
         cart.push({
@@ -13,6 +13,7 @@ export const addItem = (item,next)=>{
         cart = Array.from(new Set(cart.map((p)=>(p._id)))).map(id=>{
             return cart.find(p => p._id === id)
         });
+        
         localStorage.setItem("cart",JSON.stringify(cart));
         next();
 
@@ -39,9 +40,9 @@ export const getCart = () =>{
 
 export const updateItem =(productId,count) =>{
     let cart = [];
-    if(typeof window !== 'undefined'){
-        if(localStorage.getItem('cart')){
-            cart = JSON.parse(localStorage.getItem('cart'))
+    if(typeof window !== "undefined"){
+        if(localStorage.getItem("cart")){
+            cart = JSON.parse(localStorage.getItem("cart"))
         }
 
         cart.map((product, i) =>{
@@ -50,7 +51,7 @@ export const updateItem =(productId,count) =>{
                 }
         })
 
-        localStorage.setItem('cart',JSON.stringify(cart));
+        localStorage.setItem("cart",JSON.stringify(cart));
     }
 
 }

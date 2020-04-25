@@ -47,7 +47,7 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
             showAddToCartButton && (
                 <button
                     onClick={addToCart}
-                    className="btn btn-outline-warning mt-2 mb-2"
+                    className="btn btn-outline-warning mt-2 mb-2 mx-2"
                 >
                     Add to Cart
                 </button>
@@ -136,9 +136,9 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                             {showAddToCartButton(showAddToCartButton)}
                             {showCartUpdateOptions(cartUpdate)}
                             <button className="btn btn-danger mr-2">Buy Now</button>
-                            <button onClick={addToCart} className="btn btn-warning">
+                            {/* <button onClick={addToCart} className="btn btn-warning">
                                 Add to Cart
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>
