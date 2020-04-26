@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import RadioBox from "./RadioBox";
+import RadioSelector from "./RadioSelector";
 import {getFilteredProducts} from "../APIBridge/APIProduct";
 import ProductCard from "./productCard";
 import {prices} from "./Prices";
@@ -91,7 +91,7 @@ const AllProducts = () => {
             <div className="collapse" id="collapseExample" >
                 <div className="bg-dark rounded d-flex justify-content-center">
                     <div className="row h-25">
-                        <RadioBox
+                        <RadioSelector
                             prices={prices}
                             handleFilters={filters =>
                                 handleFilters(filters, "price")

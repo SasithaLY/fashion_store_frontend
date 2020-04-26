@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import RadioBox from "./RadioBox";
+import RadioSelector from "./RadioSelector";
 import {getFilteredProducts} from "../APIBridge/APIProduct";
 import ProductCard from "./productCard";
 import {prices} from "./Prices";
@@ -11,7 +11,7 @@ const AllProductsByCategory = () => {
     const params = useParams();
     console.log('jkhkjhkjh' ,params.categoryId);
 
-    const [myFilters, setMyFilters] = useState({
+    const [customFilters, setCustomFilters] = useState({
         filters: {category: [], price: []}
     });
     const [error, setError] = useState(false);
@@ -35,16 +35,16 @@ const AllProductsByCategory = () => {
         });
     };
 
-    const loadMore = () => {
-        let toSkip = skip + limit;
+    const loadMoreData = () => {
+        let needToSkip = skip + limit;
         // console.log(newFilters);
-        getFilteredProducts(toSkip, limit, myFilters.filters).then(data => {
+        getFilteredProducts(needToSkip, limit, customFilters.filters).then(data => {
             if (data.error) {
                 setError(data.error);
             } else {
                 setFilteredResults([...filteredResults, ...data.data]);
                 setSize(data.size);
-                setSkip(toSkip);
+                setSkip(needToSkip);
             }
         });
     };
@@ -53,7 +53,7 @@ const AllProductsByCategory = () => {
         return (
             size > 0 &&
             size >= limit && (
-                <button onClick={loadMore} className="btn btn-primary mb-5">
+                <button onClick={loadMoreData} className="btn btn-primary mb-5">
                     Load more
                 </button>
             )
@@ -61,32 +61,32 @@ const AllProductsByCategory = () => {
     };
 
     useEffect(() => {
-        loadFilteredResults(skip, limit, myFilters.filters);
+        loadFilteredResults(skip, limit, customFilters.filters);
     }, []);
 
     const handleFilters = (filters, filterBy) => {
         // console.log("SHOP", filters, filterBy);
-        const newFilters = {...myFilters};
-        newFilters.filters[filterBy] = filters;
+        const newFilter = {...customFilters};
+        newFilter.filters[filterBy] = filters;
 
         if (filterBy === "price") {
-            let priceValues = handlePrice(filters);
-            newFilters.filters[filterBy] = priceValues;
+            let price_values = handlePrice(filters);
+            newFilter.filters[filterBy] = price_values;
         }
-        loadFilteredResults(myFilters.filters);
-        setMyFilters(newFilters);
+        loadFilteredResults(customFilters.filters);
+        setCustomFilters(newFilter);
     };
 
     const handlePrice = value => {
-        const data = prices;
-        let array = [];
+        const data_prices = prices;
+        let array_prices = [];
 
-        for (let key in data) {
-            if (data[key]._id === parseInt(value)) {
-                array = data[key].array;
+        for (let index in data_prices) {
+            if (data_prices[index]._id === parseInt(value)) {
+                array_prices = data_prices[index].array;
             }
         }
-        return array;
+        return array_prices;
     };
 
     return (
@@ -100,7 +100,7 @@ const AllProductsByCategory = () => {
             <div className="collapse" id="collapseExample" >
                 <div className="bg-dark rounded d-flex justify-content-center">
                     <div className="row h-25">
-                        <RadioBox
+                        <RadioSelector
                             prices={prices}
                             handleFilters={filters =>
                                 handleFilters(filters, "price")

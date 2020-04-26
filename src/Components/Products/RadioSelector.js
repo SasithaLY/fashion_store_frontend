@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-const RadioBox = ({ prices, handleFilters }) => {
+const RadioSelector = ({ prices, handleFilters }) => {
     const [value, setValue] = useState(0);
 
-    const handleChange = event => {
+    const handleTheChange = event => {
         handleFilters(event.target.value);
         setValue(event.target.value);
     };
@@ -11,7 +11,7 @@ const RadioBox = ({ prices, handleFilters }) => {
     return prices.map((p, i) => (
         <div key={i} className="m-2">
             <input
-                onChange={handleChange}
+                onChange={handleTheChange}
                 value={`${p._id}`}
                 name={p}
                 type="radio"
@@ -22,4 +22,4 @@ const RadioBox = ({ prices, handleFilters }) => {
     ));
 };
 
-export default RadioBox;
+export default RadioSelector;
