@@ -3,6 +3,8 @@ import {createProduct, getCategories} from '../../Components/APIBridge/APIProduc
 
 const UploadProducts = () => {
 
+    // const { user, token } = isAuthenticated();
+
     const [values, setValues] = useState({
         name: '',
         description: '',
@@ -14,6 +16,8 @@ const UploadProducts = () => {
         photo: '',
         loading: false,
         error: '',
+        storeMgrID: '5e9f554e1f81f30cbcdff10c',
+        oldPrice: '',
         formData: ''
     });
 
@@ -32,6 +36,7 @@ const UploadProducts = () => {
 
     // load categories and set form data
     const init = () => {
+
         getCategories().then(data => {
             console.log('cat ', data);
             setValues({
@@ -42,6 +47,11 @@ const UploadProducts = () => {
         }).catch(error => {
             setValues({...values, error: error});
         });
+
+        setValues({
+            storeMgrID: '5e9f554e1f81f30cbcdff10c'
+        });
+
     };
 
     useEffect(() => {
@@ -57,57 +67,70 @@ const UploadProducts = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({...values, error: '', loading: true});
-
+        formData.set('storeMgrID', '5e9f554e1f81f30cbcdff10c');
         createProduct(formData).then(data => {
-            alert('Product Created Successfully!');
-            setValues({
-                ...values,
-                name: '',
-                description: '',
-                photo: '',
-                price: '',
-                quantity: '',
-                category: '',
-                shipping: ''
-            });
 
+            if (data.error) {
+                setValues({...values, error: data.error});
+            } else {
+                alert('Product Created Successfully!');
+                setValues({
+                    ...values,
+                    name: '',
+                    description: '',
+                    photo: '',
+                    price: '',
+                    quantity: '',
+                    category: '',
+                    shipping: ''
+                });
+            }
         }).catch(error => {
             alert('Error in Product Upload!');
             console.log(error);
         });
     };
 
+    const displayError = () => (
+        <div className="alert border-danger alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    );
 
     return (
-        <div title="Add a new product">
-            <div className="row">
-                <div className="col-md-8 offset-md-2">
+        <div className="container">
 
+
+            {displayError()}
+
+            <div className="card">
+                <div className="card-header">
+                    You're about to Create a Product!
+                </div>
+
+                <div className="p-3">
                     <form className="mb-3" onSubmit={clickSubmit}>
-                        <h4>Post Photo</h4>
+
                         <div className="form-group">
-                            <label className="btn btn-secondary">
-                                <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" required/>
-                            </label>
+                            <label className="text-warning">Name</label>
+                            <input onChange={handleChange('name')} type="text" className="form-control" value={name}
+                                   required/>
                         </div>
 
                         <div className="form-group">
-                            <label className="text-muted">Name</label>
-                            <input onChange={handleChange('name')} type="text" className="form-control" value={name} required/>
+                            <label className="text-warning">Description</label>
+                            <textarea onChange={handleChange('description')} className="form-control"
+                                      value={description} required/>
                         </div>
 
                         <div className="form-group">
-                            <label className="text-muted">Description</label>
-                            <textarea onChange={handleChange('description')} className="form-control" value={description} required/>
+                            <label className="text-warning">Price</label>
+                            <input onChange={handleChange('price')} type="number" className="form-control" value={price}
+                                   required/>
                         </div>
 
                         <div className="form-group">
-                            <label className="text-muted">Price</label>
-                            <input onChange={handleChange('price')} type="number" className="form-control" value={price} required/>
-                        </div>
-
-                        <div className="form-group">
-                            <label className="text-muted">Category</label>
+                            <label className="text-warning">Category</label>
                             <select onChange={handleChange('category')} className="form-control">
                                 <option>Please select</option>
                                 {categories && categories.map((c, i) => (
@@ -119,7 +142,7 @@ const UploadProducts = () => {
                         </div>
 
                         <div className="form-group">
-                            <label className="text-muted">Shipping</label>
+                            <label className="text-warning">Shipping</label>
                             <select onChange={handleChange('shipping')} className="form-control">
                                 <option>Please select</option>
                                 <option value="1">Yes</option>
@@ -128,14 +151,24 @@ const UploadProducts = () => {
                         </div>
 
                         <div className="form-group">
-                            <label className="text-muted">Quantity</label>
-                            <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity}/>
+                            <label className="text-warning">Quantity</label>
+                            <input onChange={handleChange('quantity')} type="number" className="form-control"
+                                   value={quantity}/>
                         </div>
 
-                        <button className="btn btn-outline-primary">Create Product</button>
+                        <div className="form-group">
+                            <label className="text-warning">Display Image</label><br/>
+                            <label className="btn btn-secondary">
+                                <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*"
+                                       required/>
+                            </label>
+                        </div>
+
+                        <button className="btn btn-warning">Submit</button>
                     </form>
                 </div>
             </div>
+
         </div>
     );
 };
