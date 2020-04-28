@@ -14,18 +14,18 @@ const MainHeader = props => {
             <div id="ex4" className="p-1">
               <a
                 style={{ textDecoration: "none" }}
-                href={"/login"}
+                href={"/signin"}
                 className="text-success"
               >
-                <span>Login</span>
+                <span>SignIn</span>
               </a>
 
               <a
                 style={{ textDecoration: "none" }}
-                href={"/register"}
+                href={"/signup"}
                 className="mx-3 text-warning"
               >
-                Register
+                SignUp
               </a>
 
               <a href={"/cart"}>

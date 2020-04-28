@@ -14,11 +14,12 @@ import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import UploadProducts from "./Components/Upload Products/uploadProducts";
-import Login from "./user/pages/Login";
-import Profile from "./user/pages/Profile";
+import Login from "./user/Pages/Login";
+import Profile from "./user/Pages/Profile";
 import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
-import Register from "./user/pages/Register";
+import Register from "./user/Pages/Register";
+import ViewUsers from "./user/adminPages/ViewUsers"
 
 const App = () => {
   return (
@@ -26,53 +27,72 @@ const App = () => {
       <div>
         <Router>
           <Switch>
+
             <Route path="/addProduct" exact>
               <UploadProducts />
             </Route>
+
             <Route path="/" exact>
               <Header />
               <Home />
             </Route>
+
             <Route path="/products" exact>
               <Header />
               <h2>Add products page here</h2>
             </Route>
+
             <Route path="/products/:id" exact>
               <Header />
               <SingleIProductDetails />
             </Route>
+
             <Route path="/cart" exact>
               <Header />
               <h2>Add cart page here</h2>
             </Route>
+
             <Route path="/order" exact>
               <Header />
               <h2>Add order page here</h2>
             </Route>
+
             <Route path="/checkout" exact>
               <Header />
               <Checkout />
             </Route>
+
             <Route path="/contact" exact>
               <Header />
               <h2>Add contact page here</h2>
             </Route>
+
             <Route path="/about" exact>
               <Header />
               <h2>Add about page here</h2>
             </Route>
-            <Route path="/login" exact>
+
+            <Route path="/signin" exact>
               <Header />
               <Login></Login>
             </Route>
-            <Route path="/register" exact>
+
+            <Route path="/signup" exact>
               <Header />
               <Register></Register>
             </Route>
+            
             <Route path="/profile" exact>
               <Header />
               <Profile></Profile>
             </Route>
+
+            {/* admin routes */}
+            <Route path="/viewUsers" exact>
+              <Header />
+              <ViewUsers></ViewUsers>
+            </Route>
+
             <Redirect to="/" />
           </Switch>
         </Router>

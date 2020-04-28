@@ -4,7 +4,7 @@ class Login extends Component {
     render() {
         return (
             <div className="container">
-                <from>
+                <form>
                     <center>
                         <h2>Login</h2><br />
 
@@ -22,14 +22,14 @@ class Login extends Component {
                             <button type="submit" className="btn btn-outline-warning btn-md btn-block">Sign in</button>
 
                             <label className="form-check-label mb-2 mt-2">
-                                Don't have an account? <br />
+                                Don't have an account?<br />
                                 <button type="button" className="btn btn-outline-warning btn-md mt-2">Sign Up</button>
 
                             </label>
                         </div>
 
                     </center>
-                </from>
+                </form>
             </div>
         );
     }

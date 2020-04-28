@@ -4,6 +4,12 @@ body {
   position: relative;
   background-color: black;
   color: white;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .main-container {
@@ -23,6 +29,11 @@ body {
 h2, label, input{
   color: gold;
 }
+
+th, tr{
+  color: white;
+}
+
 .icon-gold{
   color: goldenrod;
 }
@@ -38,4 +49,9 @@ h2, label, input{
 
 .card-header{
   background-color: #181818;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
