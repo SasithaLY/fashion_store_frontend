@@ -13,6 +13,7 @@ import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
+import Cart from "./cart/cart";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
 import Login from "./user/Pages/Login";
 import Profile from "./user/Pages/Profile";
@@ -20,6 +21,12 @@ import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
 import Register from "./user/Pages/Register";
 import ViewUsers from "./user/adminPages/ViewUsers"
+import UploadCategories from "./Components/UploadCategories/UploadCategories";
+import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";
+import AllProductsByCategory from "./Components/Products/AllProductsByCategory";
+import AllProducts from "./Components/Products/AllProducts";
+
+
 
 const App = () => {
   return (
@@ -31,15 +38,16 @@ const App = () => {
             <Route path="/addProduct" exact>
               <UploadProducts />
             </Route>
-
+            <Route path="/addCategory" exact>
+              <UploadCategories />
+            </Route>
             <Route path="/" exact>
               <Header />
               <Home />
             </Route>
-
-            <Route path="/products" exact>
+            <Route path="/allProducts/:categoryId" exact>
               <Header />
-              <h2>Add products page here</h2>
+              <AllProductsByCategory />
             </Route>
 
             <Route path="/products/:id" exact>
@@ -49,7 +57,7 @@ const App = () => {
 
             <Route path="/cart" exact>
               <Header />
-              <h2>Add cart page here</h2>
+              <Cart/>
             </Route>
 
             <Route path="/order" exact>
@@ -93,7 +101,17 @@ const App = () => {
               <ViewUsers></ViewUsers>
             </Route>
 
+            <Route path="/uploadMultiple" exact>
+              <UploadProductsMultiple />
+            </Route>
+
+            <Route path="/allProducts" exact>
+              <Header />
+              <AllProducts />
+            </Route>
+
             <Redirect to="/" />
+            
           </Switch>
         </Router>
       </div>

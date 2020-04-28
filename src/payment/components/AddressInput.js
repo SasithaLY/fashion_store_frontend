@@ -4,17 +4,20 @@ export default class AddressInput extends Component {
   render() {
     const {
       submitNewAddress,
-      setShowing,
       handleInputChange,
       errors,
       validateAddress,
+      isEdit,
+      editAddress,
+      handleCancel,
+      handleUpdateAddress
     } = this.props;
 
     return (
       <div>
         <hr />
 
-        <form className="needs-validation" onSubmit={submitNewAddress}>
+        <form className="needs-validation" onSubmit={isEdit ? handleUpdateAddress : submitNewAddress}>
           <div className="row">
             <div className="col-md-6 mb-3">
               <label htmlFor="firstName">First name</label>
@@ -29,7 +32,7 @@ export default class AddressInput extends Component {
                 }
                 id="firstName"
                 name="firstName"
-                placeholder=""
+                value={editAddress.firstName}
                 onChange={handleInputChange}
                 required
               />
@@ -48,7 +51,7 @@ export default class AddressInput extends Component {
                 }
                 id="lastName"
                 name="lastName"
-                placeholder=""
+                value={editAddress.lastName}
                 onChange={handleInputChange}
                 required
               />
@@ -70,6 +73,7 @@ export default class AddressInput extends Component {
               id="address1"
               name="address1"
               placeholder="1234 Main St"
+              value={editAddress.address1}
               onChange={handleInputChange}
               required
             />
@@ -86,6 +90,7 @@ export default class AddressInput extends Component {
               id="address2"
               name="address2"
               placeholder="Apartment or suite"
+              value={editAddress.address2}
               onChange={handleInputChange}
             />
           </div>
@@ -103,6 +108,7 @@ export default class AddressInput extends Component {
               id="city"
               name="city"
               placeholder="ex: Colombo"
+              value={editAddress.city}
               onChange={handleInputChange}
               required
             />
@@ -122,11 +128,14 @@ export default class AddressInput extends Component {
                 }
                 id="country"
                 name="country"
+                value={editAddress.country}
                 onInput={handleInputChange}
+                onChange={handleInputChange}
                 required
               >
                 <option value="">Choose...</option>
-                <option>United States</option>
+                <option value="Sri Lanka">Sri Lanka</option>
+                <option value="United States">United States</option>
               </select>
               <div className="cus-invalid-feedback">{errors.country}</div>
             </div>
@@ -142,11 +151,14 @@ export default class AddressInput extends Component {
                 }
                 id="state"
                 name="state"
+                value={editAddress.state}
                 onInput={handleInputChange}
+                onChange={handleInputChange}
                 required
               >
                 <option value="">Choose...</option>
-                <option>California</option>
+                <option value="Anuradhapura">Anuradhapura</option>
+                <option value="Colombo">Colombo</option>
               </select>
               <div className="cus-invalid-feedback">{errors.state}</div>
             </div>
@@ -163,7 +175,7 @@ export default class AddressInput extends Component {
                 }
                 id="postal"
                 name="postal"
-                placeholder=""
+                value={editAddress.postal}
                 onChange={handleInputChange}
                 required
               />
@@ -175,16 +187,24 @@ export default class AddressInput extends Component {
               <div className="float-right">
                 <button
                   className="btn btn-sm  btn-danger mx-2"
-                  onClick={setShowing}
+                  onClick={handleCancel}
                 >
                   Cancel
                 </button>
-                <button
+                {
+                  isEdit ? <button
                   className="btn btn-sm btn-success "
-                  onClick={submitNewAddress}
+                >
+                  Edit
+                </button> : <button
+                  type="submit"
+                  className="btn btn-sm btn-success "
+                  
                 >
                   Save
                 </button>
+                }
+                
               </div>
             </div>
           </div>

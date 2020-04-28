@@ -77,6 +77,25 @@ export default class Checkout extends Component {
         state: "",
         postal: "",
       },
+      cart: [
+        {
+          id: 1,
+          itemName: "Skirt",
+          price: "1200",
+          quantity: 1,
+        },
+        {
+          id: 2,
+          itemName: "Jean",
+          price: "2000",
+          quantity: 1,
+        },
+      ],
+      promocode: {
+        applied: false,
+        code: "10OUT",
+        discount: 10,
+      },
     };
 
     this.err = {
@@ -103,6 +122,45 @@ export default class Checkout extends Component {
     this.onAddressChange = this.onAddressChange.bind(this);
   }
 
+  submitPromoCode = (e) => {
+    e.preventDefault();
+
+    //this is dummy for now, should validate the code with db.
+    this.setState({
+      promocode:{
+        applied:true,
+        code:this.state.promo,
+        discount:10
+      }
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      editAddress: null,
+      isEdit: false,
+      showing: false,
+      firstName: "",
+      lastName: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      country: "",
+      postal: "",
+    });
+  };
+
+  handleUpdateAddress = (e) => {
+    e.preventDefault();
+    const isAddressValid = this.validateAddress();
+
+    if (isAddressValid) {
+      //update the address and call function to retrieve addresses
+      console.log("update address valid and updating");
+    }
+  };
+
   handleInputChange = (event) => {
     const target = event.target;
 
@@ -112,7 +170,7 @@ export default class Checkout extends Component {
     const newErr = this.state.errors;
 
     //validate while typing
-    if (name != "billingSame") {
+    if (name != "billingSame" && name != "promo") {
       if (value.replace(/\s/g, "") === "") {
         let e = this.err[name];
         newErr[name] = e;
@@ -192,9 +250,9 @@ export default class Checkout extends Component {
 
   setShowing = (e) => {
     e.preventDefault();
-
+    
     this.setState({
-      showing: false,
+      showing: true,
     });
   };
 
@@ -204,9 +262,19 @@ export default class Checkout extends Component {
     );
     console.log(id);
     console.log(selectAddress);
+
     this.setState({
       editAddress: selectAddress,
       isEdit: true,
+      showing: true,
+      firstName: selectAddress.firstName,
+      lastName: selectAddress.lastName,
+      address1: selectAddress.address1,
+      address2: selectAddress.address2,
+      city: selectAddress.city,
+      state: selectAddress.state,
+      country: selectAddress.country,
+      postal: selectAddress.postal,
     });
   };
 
@@ -350,7 +418,22 @@ export default class Checkout extends Component {
       billingSame,
       paymentMethod,
       errors,
+      cart,
+      promocode,
+      handleUpdateAddress,
+      handleCancel,
     } = this.state;
+
+    const editAddress = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      address1: this.state.address1,
+      address2: this.state.address2,
+      city: this.state.city,
+      state: this.state.state,
+      country: this.state.country,
+      postal: this.state.postal,
+    };
 
     return (
       <div className="container-lg">
@@ -425,11 +508,14 @@ export default class Checkout extends Component {
                       <div className="col justify-content-center my-3">
                         {showing ? (
                           <AddressInput
-                            setShowing={this.setShowing}
-                            editAddress={this.state.editAddress}
+                            isEdit={this.state.isEdit}
+                            editAddress={editAddress}
                             handleInputChange={this.handleInputChange}
                             submitNewAddress={this.submitNewAddress}
+                            handleUpdateAddress={this.handleUpdateAddress}
+                            handleCancel={this.handleCancel}
                             errors={errors}
+
                           />
                         ) : null}
                       </div>
@@ -544,7 +630,12 @@ export default class Checkout extends Component {
             </div>
 
             <div className="col-md-4">
-              <Cart />
+              <Cart
+                cart={cart}
+                promocode={promocode}
+                handleInputChange={this.handleInputChange}
+                submitPromoCode={this.submitPromoCode}
+              />
             </div>
           </div>
         </div>

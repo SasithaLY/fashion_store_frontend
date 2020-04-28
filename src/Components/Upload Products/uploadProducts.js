@@ -1,78 +1,176 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
+import {createProduct, getCategories} from '../../Components/APIBridge/APIProduct'
 
-class UploadProducts extends Component {
-    fileObj = [];
-    fileArray = [];
+const UploadProducts = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            file: [null]
-        };
-        this.uploadMultipleFiles = this.uploadMultipleFiles.bind(this);
-        this.uploadFiles = this.uploadFiles.bind(this);
-        this.onSubmitFunction = this.onSubmitFunction.bind(this)
-    }
+    // const { user, token } = isAuthenticated();
 
-    onSubmitFunction(e){
-        e.preventDefault();
-        console.log('submit');
-        window.location.assign("http://localhost:3000/");
-    }
+    const [values, setValues] = useState({
+        name: '',
+        description: '',
+        price: '',
+        categories: [],
+        category: '',
+        shipping: '',
+        quantity: '',
+        photo: '',
+        loading: false,
+        error: '',
+        storeMgrID: '5e9f554e1f81f30cbcdff10c',
+        oldPrice: '',
+        formData: ''
+    });
 
-    uploadMultipleFiles(e) {
-        if (e.target.files.length <= 5) {
-            console.log('array length', this.fileArray.length);
+    const {
+        name,
+        description,
+        price,
+        categories,
+        category,
+        shipping,
+        quantity,
+        loading,
+        error,
+        formData
+    } = values;
 
-            this.fileObj.push(e.target.files);
-            console.log('dannathi length', this.fileObj[0].length);
-            for (let i = 0 ; i < this.fileObj[0].length; i++) {
-                this.fileArray.push(URL.createObjectURL(this.fileObj[0][i]));
+    // load categories and set form data
+    const init = () => {
+
+        getCategories().then(data => {
+            console.log('cat ', data);
+            setValues({
+                ...values,
+                categories: data,
+                formData: new FormData()
+            });
+        }).catch(error => {
+            setValues({...values, error: error});
+        });
+
+        setValues({
+            storeMgrID: '5e9f554e1f81f30cbcdff10c'
+        });
+
+    };
+
+    useEffect(() => {
+        init();
+    }, []);
+
+    const handleChange = name => event => {
+        const value = name === 'photo' ? event.target.files[0] : event.target.value;
+        formData.set(name, value);
+        setValues({...values, [name]: value});
+    };
+
+    const clickSubmit = event => {
+        event.preventDefault();
+        setValues({...values, error: '', loading: true});
+        formData.set('storeMgrID', '5e9f554e1f81f30cbcdff10c');
+        createProduct(formData).then(data => {
+
+            if (data.error) {
+                setValues({...values, error: data.error});
+            } else {
+                alert('Product Created Successfully!');
+                setValues({
+                    ...values,
+                    name: '',
+                    description: '',
+                    photo: '',
+                    price: '',
+                    quantity: '',
+                    category: '',
+                    shipping: ''
+                });
             }
+        }).catch(error => {
+            alert('Error in Product Upload!');
+            console.log(error);
+        });
+    };
 
-            this.setState({file: this.fileArray});
-        }
-    }
+    const displayError = () => (
+        <div className="alert border-danger alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    );
 
-    uploadFiles(e) {
-        e.preventDefault();
-        console.log(this.state.file)
-    }
+    return (
+        <div className="container">
 
-    render() {
-        return (
-            <div className="d-flex justify-content-center">
-                <div className="card mt-4" style={{width: "70%"}}>
-                    <div className="m-2">
-                        <h1>File Upload</h1>
-                        <p><b>5 images</b> of your Product can only be uploaded. Actual Images should be attached!</p>
-                    </div>
-                    <br/>
-                    <form action="http://localhost:8000/upload" method="POST" encType="multipart/form-data">
 
-                        <input type="text" className="input-group" required name="productName" />
-                        <div className="form-group multi-preview">
-                            {(this.fileArray || []).map(url => (
-                                <img src={url} alt="..." className="w-25 m-2"/>
-                            ))}
+            {displayError()}
+
+            <div className="card">
+                <div className="card-header">
+                    You're about to Create a Product!
+                </div>
+
+                <div className="p-3">
+                    <form className="mb-3" onSubmit={clickSubmit}>
+
+                        <div className="form-group">
+                            <label className="text-warning">Name</label>
+                            <input onChange={handleChange('name')} type="text" className="form-control" value={name}
+                                   required/>
                         </div>
 
-                        {/*<div className="form-group">*/}
-                        {/*    <input type="file" className="form-control" onChange={this.uploadMultipleFiles} multiple disabled={this.fileArray.length>4}/>*/}
-                        {/*</div>*/}
-                        <div className="input-group">
-                            <div className="custom-file">
-                                <input name="files" type="file" className="custom-file-input" id="inputGroupFile01"
-                                       aria-describedby="inputGroupFileAddon01" onChange={this.uploadMultipleFiles} multiple disabled={this.fileArray.length>4}/>
-                                    <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
-                            </div>
+                        <div className="form-group">
+                            <label className="text-warning">Description</label>
+                            <textarea onChange={handleChange('description')} className="form-control"
+                                      value={description} required/>
                         </div>
-                        <button type="submit" className="btn btn-danger btn-block" onSubmit={this.onSubmitFunction}>Upload</button>
+
+                        <div className="form-group">
+                            <label className="text-warning">Price</label>
+                            <input onChange={handleChange('price')} type="number" className="form-control" value={price}
+                                   required/>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="text-warning">Category</label>
+                            <select onChange={handleChange('category')} className="form-control">
+                                <option>Please select</option>
+                                {categories && categories.map((c, i) => (
+                                    <option key={i} value={c._id}>
+                                        {c.categoryName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="text-warning">Shipping</label>
+                            <select onChange={handleChange('shipping')} className="form-control">
+                                <option>Please select</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="text-warning">Quantity</label>
+                            <input onChange={handleChange('quantity')} type="number" className="form-control"
+                                   value={quantity}/>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="text-warning">Display Image</label><br/>
+                            <label className="btn btn-secondary">
+                                <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*"
+                                       required/>
+                            </label>
+                        </div>
+
+                        <button className="btn btn-warning">Submit</button>
                     </form>
                 </div>
             </div>
-        )
-    }
-}
+
+        </div>
+    );
+};
 
 export default UploadProducts;
