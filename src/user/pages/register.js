@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { API } from '../../config';
 import {Link} from 'react-router-dom';
-
+import {signup} from '../../auth/auth'
 
 const Register = () => {
 
@@ -20,23 +19,6 @@ const Register = () => {
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
-    };
-
-    const signup = user => {
-        return fetch(`${API}/signup`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        })
-            .then(response => {
-                return response.json();
-            })
-            .catch(err => {
-                console.log(err);
-            });
     };
 
     const clickSubmit = event => {
@@ -132,7 +114,6 @@ const Register = () => {
             {showSuccess()}
             {showError()}
             {signUpForm()}
-            {JSON.stringify(values)}
         </div>
     );
 }
