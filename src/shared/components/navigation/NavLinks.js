@@ -44,7 +44,7 @@ class NavLinks extends Component {
                     <a key={key} href={`/allProducts/${item._id}`}
                           className="btn list-group-item mr-2 mb-2 bg-transparent text-white">{item.categoryName}</a>
                 )}
-                <div className="dropdown">
+                <div className="dropdown  ml-2">
                     <button className="list-group-item mr-2 mb-2 bg-warning text-white dropdown-toggle w-100 rounded-lg"
                             type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style={{float: "right"}}>

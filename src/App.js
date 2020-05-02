@@ -25,6 +25,7 @@ import UploadCategories from "./Components/UploadCategories/UploadCategories";
 import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";
 import AllProductsByCategory from "./Components/Products/AllProductsByCategory";
 import AllProducts from "./Components/Products/AllProducts";
+import UpdateProduct from "./Components/Update/UpdateProduct";
 
 
 
@@ -89,7 +90,7 @@ const App = () => {
               <Header />
               <Register></Register>
             </Route>
-            
+
             <Route path="/profile" exact>
               <Header />
               <Profile></Profile>
@@ -109,9 +110,15 @@ const App = () => {
               <Header />
               <AllProducts />
             </Route>
+            <Route path="/storeManager/updateProducts/:productId" exact>
+              <UpdateProduct />
+            </Route>
+            <Route path="/storeManager/allProducts/" exact>
+              <UpdateProduct />
+            </Route>
 
             <Redirect to="/" />
-            
+
           </Switch>
         </Router>
       </div>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import API from '../../Utils/API'
+import {getCategories, getProduct} from "../APIBridge/APIProduct";
 
 class UploadCategories extends Component {
 
@@ -7,10 +8,29 @@ class UploadCategories extends Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onchangeCategoryName = this.onchangeCategoryName.bind(this);
+        this.getCategories = this.getCategories.bind(this);
 
         this.state = {
-            categoryName: ''
+            categoryName: '',
+            currentCategories: ''
         };
+
+        this.getCategories() ;
+
+    }
+
+    getCategories(){
+        getCategories().then(data => {
+            if (data.error) {
+
+            } else {
+                console.log(data)
+                this.setState({
+                    currentCategories : data
+                })
+            }
+        });
+        
     }
 
     async handleSubmit(event) {
