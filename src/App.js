@@ -15,11 +15,11 @@ import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Cart from "./cart/cart";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
-import Login from "./user/Pages/Login";
-import Profile from "./user/Pages/Profile";
+import Login from "./user/pages/Login";
+import Profile from "./user/pages/Profile";
 import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
-import Register from "./user/Pages/Register";
+import Register from "./user/pages/register";
 import ViewUsers from "./user/adminPages/ViewUsers"
 import UploadCategories from "./Components/UploadCategories/UploadCategories";
 import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";

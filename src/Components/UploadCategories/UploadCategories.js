@@ -24,11 +24,12 @@ class UploadCategories extends Component {
             if (data.error) {
 
             } else {
-                console.log(data)
+                console.log('asd', data)
                 this.setState({
                     currentCategories : data
                 })
             }
+            console.log(this.state.currentCategories)
         });
         
     }
