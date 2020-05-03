@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { signin, authenticate } from '../../auth/auth'
+import { signin, authenticate, isAuthenticated } from '../../auth/auth'
 
 const Login = () => {
 
@@ -9,10 +9,11 @@ const Login = () => {
         email: "",
         error: "",
         loading: false,
-        redirectToHome: false,
+        redirectUser: false,
     });
 
-    const { password, email, loading, error, redirectToHome } = values;
+    const { password, email, loading, error, redirectUser } = values;
+    const {user} = isAuthenticated();
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
@@ -29,7 +30,7 @@ const Login = () => {
                     authenticate(data, () => {
                         setValues({
                             ...values,
-                            redirectToHome: true
+                            redirectUser: true
                         });
                     });  
                 }
@@ -82,7 +83,15 @@ const Login = () => {
     )
 
     const redirect = () => {
-        if (redirectToHome) {
+        if (redirectUser) {
+            if(user && user.role === 1) {
+                return <Redirect to= "/admin/dashboard" />
+            } else {
+                return <Redirect to="/user/profile" />
+            }
+        }
+
+        if (isAuthenticated()) {
             return <Redirect to="/" />
         }
     }
