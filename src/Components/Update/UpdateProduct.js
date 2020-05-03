@@ -8,6 +8,7 @@ const UpdateProduct = ({match}) => {
         name: '',
         description: '',
         price: '',
+        oldPrice: '',
         categories: [],
         category: '',
         shipping: '',
@@ -26,14 +27,11 @@ const UpdateProduct = ({match}) => {
         name,
         description,
         price,
-        // categories,
+        oldPrice,
         category,
         shipping,
         quantity,
-        loading,
         error,
-        createdProduct,
-        redirectToProfile,
         formData
     } = values;
 
@@ -47,6 +45,7 @@ const UpdateProduct = ({match}) => {
                     name: data.name,
                     description: data.description,
                     price: data.price,
+                    oldPrice: data.oldPrice,
                     category: data.category._id,
                     shipping: data.shipping,
                     quantity: data.quantity,
@@ -139,10 +138,19 @@ const UpdateProduct = ({match}) => {
                         </div>
 
                         <div className="form-group">
-                            <label className="text-warning">Price</label>
+                            <label className="text-warning">New Price</label>
                             <input onChange={handleChange('price')} type="number" className="form-control"
                                    value={price}
                                    required/>
+                        </div>
+
+                        <div className='row ml-1'>
+                            <label className="text-danger"><b>Note : </b></label> <label>If you're throwing a discount, just update the Old Price..</label>
+                        </div>
+                        <div className="form-group">
+                            <label className="text-warning">Old Price</label>
+                            <input onChange={handleChange('oldPrice')} type="number" className="form-control"
+                                   value={oldPrice}/>
                         </div>
 
                         <div className="form-group">
@@ -184,7 +192,8 @@ const UpdateProduct = ({match}) => {
                         <button className="btn btn-warning">Submit</button>
                     </form>
                 </div>
-            </div>
+            </div><br/>
+            {displayError()}
         </div>
     );
 };

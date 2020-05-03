@@ -36,14 +36,20 @@ const ProductCard = ({Product, showAddToCartButton = true}) => {
     };
 
     return (
-        <div className="card m-2" style={{width: '18rem', height: '25rem'}}>
+        <div className="card m-2" style={{width: '18rem', height: '28rem'}}>
             <div className="card-img-top">
                 <ProductImageDisplay Product={Product} xsize="17.9rem" ysize="13rem"/>
             </div>
             <div className="card-body">
-                
+
                 <h5 className="card-title">{Product.name}</h5>
-                <p className="card-text overflow-hidden" style= {{height:"60px", lineHeight:"20px", overflow:"hidden"}}>{Product.description}</p>
+                <p className="card-text overflow-hidden opacity-70"
+                   style={{height: "60px", lineHeight: "20px", overflow: "hidden"}}>{Product.description}</p>
+                <div className="row ml-1">
+                    <p className='text-warning'>Rs. {Product.price}   </p>
+                    <p className='text-secondary' hidden={!Product.oldPrice}><s>Rs. {Product.oldPrice}</s></p>
+                </div>
+
                 <a href={`/products/${Product._id}`} className="btn btn-danger text-white">Details</a>
                 {showAddToCart(showAddToCartButton)}
                 {/* <a href="#" className="btn btn-warning text-white ml-3">Add to Cart</a> */}

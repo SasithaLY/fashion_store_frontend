@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {createProduct, getCategories} from '../../Components/APIBridge/APIProduct'
+import {isAuthenticated} from "../../auth/auth";
 
 const UploadProducts = () => {
 
-    // const { user, token } = isAuthenticated();
+    const { user, token } = isAuthenticated();
 
     const [values, setValues] = useState({
         name: '',
@@ -16,7 +17,7 @@ const UploadProducts = () => {
         photo: '',
         loading: false,
         error: '',
-        storeMgrID: '5e9f554e1f81f30cbcdff10c',
+        storeMgrID: '',
         oldPrice: '',
         formData: ''
     });
@@ -29,7 +30,6 @@ const UploadProducts = () => {
         category,
         shipping,
         quantity,
-        loading,
         error,
         formData
     } = values;
@@ -67,7 +67,10 @@ const UploadProducts = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({...values, error: '', loading: true});
-        formData.set('storeMgrID', '5e9f554e1f81f30cbcdff10c');
+        formData.set('storeMgrID', user._id);
+        formData.set('oldPrice', '');
+
+        console.log(user._id)
         createProduct(formData).then(data => {
 
             if (data.error) {
@@ -76,6 +79,7 @@ const UploadProducts = () => {
                 alert('Product Created Successfully!');
                 setValues({
                     ...values,
+                    error: '',
                     name: '',
                     description: '',
                     photo: '',
@@ -167,8 +171,8 @@ const UploadProducts = () => {
                         <button className="btn btn-warning">Submit</button>
                     </form>
                 </div>
-            </div>
-
+            </div><br/>
+            {displayError()}
         </div>
     );
 };

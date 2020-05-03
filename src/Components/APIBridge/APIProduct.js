@@ -89,11 +89,45 @@ export const updateProduct = (productId, product) => {
 
 
 export const getCategories = () => {
-    console.log(process.env.REACT_APP_APIURL, '/categoriesRouter/all');
     return fetch(`${process.env.REACT_APP_APIURL}/categoriesRouter/all`, {
         method: 'GET'
     })
         .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const updateCategory = (id, category) => {
+    console.log(JSON.stringify(category));
+    return fetch(`${process.env.REACT_APP_APIURL}/categoriesRouter/updateCategory/${id}`, {
+        method: 'PUT',
+        headers: {
+            // content type?
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+            // Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(category)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const deleteCategory = (id) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/categoriesRouter/deleteCategory/${id}`, {
+        method: 'DELETE',
+        headers: {
+            // content type?
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+            // Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            console.log(response)
             return response.json();
         })
         .catch(err => console.log(err));
