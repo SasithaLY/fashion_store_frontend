@@ -61,7 +61,7 @@ const Profile = () => {
                     </div>
                     <div className="col-md-6 details">
                       <blockquote>
-                        <h5> {lName}</h5>
+                        <h5>{fName} {lName}</h5>
                       </blockquote>
                       <p>
                         {email} <br />

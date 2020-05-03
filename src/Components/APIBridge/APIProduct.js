@@ -47,7 +47,7 @@ export const getProductsForHome = (sortBy,limit) => {
 // };
 
 export const deleteProduct = (productId, userId, token) => {
-    return fetch(`${API}/product/${productId}/${userId}`, {
+    return fetch(`${process.env.REACT_APP_APIURL}/product/${productId}/${userId}`, {
         method: 'DELETE',
         headers: {
             Accept: 'application/json',
@@ -71,13 +71,13 @@ export const getSingleProduct = productId => {
         })
         .catch(err => console.log(err));
 };
-
-export const updateProduct = (productId, userId, token, product) => {
-    return fetch(`${API}/product/${productId}/${userId}`, {
+// , userId, token,
+export const updateProduct = (productId, product) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/updateProduct/${productId}`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
-            Authorization: `Bearer ${token}`
+            // Authorization: `Bearer ${token}`
         },
         body: product
     })
@@ -89,8 +89,52 @@ export const updateProduct = (productId, userId, token, product) => {
 
 
 export const getCategories = () => {
-    console.log(process.env.REACT_APP_APIURL, '/categoriesRouter/all');
     return fetch(`${process.env.REACT_APP_APIURL}/categoriesRouter/all`, {
+        method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const updateCategory = (id, category) => {
+    console.log(JSON.stringify(category));
+    return fetch(`${process.env.REACT_APP_APIURL}/categoriesRouter/updateCategory/${id}`, {
+        method: 'PUT',
+        headers: {
+            // content type?
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+            // Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(category)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const deleteCategory = (id) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/categoriesRouter/deleteCategory/${id}`, {
+        method: 'DELETE',
+        headers: {
+            // content type?
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+            // Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            console.log(response)
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const getProduct = productId => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/${productId}`, {
         method: 'GET'
     })
         .then(response => {
