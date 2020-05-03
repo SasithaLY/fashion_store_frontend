@@ -1,9 +1,10 @@
-import React from "react";
+import React, {Fragment} from "react";
 import logo from "../../assets/images/logowhite.png";
 
 import "./MainNavigation.css";
 import SearchBar from "./SearchBar";
 import NavLinks from "./NavLinks";
+import { isAuthenticated } from "../../../auth/auth"
 
 const MainNavigation = props => {
   return (
@@ -28,30 +29,40 @@ const MainNavigation = props => {
         <NavLinks />
         <SearchBar />
         <div>
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item dropdown">
+
+          {isAuthenticated() && isAuthenticated().user.role === 0 &&
+            <Fragment>
               <a
-                className="nav-link dropdown-toggle"
+                className="nav-link"
                 id="navbarDropdownMenuLink-4"
-                data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                href="/user/profile"
               >
-                <i className="fas fa-user"></i> Profile{" "}
-              </a>
-              <div
-                className="dropdown-menu dropdown-menu-right dropdown-info"
-                aria-labelledby="navbarDropdownMenuLink-4"
+                <i className="fas fa-user"></i> Dashboard
+          </a>
+            </Fragment>
+          }
+
+          {isAuthenticated() && isAuthenticated().user.role === 1 &&
+            <Fragment>
+              <a
+                className="nav-link"
+                id="navbarDropdownMenuLink-4"
+                aria-haspopup="true"
+                aria-expanded="false"
+                href="/admin/dashboard"
               >
-                <a className="dropdown-item" href={"/profile"}>
-                  My account
-            </a>
-                <a className="dropdown-item" href="#">
-                  Log out
-            </a>
-              </div>
-            </li>
-          </ul>
+                <i className="fas fa-user"></i> Dashboard
+          </a>
+            </Fragment>
+          }
+
+
+
+
+
+
         </div>
       </div>
 

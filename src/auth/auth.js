@@ -1,7 +1,7 @@
 import { API } from '../config';
 
 export const signup = user => {
-    return fetch(`${API}/signup`, {
+    return fetch(`${API}/signUp`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -18,7 +18,7 @@ export const signup = user => {
 };
 
 export const signin = user => {
-    return fetch(`${API}/signin`, {
+    return fetch(`${API}/signIn`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -49,7 +49,7 @@ export const signout = next => {
             method: "GET"
         })
             .then(response => {
-                console.log("signout", response);
+                console.log("signOut", response);
             })
             .catch(err => console.log(err));
     }
