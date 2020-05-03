@@ -26,6 +26,7 @@ import UploadProductsMultiple from "./Components/Upload Products/uploadProductsM
 import AllProductsByCategory from "./Components/Products/AllProductsByCategory";
 import AllProducts from "./Components/Products/AllProducts";
 import UpdateProduct from "./Components/Update/UpdateProduct";
+import ProductsByAdmin from "./Components/Products/ProductsByAdmin";
 
 
 
@@ -114,7 +115,7 @@ const App = () => {
               <UpdateProduct />
             </Route>
             <Route path="/storeManager/allProducts/" exact>
-              <UpdateProduct />
+              <ProductsByAdmin />
             </Route>
 
             <Redirect to="/" />

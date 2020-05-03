@@ -88,6 +88,7 @@ const UploadProducts = () => {
                     category: '',
                     shipping: ''
                 });
+                window.location.assign(`${process.env.REACT_APP_CLIENT_URL}/storeManager/allProducts`);
             }
         }).catch(error => {
             alert('Error in Product Upload!');
