@@ -1,8 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import "../components/profileStyles.css";
+import { isAuthenticated } from "../../auth/auth";
 
-class Profile extends Component {
-  render() {
+const Profile = () => {
+
+    const {user: {fName, lName, email, gender, role}} = isAuthenticated();
+
     return (
       <div className="container-fluid p-5">
         {/* <h1>Bootstrap 4 Vertical Nav Tabs</h1> */}
@@ -33,7 +36,7 @@ class Profile extends Component {
                   aria-controls="orders"
                   aria-selected="false"
                 >
-                  Orders
+                  Purchase History
                 </a>
               </li>
             </ul>
@@ -58,17 +61,12 @@ class Profile extends Component {
                     </div>
                     <div className="col-md-6 details">
                       <blockquote>
-                        <h5>Fiona Gallagher</h5>
-                        <small>
-                          <cite title="Source Title">
-                            Chicago, United States of America{" "}
-                            <i className="icon-map-marker"></i>
-                          </cite>
-                        </small>
+                        <h5> {lName}</h5>
                       </blockquote>
                       <p>
-                        fionagallager@shameless.com <br />
-                        Female
+                        {email} <br />
+                        {gender} <br />
+                        {role}
                       </p>
                       <a href="#">Edit Profile</a>
                       <br />
@@ -137,6 +135,5 @@ class Profile extends Component {
       </div>
     );
   }
-}
 
 export default Profile;

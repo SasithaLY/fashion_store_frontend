@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Route,
   Redirect,
   Switch,
@@ -25,6 +25,7 @@ import UploadCategories from "./Components/UploadCategories/UploadCategories";
 import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";
 import AllProductsByCategory from "./Components/Products/AllProductsByCategory";
 import AllProducts from "./Components/Products/AllProducts";
+import PrivateRoute from "./auth/PrivateRoute"
 
 
 
@@ -32,7 +33,7 @@ const App = () => {
   return (
     <div className="main-container">
       <div>
-        <Router>
+        <BrowserRouter>
           <Switch>
 
             <Route path="/addProduct" exact>
@@ -90,10 +91,10 @@ const App = () => {
               <Register></Register>
             </Route>
             
-            <Route path="/profile" exact>
-              <Header />
-              <Profile></Profile>
-            </Route>
+            <PrivateRoute path="/profile" exact component={Profile}>
+              {/* <Header />
+              <Profile></Profile> */}
+            </PrivateRoute>
 
             {/* admin routes */}
             <Route path="/viewUsers" exact>
@@ -113,7 +114,7 @@ const App = () => {
             <Redirect to="/" />
             
           </Switch>
-        </Router>
+        </BrowserRouter>
       </div>
 
       <div className="cusfooter">
