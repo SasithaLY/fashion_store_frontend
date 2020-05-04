@@ -16,11 +16,11 @@ import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Cart from "./cart/cart";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
-import Login from "./user/Pages/Login";
-import Profile from "./user/Pages/Profile";
+import Login from "./user/pages/Login";
+import Profile from "./user/pages/Profile";
 import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
-import Register from "./user/Pages/Register";
+import Register from "./user/pages/register";
 import Dashboard from "./user/adminPages/Dashboard"
 import UploadCategories from "./Components/UploadCategories/UploadCategories";
 import UploadProductsMultiple from "./Components/Upload Products/uploadProductsMultiple";
@@ -68,10 +68,6 @@ const App = () => {
               <h2>Add order page here</h2>
             </Route>
 
-            <Route path="/checkout" exact>
-              <Checkout />
-            </Route>
-
             <Route path="/contact" exact>
               <h2>Add contact page here</h2>
             </Route>
@@ -91,6 +87,8 @@ const App = () => {
             {/* private routes */}
 
             <PrivateRoute path="/user/profile" exact component={Profile} />
+
+            <PrivateRoute path="/checkout" exact component={Checkout} />
 
             {/* admin routes */}
 

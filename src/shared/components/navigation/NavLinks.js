@@ -12,10 +12,12 @@ class NavLinks extends Component {
 
         this.state = {
             moreCategories: [] = []
-        };
-
-        this.getCategoryList().then();
+        };    
     }
+
+    componentDidMount(){
+        this.getCategoryList().then();
+      }
 
     async getCategoryList() {
         await API.get('categoriesRouter/all')
