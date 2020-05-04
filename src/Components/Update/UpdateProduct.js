@@ -147,7 +147,7 @@ const UpdateProduct = ({match}) => {
                                    required/>
                         </div>
 
-                        <div className='row ml-1'>
+                        <div className='row ml-1 mr-1'>
                             <label className="text-danger"><b>Note : </b></label> <label>If you're throwing a discount, just update the Old Price..</label>
                         </div>
                         <div className="form-group">

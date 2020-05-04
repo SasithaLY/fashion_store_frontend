@@ -149,6 +149,7 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
         skip,
         filters
     };
+    console.log(filters)
     return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/withFilter`, {
         method: "POST",
         headers: {

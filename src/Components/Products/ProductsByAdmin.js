@@ -5,6 +5,7 @@ import ProductCard from "./productCard";
 import {prices} from "./Prices";
 import {useParams} from "react-router-dom";
 import {isAuthenticated} from "../../auth/auth";
+import logo from "../../shared/assets/images/logowhite.png";
 
 const ProductsByAdmin = () => {
 
@@ -14,7 +15,7 @@ const ProductsByAdmin = () => {
     // console.log('jkhkjhkjh' ,params.categoryId);
 
     const [customFilters, setCustomFilters] = useState({
-        filters: {storeMgrID: [], price: []}
+        filters: {storeMgrID: [user._id], price: []}
     });
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(4);
@@ -29,11 +30,13 @@ const ProductsByAdmin = () => {
             storeMgrID: [user._id],
             price : price
         };
+        setCustomFilters(newFilters);
+
         getProductsByAdmin(skip, limit, newFilters).then(data => {
             setFilteredResults(data.data);
             setSize(data.size);
             setSkip(0);
-
+            console.log('sizeeeeeeeeeeeeeeeeeeeeee', size, data.size)
         });
     };
 
@@ -90,6 +93,10 @@ const ProductsByAdmin = () => {
         return array_prices;
     };
 
+    const redirect = () => {
+        window.location.assign(`${process.env.REACT_APP_CLIENT_URL}/storeManager/allProducts`);
+    };
+
     return (
         <div className="container-fluid">
             <div className="card fixed-top mb-2">
@@ -98,7 +105,7 @@ const ProductsByAdmin = () => {
                 </div>
             </div> <br/>
             <p className='mt-5'>
-                <a class="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+                <a class="badge badge-warning" data-toggle="collapse" href="#" role="button"
                    aria-expanded="false" aria-controls="collapseExample">
                     More Filters
                 </a>

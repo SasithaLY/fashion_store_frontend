@@ -46,9 +46,9 @@ const NewArrivals = () => {
             </div>
             <br/><br/>
 
-            <div className="d-flex justify-content-center">
-                <button onClick={changeLimit} className='btn btn-primary'>Load More</button>
-            </div>
+            {/*<div className="d-flex justify-content-center">*/}
+            {/*    <button onClick={changeLimit} className='btn btn-primary'>Load More</button>*/}
+            {/*</div>*/}
 
         </div>
     );
