@@ -46,13 +46,13 @@ export const getProductsForHome = (sortBy,limit) => {
 //         .catch(err => console.log('errrrresssssssssssssssssssssssssssssssssssss', err));
 // };
 
-export const deleteProduct = (productId, userId, token) => {
-    return fetch(`${process.env.REACT_APP_APIURL}/product/${productId}/${userId}`, {
+export const deleteProduct = (productId/*, userId, token*/) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/remove/${productId}`, {
         method: 'DELETE',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
+            // Authorization: `Bearer ${token}`
         }
     })
         .then(response => {
@@ -149,7 +149,30 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
         skip,
         filters
     };
+    console.log(filters)
     return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/withFilter`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+export const getProductsByAdmin = (skip, limit, filters = {}) => {
+    const data = {
+        limit,
+        skip,
+        filters
+    };
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/productsByAdmin`, {
         method: "POST",
         headers: {
             Accept: "application/json",

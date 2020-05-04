@@ -42,6 +42,14 @@ th, tr{
   color: goldenrod;
 }
 
+.icon-red{
+  color: darkred;
+}
+
+.icon-green{
+  color:green;
+}
+
 .card{
   background-color: #292929;
   color: white;

@@ -12,10 +12,12 @@ class NavLinks extends Component {
 
         this.state = {
             moreCategories: [] = []
-        };
-
-        this.getCategoryList().then();
+        };    
     }
+
+    componentDidMount(){
+        this.getCategoryList().then();
+      }
 
     async getCategoryList() {
         await API.get('categoriesRouter/all')
@@ -52,9 +54,8 @@ class NavLinks extends Component {
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {this.state.moreCategories.slice(5,20).map((postDetail, index) => {
-                            return <Link className="dropdown-item" key={postDetail._id}
-                                         to={`/allProducts/${postDetail._id}`}
-                                         params={{categoryId: '123'}}>{postDetail.categoryName}</Link>
+                            return <a className="dropdown-item" key={postDetail._id}
+                                         href={`/allProducts/${postDetail._id}`}>{postDetail.categoryName}</a>
                         })}
                         <a className="dropdown-item" href="/allProducts">All Products</a>
                     </div>

@@ -1,18 +1,21 @@
 import React, {useState, useEffect} from "react";
 import RadioSelector from "./RadioSelector";
-import {getFilteredProducts} from "../APIBridge/APIProduct";
+import {getProductsByAdmin} from "../APIBridge/APIProduct";
 import ProductCard from "./productCard";
 import {prices} from "./Prices";
 import {useParams} from "react-router-dom";
+import {isAuthenticated} from "../../auth/auth";
+import logo from "../../shared/assets/images/logowhite.png";
 
+const ProductsByAdmin = () => {
 
-const AllProductsByCategory = () => {
+    const { user, token } = isAuthenticated();
 
-    const params = useParams();
-    console.log('jkhkjhkjh' ,params.categoryId);
+    // const params = useParams();
+    // console.log('jkhkjhkjh' ,params.categoryId);
 
     const [customFilters, setCustomFilters] = useState({
-        filters: {category: [params.categoryId], price: []}
+        filters: {storeMgrID: [user._id], price: []}
     });
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(4);
@@ -24,21 +27,22 @@ const AllProductsByCategory = () => {
     const loadFilteredResults = newFilters => {
         let price = newFilters.price;
         newFilters = {
-            category: [params.categoryId],
+            storeMgrID: [user._id],
             price : price
         };
-        getFilteredProducts(skip, limit, newFilters).then(data => {
+        setCustomFilters(newFilters);
+
+        getProductsByAdmin(skip, limit, newFilters).then(data => {
             setFilteredResults(data.data);
             setSize(data.size);
             setSkip(0);
-
+            console.log('sizeeeeeeeeeeeeeeeeeeeeee', size, data.size)
         });
     };
 
     const loadMoreData = () => {
         let needToSkip = skip + limit;
-        // console.log(newFilters);
-        getFilteredProducts(needToSkip, limit, customFilters.filters).then(data => {
+        getProductsByAdmin(needToSkip, limit, customFilters.filters).then(data => {
             if (data.error) {
                 setError(data.error);
             } else {
@@ -89,10 +93,19 @@ const AllProductsByCategory = () => {
         return array_prices;
     };
 
+    const redirect = () => {
+        window.location.assign(`${process.env.REACT_APP_CLIENT_URL}/storeManager/allProducts`);
+    };
+
     return (
         <div className="container-fluid">
-            <p>
-                <a class="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+            <div className="card fixed-top mb-2">
+                <div className="card-body d-flex justify-content-center">
+                    <label>Store Manager</label>
+                </div>
+            </div> <br/>
+            <p className='mt-5'>
+                <a class="badge badge-warning" data-toggle="collapse" href="#" role="button"
                    aria-expanded="false" aria-controls="collapseExample">
                     More Filters
                 </a>
@@ -115,7 +128,7 @@ const AllProductsByCategory = () => {
                 <div className="row mt-4 m-5 d-flex justify-content-center">
                     {filteredResults.map((product, i) => (
                         <div key={i} className="row m-2 ">
-                            <ProductCard Product={product}/>
+                            <ProductCard Product={product} Admin={true}/>
                         </div>
                     ))}
                 </div>
@@ -129,4 +142,4 @@ const AllProductsByCategory = () => {
 };
 
 
-export default AllProductsByCategory;
+export default ProductsByAdmin;

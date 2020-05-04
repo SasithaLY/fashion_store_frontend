@@ -15,17 +15,17 @@ export default class Cart extends Component {
           </h4>
           <ul className="list-group mb-3">
             {cart.map((item) => {
-              total += item.price * item.quantity;
+              total += item.price * item.count;
               return (
-                <li key={item.id} className="list-group-item d-flex justify-content-between lh-condensed">
+                <li key={item._id} className="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
-                    <h6 className="my-0">{item.itemName}</h6>
+                    <h6 className="my-0">{item.name}</h6>
                     <small className="custom-span">
-                      x {item.quantity}
+                      x {item.count}
                     </small>
                   </div>
                   <span className="custom-span">
-                    LKR {(item.price * item.quantity).toFixed(2)}
+                    LKR {(item.price * item.count).toFixed(2)}
                   </span>
                 </li>
               );

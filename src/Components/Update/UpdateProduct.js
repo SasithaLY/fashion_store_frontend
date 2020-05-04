@@ -96,9 +96,12 @@ const UpdateProduct = ({match}) => {
                     quantity: '',
                     loading: false,
                     error: false,
+                    category: '',
+                    shipping: '',
                     redirectToProfile: true,
                     createdProduct: data.name
                 });
+                window.location.assign(`${process.env.REACT_APP_CLIENT_URL}/storeManager/allProducts`);
             }
         });
     };
@@ -144,13 +147,13 @@ const UpdateProduct = ({match}) => {
                                    required/>
                         </div>
 
-                        <div className='row ml-1'>
+                        <div className='row ml-1 mr-1'>
                             <label className="text-danger"><b>Note : </b></label> <label>If you're throwing a discount, just update the Old Price..</label>
                         </div>
                         <div className="form-group">
                             <label className="text-warning">Old Price</label>
                             <input onChange={handleChange('oldPrice')} type="number" className="form-control"
-                                   value={oldPrice}/>
+                                   value={oldPrice} placeholder="If you're done with discount, just wipe this away.."/>
                         </div>
 
                         <div className="form-group">
@@ -158,7 +161,7 @@ const UpdateProduct = ({match}) => {
                             <select onChange={handleChange('category')} className="form-control">
                                 <option>Please select</option>
                                 {categories && categories.map((c, i) => (
-                                    <option key={i} value={c._id}>
+                                    <option key={i} value={c._id} selected={category === c._id}>
                                         {c.categoryName}
                                     </option>
                                 ))}
@@ -169,8 +172,8 @@ const UpdateProduct = ({match}) => {
                             <label className="text-warning">Shipping</label>
                             <select onChange={handleChange('shipping')} className="form-control">
                                 <option>Please select</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option value="1" selected={shipping === true}>Yes</option>
+                                <option value="0" selected={shipping === false}>No</option>
                             </select>
                         </div>
 
