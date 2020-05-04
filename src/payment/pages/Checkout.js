@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from "react";
+import {Redirect} from "react-router-dom";
 import Cart from "../components/Cart";
 import AddressInput from "../components/AddressInput";
-
-import "./Checkout.css";
+import { isAuthenticated } from "../../auth/auth";
 import BillingAddress from "../components/BillingAddress";
 import CreditCardInput from "../components/CreditCardInput";
+import {
+  getAddresses,
+  insertAddress,
+  updateAddress,
+  deleteAddress,
+} from "../components/paymentHelper";
+import { getCart } from "../../cart/cartHelper";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import "./Checkout.css";
 
 export default function Checkout() {
+  const [redirect, setRedirect] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [error, setError] = useState({ isSet: false, message: "" });
+  const [success, setSuccess] = useState({ isSet: false, message: "" });
+  const [addresses, setAddresses] = useState([]);
   const [values, setValues] = useState({
     showing: false,
     isEdit: false,
+    success: "",
     editAddress: {
       firstName: "",
       lastName: "",
@@ -39,32 +55,6 @@ export default function Checkout() {
     billingCountry: "",
     billingState: "",
     billingPostal: "",
-    addresses: [
-      {
-        id: 1,
-        firstName: "Sasitha",
-        lastName: "Layan",
-        address1: "Thilina Trade Center",
-        address2: "Sandaresgama",
-        city: "Eppawala",
-        state: "Anuradhapura",
-        country: "Sri Lanka",
-        postal: "25060",
-        isPrimary: true,
-      },
-      {
-        id: 2,
-        firstName: "Sasitha",
-        lastName: "Layan",
-        address1: " 148/7, Golden Cresent",
-        address2: "Pittugala",
-        city: "Malabe",
-        state: "Colombo",
-        country: "Sri Lanka",
-        postal: "25060",
-        isPrimary: false,
-      },
-    ],
     errors: {
       billingFirstName: "",
       billingLastName: "",
@@ -83,26 +73,45 @@ export default function Checkout() {
       state: "",
       postal: "",
     },
-    cart: [
-      {
-        id: 1,
-        itemName: "Skirt",
-        price: "1200",
-        quantity: 1,
-      },
-      {
-        id: 2,
-        itemName: "Jean",
-        price: "2000",
-        quantity: 1,
-      },
-    ],
     promocode: {
       applied: false,
       code: "10OUT",
       discount: 10,
     },
   });
+
+  const {
+    user: { _id, name, email, role },
+  } = isAuthenticated();
+
+  const token = isAuthenticated().token;
+
+  const initAddress = (userId, token) => {
+    getAddresses(userId, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setAddresses(data);
+        handleCancel();
+      }
+    });
+  };
+
+  useEffect(() => {
+    initAddress(_id, token);
+    let data = getCart();
+    if (data.length == 0) {
+      setRedirect(true);
+    } else {
+      setCart(data);
+    }
+  }, []);
+
+  const shouldRedirect = (redirect) => {
+    if (redirect) {
+      return <Redirect to="/home" />;
+    }
+  };
 
   const err = {
     billingFirstName: "Valid first name is required.",
@@ -122,7 +131,7 @@ export default function Checkout() {
   };
 
   const onAddressChange = (event) => {
-    const address = values.addresses.find(
+    const address = addresses.find(
       (address) => address.id == event.target.value
     );
 
@@ -248,25 +257,25 @@ export default function Checkout() {
     const newErr = values.errors;
 
     if (values.showing) {
-      if (values.firstName === "") {
+      if (values.firstName.replace(/\s/g, "") === "") {
         newErr["firstName"] = "Valid first name is required.";
         count++;
       } else {
         newErr["firstName"] = null;
       }
-      if (values.lastName === "") {
+      if (values.lastName.replace(/\s/g, "") === "") {
         newErr["lastName"] = "Valid last name is required.";
         count++;
       } else {
         newErr["lastName"] = null;
       }
-      if (values.address1 === "") {
+      if (values.address1.replace(/\s/g, "") === "") {
         newErr["address1"] = "Please enter your billing address.";
         count++;
       } else {
         newErr["address1"] = null;
       }
-      if (values.city === "") {
+      if (values.city.replace(/\s/g, "") === "") {
         newErr["city"] = "Please enter your city.";
         count++;
       } else {
@@ -284,7 +293,7 @@ export default function Checkout() {
       } else {
         newErr["state"] = null;
       }
-      if (values.postal === "") {
+      if (values.postal.replace(/\s/g, "") === "") {
         newErr["postal"] = "Zip/Postal code required.";
         count++;
       } else {
@@ -292,8 +301,8 @@ export default function Checkout() {
       }
     }
 
-   setValues({
-       ...values,
+    setValues({
+      ...values,
       errors: newErr,
     });
 
@@ -318,7 +327,7 @@ export default function Checkout() {
 
     //this is dummy for now, should validate the code with db.
     setValues({
-        ...values,
+      ...values,
       promocode: {
         applied: true,
         code: values.promo,
@@ -327,12 +336,67 @@ export default function Checkout() {
     });
   };
 
+  const getAddressData = () => {
+    let address = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      address1: values.address1,
+      address2: values.address2,
+      city: values.city,
+      state: values.state,
+      country: values.country,
+      postal: values.postal,
+    };
+
+    return address;
+  };
+
   const submitNewAddress = (e) => {
     e.preventDefault();
     const isAddressValid = validateAddress();
 
     if (isAddressValid) {
+      insertAddress(_id, token, getAddressData()).then((data) => {
+        if (data.error) {
+          setError({ isSet: true, message: data.error });
+          console.log(data.error);
+        } else {
+          setSuccess({ isSet: true, message: "Address added successfully!" });
+          initAddress(_id, token);
+          window.setTimeout(() => {
+            setSuccess({ isSet: false, message: "" });
+          }, 5000);
+        }
+      });
       console.log("input new address");
+    }
+  };
+
+  const showSuccess = () => {
+    if (success.isSet) {
+      return (
+        <div
+          className="alert alert-success alert-dismissible fade show"
+          role="alert"
+          style={{ display: success.isSet ? "" : "none" }}
+        >
+          {success.message}
+        </div>
+      );
+    }
+  };
+
+  const showError = () => {
+    if (error.isSet) {
+      return (
+        <div
+          className="alert alert-success alert-dismissible fade show"
+          role="alert"
+          style={{ display: error.isSet ? "" : "none" }}
+        >
+          {error.message}
+        </div>
+      );
     }
   };
 
@@ -341,24 +405,30 @@ export default function Checkout() {
     const isAddressValid = validateAddress();
 
     if (isAddressValid) {
-      //update the address and call function to retrieve addresses
-      console.log("update address valid and updating");
+      updateAddress(_id, token, values.editAddress._id, getAddressData()).then(
+        (data) => {
+          if (data.error) {
+            setError({ isSet: true, message: data.error });
+            console.log(data.error);
+          } else {
+            setSuccess({
+              isSet: true,
+              message: "Address Updated successfully!",
+            });
+            initAddress(_id, token);
+            window.setTimeout(() => {
+              setSuccess({ isSet: false, message: "" });
+            }, 5000);
+          }
+        }
+      );
     }
   };
 
   const handleCancel = () => {
     setValues({
       ...values,
-      editAddress: {
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",
-        city: "",
-        state: "",
-        country: "",
-        postal: "",
-      },
+      editAddress: {},
       isEdit: false,
       showing: false,
       firstName: "",
@@ -369,12 +439,29 @@ export default function Checkout() {
       state: "",
       country: "",
       postal: "",
+      errors: {
+        billingFirstName: "",
+        billingLastName: "",
+        billingAddress1: "",
+        billingCity: "",
+        billingCountry: "",
+        billingState: "",
+        billingPostal: "",
+        paymentMethod: "",
+        shippingAddress: "",
+        firstName: "",
+        lastName: "",
+        address1: "",
+        city: "",
+        country: "",
+        state: "",
+        postal: "",
+      },
     });
   };
 
   const handleEdit = (id) => {
-    const selectAddress = values.addresses.find((address) => address.id === id);
-    console.log(id);
+    const selectAddress = addresses.find((address) => address._id === id);
     console.log(selectAddress);
 
     setValues({
@@ -392,9 +479,43 @@ export default function Checkout() {
       postal: selectAddress.postal,
     });
   };
-  
+
+  const handleDeleteAddress = (id) => {
+    confirmAlert({
+      title: "Confirm To Delete",
+      message: "Are you sure you want to delete this address?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            deleteAddress(_id, id, token).then((data) => {
+              if (data.error) {
+                setError({ isSet: true, message: data.error });
+              } else {
+                setSuccess({
+                  isSet: true,
+                  message: "Address Deleted Successfully!",
+                });
+                initAddress(_id, token);
+                window.setTimeout(() => {
+                  setSuccess({ isSet: false, message: "" });
+                }, 5000);
+              }
+            });
+          },
+        },
+        {
+          label: "No",
+        },
+      ],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
+  };
+
   return (
     <div className="container-lg">
+      {shouldRedirect(redirect)}
       <h2>
         <b>Checkout</b>
       </h2>
@@ -405,12 +526,17 @@ export default function Checkout() {
               <div className="card-header">
                 <h6>Shipping Address</h6>
               </div>
+              {showSuccess()}
+              {showError()}
               <div className="card-body">
                 <div className="container-fluid">
                   <div className="row">
-                    {values.addresses.map((address) => {
+                    <div className="cus-invalid-feedback">
+                      {addresses.length == 0 ? "No Addresses Found" : ""}
+                    </div>
+                    {addresses.map((address) => {
                       return (
-                        <div key={address.id} className="form-check">
+                        <div key={address._id} className="form-check">
                           <input
                             className="form-check-input"
                             type="radio"
@@ -437,12 +563,19 @@ export default function Checkout() {
                               ", " +
                               address.country}
                           </label>
-
                           <button
                             className="btn btn-sm button-transparent mx-2"
-                            onClick={() => handleEdit(address.id)}
+                            data-toggle="modal"
+                            data-target="#confirmModal"
+                            onClick={() => handleDeleteAddress(address._id)}
                           >
-                            <i className="fas fa-pen icon-white"></i>
+                            <i className="fas fa-trash icon-red"></i>
+                          </button>
+                          <button
+                            className="btn btn-sm button-transparent mx-2"
+                            onClick={() => handleEdit(address._id)}
+                          >
+                            <i className="fas fa-pen icon-green"></i>
                           </button>
                         </div>
                       );
@@ -569,9 +702,7 @@ export default function Checkout() {
                     </div>
                   </div>
                   {values.paymentMethod === "card" ? (
-                    <CreditCardInput
-                      handleInputChange={handleInputChange}
-                    />
+                    <CreditCardInput handleInputChange={handleInputChange} />
                   ) : null}
                   <hr className="mb-4" />
                   <button
@@ -588,7 +719,7 @@ export default function Checkout() {
 
           <div className="col-md-4">
             <Cart
-              cart={values.cart}
+              cart={cart}
               promocode={values.promocode}
               handleInputChange={handleInputChange}
               submitPromoCode={submitPromoCode}
