@@ -88,7 +88,6 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
                     <p className='text-secondary' hidden={!Product.oldPrice}><s>LKR {Product.oldPrice}</s></p>
                 </div>
 
-
                 {showAdminSegment()}
                 {showUserSegment()}
             </div>
