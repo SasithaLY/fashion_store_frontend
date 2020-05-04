@@ -37,7 +37,7 @@ const App = () => {
     <div className="main-container">
       <div>
         <BrowserRouter>
-
+        <Header />
           <Switch>
 
             <Route path="/addProduct" exact>
@@ -49,47 +49,47 @@ const App = () => {
             </Route>
 
             <Route path="/" exact>
-              <Header />
+              
               <Home />
             </Route>
 
             <Route path="/allProducts/:categoryId" exact>
-              <Header />
+              
               <AllProductsByCategory />
             </Route>
 
             <Route path="/products/:id" exact>
-              <Header />
+              
               <SingleIProductDetails />
             </Route>
 
             <Route path="/cart" exact>
-              <Header />
+              
               <Cart/>
             </Route>
 
             <Route path="/order" exact>
-              <Header />
+              
               <h2>Add order page here</h2>
             </Route>
 
             <Route path="/contact" exact>
-              <Header />
+              
               <h2>Add contact page here</h2>
             </Route>
 
             <Route path="/about" exact>
-              <Header />
+              
               <h2>Add about page here</h2>
             </Route>
 
             <Route path="/signin" exact>
-              <Header />
+              
               <Login></Login>
             </Route>
 
             <Route path="/signup" exact>
-              <Header />
+              
               <Register></Register>
             </Route>
 
@@ -108,7 +108,7 @@ const App = () => {
             </Route>
 
             <Route path="/allProducts" exact>
-              <Header />
+              
               <AllProducts />
             </Route>
 
