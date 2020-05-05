@@ -39,7 +39,7 @@ const MainNavigation = props => {
                 aria-expanded="false"
                 href="/user/profile"
               >
-                <i className="fas fa-user"></i> Dashboard
+                <i className="fas fa-user"></i> Profile
           </a>
             </Fragment>
           }

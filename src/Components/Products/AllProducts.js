@@ -7,7 +7,7 @@ import {prices} from "./Prices";
 const AllProducts = () => {
 
     const [myFilters, setMyFilters] = useState({
-        filters: {category: [], price: []}
+        filters: {category: [], price: [], name: ''}
     });
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(4);

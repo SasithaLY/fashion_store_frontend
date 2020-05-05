@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
-import {signup} from '../../auth/auth'
+import { Link } from 'react-router-dom';
+import { signup } from '../../auth/auth'
+import {ToastsContainer, ToastsStore} from 'react-toasts';
 
 const Register = () => {
 
@@ -17,6 +18,13 @@ const Register = () => {
 
     const { fName, lName, password, cPass, email, gender, success, error } = values;
 
+    const toast = () => (
+        <div>
+            <button onClick={() => ToastsStore.warning('Please fill all the fields!')}>Click me</button>
+            <ToastsContainer store={ToastsStore}/>
+        </div>
+    )
+
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
     };
@@ -24,7 +32,12 @@ const Register = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({ ...values, error: false })
-        signup({ fName, lName, password, email, gender })
+
+        if(fName == "" || lName == ""|| password == "" || cPass == "" || email == "" | gender == "") {
+            toast();
+        }
+        else {
+            signup({ fName, lName, password, email, gender })
             .then(data => {
                 if (data.error) {
                     setValues({ ...values, error: data.error, success: false })
@@ -42,58 +55,56 @@ const Register = () => {
                     })
                 }
             })
+        }
+
+
     };
 
     const signUpForm = () => (
         <div className='container-sm'>
-            <h2><center>Register</center></h2><br />
+            <h2><center>Create an Account</center></h2><br />
             <form>
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>First Name </label>
-                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" />
+                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" required />
                     </div>
                     <div className="form-group col-sm">
                         <label >Last Name</label>
-                        <input onChange={handleChange("lName")} value={lName} type="text" className="form-control" />
+                        <input onChange={handleChange("lName")} value={lName} type="text" className="form-control" required />
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>Password</label>
-                        <input onChange={handleChange("password")} value={password} type="password" className="form-control" />
+                        <input onChange={handleChange("password")} value={password} type="password" className="form-control" required />
                     </div>
                     <div className="form-group col-sm">
                         <label>Confirm Password</label>
-                        <input onChange={handleChange("cPass")} value={cPass} type="password" className="form-control" />
+                        <input onChange={handleChange("cPass")} value={cPass} type="password" className="form-control" required />
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>E-mail</label>
-                        <input onChange={handleChange("email")} value={email} type="email" className="form-control" />
+                        <input onChange={handleChange("email")} value={email} type="email" className="form-control" required />
                     </div>
                     <div className="form-group col-sm">
                         <label>Gender</label>
                         <select onChange={handleChange("gender")} value={gender} className="form-control">
+                            <option selected hidden>Select Gender</option>
                             <option>Male</option>
                             <option>Female</option>
                         </select>
                     </div>
-                </div>
+                </div> <br />
 
-                <div className="form-row">
-                    <div className="custom-control custom-checkbox">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">
-                            I agree to Terms and Conditions.
-                        </label>
-                    </div>
-                </div><br />
-                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Sign in</button>
-            </form>
+                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">SIGN UP</button>
+            </form> <br />
+
+            <center><p>Already a Member?  <Link to="/signin">SIGN IN</Link></p></center>
         </div>
     );
 

@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import {isAuthenticated} from "./auth";
 import { Route, Redirect } from 'react-router-dom';
-import Header from "../shared/components/navigation/MainHeader";
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const ManagerRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
-        render={(props) => isAuthenticated() ? (
-            <div>
-                <Header />
+        render={(props) => isAuthenticated() && (isAuthenticated().user.role === 1 || isAuthenticated().user.role === 2) ? (
             <Component {...props} />
-            </div>
         ) : (
                 <Redirect
                     to={{
@@ -22,4 +18,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     />
 );
 
-export default PrivateRoute;
+export default ManagerRoute;

@@ -12,7 +12,7 @@ const AllProductsByCategory = () => {
     console.log('jkhkjhkjh' ,params.categoryId);
 
     const [customFilters, setCustomFilters] = useState({
-        filters: {category: [], price: []}
+        filters: {category: [params.categoryId], price: []}
     });
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(4);
