@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Redirect} from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Cart from "../components/Cart";
 import AddressInput from "../components/AddressInput";
 import { isAuthenticated } from "../../auth/auth";
@@ -10,13 +10,25 @@ import {
   insertAddress,
   updateAddress,
   deleteAddress,
+  getBraintreeToken,
+  processPayment,
+  createOrder,
 } from "../components/paymentHelper";
-import { getCart } from "../../cart/cartHelper";
+import { getCart, clearCart } from "../../cart/cartHelper";
 import { confirmAlert } from "react-confirm-alert";
+import "braintree-web";
+import DropIn from "braintree-web-drop-in-react";
+
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./Checkout.css";
 
 export default function Checkout() {
+  const [payment, setPayment] = useState({
+    success: false,
+    clientToken: null,
+    error: "",
+    instance: {},
+  });
   const [redirect, setRedirect] = useState(false);
   const [cart, setCart] = useState([]);
   const [error, setError] = useState({ isSet: false, message: "" });
@@ -24,7 +36,9 @@ export default function Checkout() {
   const [addresses, setAddresses] = useState([]);
   const [values, setValues] = useState({
     showing: false,
+    showDivs: true,
     isEdit: false,
+    btnDissable: false,
     success: "",
     editAddress: {
       firstName: "",
@@ -80,10 +94,7 @@ export default function Checkout() {
     },
   });
 
-  const {
-    user: { _id, name, email, role },
-  } = isAuthenticated();
-
+  const userId = isAuthenticated().user._id;
   const token = isAuthenticated().token;
 
   const initAddress = (userId, token) => {
@@ -97,14 +108,27 @@ export default function Checkout() {
     });
   };
 
+  const getToken = (userId, token) => {
+    getBraintreeToken(userId, token).then((data) => {
+      if (data.error) {
+        setPayment({ ...payment, error: data.error });
+      } else {
+        setPayment({ ...payment, clientToken: data.clientToken });
+      }
+    });
+  };
+
   useEffect(() => {
-    initAddress(_id, token);
+    initAddress(userId, token);
+
     let data = getCart();
     if (data.length == 0) {
       setRedirect(true);
     } else {
       setCart(data);
     }
+
+    getToken(userId, token);
   }, []);
 
   const shouldRedirect = (redirect) => {
@@ -130,11 +154,37 @@ export default function Checkout() {
     postal: "Zip/Postal code required.",
   };
 
+  const getTotal = () => {
+    return cart.reduce((current, next) => {
+      return current + next.count * next.price;
+    }, 0);
+  };
+
+  const showDropIn = () => (
+    <div onBlur={() => setPayment({ ...payment, error: "" })}>
+      {payment.clientToken !== null &&
+      cart.length > 0 &&
+      values.paymentMethod === "paynow" ? (
+        <div>
+          <DropIn
+            options={{
+              authorization: payment.clientToken,
+              paypal: {
+                flow: "vault",
+              },
+            }}
+            onInstance={(instance) => (payment.instance = instance)}
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+
   const onAddressChange = (event) => {
     const address = addresses.find(
-      (address) => address.id == event.target.value
+      (address) => address._id == event.target.value
     );
-
+    console.log(address);
     const newErr = values.errors;
 
     if (values.shippingAddress === "") {
@@ -313,12 +363,89 @@ export default function Checkout() {
     }
   };
 
+  const getBillingAddress = () => {
+    let billingAddress = {
+      firstName: values.billingFirstName,
+      lastName: values.billingLastName,
+      address1: values.billingAddress1,
+      address2: values.billingAddress2,
+      city: values.billingCity,
+      state: values.billingState,
+      country: values.billingCountry,
+      postal: values.billingPostal,
+    };
+
+    return billingAddress;
+  };
+
   const submitCheckout = (e) => {
     e.preventDefault();
 
-    const isValid = validate();
-    if (isValid) {
-      console.log("Valid!");
+    if (validate()) {
+      setPayment({ ...payment, error: "" });
+      setValues({ ...values, btnDissable: true });
+
+      //collect order data
+      let billAddress = {};
+      if (values.billingSame) {
+        billAddress = values.shippingAddress;
+      } else {
+        billAddress = getBillingAddress();
+      }
+
+      let orderData = {
+        products: cart,
+        shippingAddress: values.shippingAddress,
+        billingAddress: billAddress,
+      };
+
+      if (values.paymentMethod === "cod") {
+        orderData.paymentMethod = "COD";
+        orderData.transactionId = "";
+        orderData.amount = getTotal(cart);
+
+        createOrder(userId, token, orderData)
+        setPayment({ ...payment, success: true });
+        setValues({ ...values, showDivs: false });
+
+        clearCart(() => {
+          console.log("payment success, empty cart");
+        });
+        setCart(getCart());
+      } else {
+        let nonce;
+        let getNonce = payment.instance
+          .requestPaymentMethod()
+          .then((data) => {
+            nonce = data.nonce;
+
+            const payData = {
+              paymentMethodNonce: nonce,
+              amount: getTotal(cart),
+            };
+
+            processPayment(userId, token, payData)
+              .then((response) => {
+                orderData.paymentMethod = data.type;
+                orderData.transactionId = response.transaction.id;
+                orderData.amount = response.transaction.amount;
+
+                createOrder(userId, token, orderData);
+                setPayment({ ...payment, success: true });
+                setValues({ ...values, showDivs: false });
+
+                clearCart(() => {
+                  console.log("payment success, empty cart");
+                });
+                setCart(getCart());
+              })
+              .catch((error) => console.log(error));
+          })
+          .catch((error) => {
+            setPayment({ ...payment, error: error.message });
+            setValues({ ...values, btnDissable: false });
+          });
+      }
     }
   };
 
@@ -356,13 +483,13 @@ export default function Checkout() {
     const isAddressValid = validateAddress();
 
     if (isAddressValid) {
-      insertAddress(_id, token, getAddressData()).then((data) => {
+      insertAddress(userId, token, getAddressData()).then((data) => {
         if (data.error) {
           setError({ isSet: true, message: data.error });
           console.log(data.error);
         } else {
           setSuccess({ isSet: true, message: "Address added successfully!" });
-          initAddress(_id, token);
+          initAddress(userId, token);
           window.setTimeout(() => {
             setSuccess({ isSet: false, message: "" });
           }, 5000);
@@ -390,7 +517,7 @@ export default function Checkout() {
     if (error.isSet) {
       return (
         <div
-          className="alert alert-success alert-dismissible fade show"
+          className="alert alert-danger alert-dismissible"
           role="alert"
           style={{ display: error.isSet ? "" : "none" }}
         >
@@ -400,28 +527,51 @@ export default function Checkout() {
     }
   };
 
+  const showPayError = (error) => (
+    <div
+      className="alert alert-danger alert-dismissible"
+      role="alert"
+      style={{ display: payment.error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+
+  const showPaySuccess = (success) => (
+    <div
+      className="alert alert-success alert-dismissible"
+      role="alert"
+      style={{ display: payment.success ? "" : "none" }}
+    >
+      Order Placed Successfully!
+    </div>
+  );
+
   const handleUpdateAddress = (e) => {
     e.preventDefault();
     const isAddressValid = validateAddress();
 
     if (isAddressValid) {
-      updateAddress(_id, token, values.editAddress._id, getAddressData()).then(
-        (data) => {
-          if (data.error) {
-            setError({ isSet: true, message: data.error });
-            console.log(data.error);
-          } else {
-            setSuccess({
-              isSet: true,
-              message: "Address Updated successfully!",
-            });
-            initAddress(_id, token);
-            window.setTimeout(() => {
-              setSuccess({ isSet: false, message: "" });
-            }, 5000);
-          }
+      updateAddress(
+        userId,
+        token,
+        values.editAddress._id,
+        getAddressData()
+      ).then((data) => {
+        if (data.error) {
+          setError({ isSet: true, message: data.error });
+          console.log(data.error);
+        } else {
+          setSuccess({
+            isSet: true,
+            message: "Address Updated successfully!",
+          });
+          initAddress(userId, token);
+          window.setTimeout(() => {
+            setSuccess({ isSet: false, message: "" });
+          }, 5000);
         }
-      );
+      });
     }
   };
 
@@ -488,7 +638,7 @@ export default function Checkout() {
         {
           label: "Yes",
           onClick: () => {
-            deleteAddress(_id, id, token).then((data) => {
+            deleteAddress(userId, id, token).then((data) => {
               if (data.error) {
                 setError({ isSet: true, message: data.error });
               } else {
@@ -496,7 +646,7 @@ export default function Checkout() {
                   isSet: true,
                   message: "Address Deleted Successfully!",
                 });
-                initAddress(_id, token);
+                initAddress(userId, token);
                 window.setTimeout(() => {
                   setSuccess({ isSet: false, message: "" });
                 }, 5000);
@@ -514,12 +664,25 @@ export default function Checkout() {
   };
 
   return (
-    <div className="container-lg">
+    <div
+      className="container-lg"
+      onBlur={() => setPayment({ ...payment, error: "" })}
+    >
       {shouldRedirect(redirect)}
       <h2>
         <b>Checkout</b>
       </h2>
-      <div className="col-md-12">
+      <div style={{ display: !values.showDivs ? "" : "none" }}>
+        {showPaySuccess(payment.success)}
+        <h4>
+          <Link to="/home">Continue Shopping...</Link>
+        </h4>
+      </div>
+
+      <div
+        className="col-md-12"
+        style={{ display: values.showDivs ? "" : "none" }}
+      >
         <div className="row my-3">
           <div className="col-md-8">
             <div className="card">
@@ -542,12 +705,12 @@ export default function Checkout() {
                             type="radio"
                             name="shippingAddress"
                             id={"radio" + address.id}
-                            value={address.id}
+                            value={address._id}
                             onChange={onAddressChange}
                           />
                           <label
                             className="form-check-label"
-                            htmlFor={"radio" + address.id}
+                            htmlFor={"radio" + address._id}
                           >
                             {address.firstName +
                               " " +
@@ -660,25 +823,12 @@ export default function Checkout() {
                   <div className="d-block my-3">
                     <div className="custom-form-check">
                       <label className="form-check-label">
-                        Credit/Debit Card
+                        Pay Now
                         <input
                           type="radio"
                           className="form-check-input"
                           name="paymentMethod"
-                          value="card"
-                          onChange={handleInputChange}
-                        />
-                        <span className="checkmark"></span>
-                      </label>
-                    </div>
-                    <div className="custom-form-check">
-                      <label className="form-check-label">
-                        Paypal
-                        <input
-                          type="radio"
-                          className="form-check-input"
-                          name="paymentMethod"
-                          value="paypal"
+                          value="paynow"
                           onChange={handleInputChange}
                         />
                         <span className="checkmark"></span>
@@ -701,14 +851,18 @@ export default function Checkout() {
                       {values.errors.paymentMethod}
                     </div>
                   </div>
-                  {values.paymentMethod === "card" ? (
+                  {/* {values.paymentMethod === "card" ? (
                     <CreditCardInput handleInputChange={handleInputChange} />
-                  ) : null}
+                  ) : null} */}
+                  {showPayError(payment.error)}
+
+                  {showDropIn()}
                   <hr className="mb-4" />
                   <button
                     className="btn btn-primary btn-lg btn-block"
                     type="submit"
                     onClick={submitCheckout}
+                    disabled={values.btnDissable}
                   >
                     Continue to checkout
                   </button>

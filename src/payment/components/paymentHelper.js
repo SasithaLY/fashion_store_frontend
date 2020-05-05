@@ -1,5 +1,36 @@
 import { API } from '../../config';
 
+export const getBraintreeToken = (userId, token) =>{
+    return fetch(`${API}/braintree/getToken/${userId}`, {
+        method: "GET",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+}
+
+export const processPayment = (userId, token, payData) =>{
+    return fetch(`${API}/braintree/payment/${userId}`, {
+        method: "POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(payData)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+}
+
 export const getAddresses = (userId, token) => {
     return fetch(`${API}/address/by/user/${userId}`, {
         method: "GET",
@@ -56,6 +87,22 @@ export const deleteAddress = (userId, addressId, token) => {
             "Content-Type":"application/json",
             Authorization: `Bearer ${token}`
         }
+    })
+    .then(Response => {
+        return Response.json();
+    })
+    .catch(err => console.log(err));
+}
+
+export const createOrder = (userId, token, orderData) => {
+    return fetch(`${API}/order/create/${userId}`, {
+        method: "POST",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body:JSON.stringify({order: orderData})
     })
     .then(Response => {
         return Response.json();

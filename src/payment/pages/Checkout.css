@@ -113,3 +113,7 @@
 .react-confirm-alert-overlay{
   background-color:rgba(20, 20, 20, 0.9);
 }
+
+.braintree-heading{
+  color: #28a745;
+}

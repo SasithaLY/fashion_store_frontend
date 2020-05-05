@@ -25,7 +25,7 @@ export default class Cart extends Component {
                     </small>
                   </div>
                   <span className="custom-span">
-                    LKR {(item.price * item.count).toFixed(2)}
+                    USD {(item.price * item.count).toFixed(2)}
                   </span>
                 </li>
               );
@@ -36,12 +36,12 @@ export default class Cart extends Component {
                 <h6 className="my-0">Promo code</h6>
             <small>{promocode.code}</small>
               </div>
-            <span className="text-success">- LKR {(total * promocode.discount / 100).toFixed(2)}</span>
+            <span className="text-success">- USD {(total * promocode.discount / 100).toFixed(2)}</span>
             </li> : null
             }
             
             <li className="list-group-item d-flex justify-content-between">
-              <span>Total (LKR)</span>
+              <span>Total (USD)</span>
               <strong>{promocode.applied ? (total - (total * promocode.discount / 100)).toFixed(2) : total.toFixed(2)}</strong>
             </li>
           </ul>

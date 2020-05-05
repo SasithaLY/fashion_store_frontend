@@ -55,3 +55,11 @@ export const updateItem =(productId,count) =>{
     }
 
 }
+
+
+export const clearCart = next => {
+    if(typeof window !== "undefined"){
+        localStorage.removeItem("cart");
+        next();
+    }
+}
