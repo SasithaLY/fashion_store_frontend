@@ -39,3 +39,10 @@ h2, label, input{
 .card-header{
   background-color: #181818;
 }
+
+.cart-header{
+    color: darkgoldenrod;
+    text-align: center;
+    align-content: center;
+
+}

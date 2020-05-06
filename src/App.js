@@ -14,6 +14,7 @@ import Footer from "./shared/components/footer/Footer";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Cart from "./cart/cart";
+import WishList from "./wishList/wishList";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
 import Login from "./user/pages/Login";
 import Profile from "./user/pages/Profile";
@@ -46,6 +47,10 @@ const App = () => {
             <Route path="/cart" exact>
               <Header />
               <Cart/>
+            </Route>
+            <Route path="/wishList" exact>
+              <Header />
+              <WishList/>
             </Route>
             <Route path="/order" exact>
               <Header />
