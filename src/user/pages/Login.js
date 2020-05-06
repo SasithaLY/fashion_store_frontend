@@ -1,38 +1,110 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { signin, authenticate, isAuthenticated } from '../../auth/auth'
 
-class Login extends Component {
-    render() {
-        return (
-            <div className="container">
-                <from>
-                    <center>
-                        <h2>Login</h2><br />
+const Login = () => {
 
-                        <div className="form-group col-md-6">
-                            <label>E-mail</label>
-                            <input type="email" className="form-control" />
+    const [values, setValues] = useState({
+        password: "",
+        email: "",
+        error: "",
+        loading: false,
+        redirectUser: false,
+    });
 
-                            <label>Password</label>
-                            <input type="password" className="form-control" />
+    const { password, email, loading, error, redirectUser } = values;
+    const {user} = isAuthenticated();
 
-                            <label className="form-check-label mb-2 mt-2">
-                                <a href="#">Forgot Password?</a>
-                            </label>
+    const handleChange = name => event => {
+        setValues({ ...values, error: false, [name]: event.target.value });
+    };
 
-                            <button type="submit" className="btn btn-outline-warning btn-md btn-block">Sign in</button>
+    const clickSubmit = event => {
+        event.preventDefault();
+        setValues({ ...values, error: false, loading: true })
+        signin({ email, password })
+            .then(data => {
+                if (data.error) {
+                    setValues({ ...values, error: data.error, loading: false })
+                } else {
+                    authenticate(data, () => {
+                        setValues({
+                            ...values,
+                            redirectUser: true
+                        });
+                    });  
+                }
+            })
+    };
 
-                            <label className="form-check-label mb-2 mt-2">
-                                Don't have an account? <br />
-                                <button type="button" className="btn btn-outline-warning btn-md mt-2">Sign Up</button>
+    const signinForm = () => (
+        <div className="container">
+            <form>
+                <center>
+                    <h2>Login</h2><br />
 
-                            </label>
-                        </div>
+                    <div className="form-group col-md-6">
+                        <label>E-mail</label>
+                        <input type="email" onChange={handleChange("email")} value={email} className="form-control" />
 
-                    </center>
-                </from>
+                        <label>Password</label>
+                        <input type="password" onChange={handleChange("password")} value={password} className="form-control" />
+
+                        <label className="form-check-label mb-2 mt-2">
+                            <a href="#">Forgot Password?</a>
+                        </label>
+
+                        <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Sign in</button>
+
+                        <label className="form-check-label mb-2 mt-2">
+                            Don't have an account?<br />
+                            <button type="button" className="btn btn-outline-warning btn-md mt-2"><Link to="/signup">SignUp</Link></button>
+
+                        </label>
+                    </div>
+
+                </center>
+            </form>
+        </div>
+    );
+
+    const showError = () => (
+        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+            {error}
+        </div>
+    )
+
+    const showLoading = () => (
+        loading && (
+            <div className="alert alert-info">
+                <h3>Loading....Please Wait!</h3>
             </div>
-        );
+        )
+    )
+
+    const redirect = () => {
+        if (redirectUser) {
+            if(user && user.role === 1) {
+                return <Redirect to= "/admin/dashboard" />
+            } else {
+                return <Redirect to="/user/profile" />
+            }
+        }
+
+        if (isAuthenticated()) {
+            return <Redirect to="/" />
+        }
     }
+
+    return (
+        <div>
+            {showLoading()}
+            {showError()}
+            {signinForm()}
+            {redirect()}
+        </div>
+    );
 }
+
 
 export default Login;
