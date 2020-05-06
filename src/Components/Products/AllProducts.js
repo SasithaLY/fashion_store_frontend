@@ -23,6 +23,7 @@ const AllProducts = (props) => {
     const loadFilteredResults = newFilters => {
         if (params.keyWord) {
             newFilters = {
+                ...newFilters,
                 name: params.keyWord
             };
         }
@@ -83,7 +84,7 @@ const AllProducts = (props) => {
     }, []);
 
     const handleFilters = (filters, filterBy) => {
-        // console.log("SHOP", filters, filterBy);
+        console.log("SHOP", filters, filterBy);
         const newFilters = {...myFilters};
         newFilters.filters[filterBy] = filters;
 
