@@ -7,6 +7,7 @@ import NavLinks from "./NavLinks";
 import { isAuthenticated } from "../../../auth/auth"
 
 const MainNavigation = props => {
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark topnav">
       <button

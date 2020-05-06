@@ -14,7 +14,7 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
         showAdminOptions = Admin;
     }
 
-    console.log(showAdminOptions)
+    // console.log(showAdminOptions)
 
     const [redirect, setRedirect] = useState(false);
 

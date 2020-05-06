@@ -30,9 +30,9 @@ const ProductsByAdmin = () => {
             storeMgrID: [user._id],
             price : price
         };
-        setCustomFilters(newFilters);
+        // setCustomFilters(newFilters);
 
-        getProductsByAdmin(skip, limit, newFilters).then(data => {
+        getProductsByAdmin(skip, limit, token, newFilters).then(data => {
             setFilteredResults(data.data);
             setSize(data.size);
             setSkip(0);
@@ -42,7 +42,7 @@ const ProductsByAdmin = () => {
 
     const loadMoreData = () => {
         let needToSkip = skip + limit;
-        getProductsByAdmin(needToSkip, limit, customFilters.filters).then(data => {
+        getProductsByAdmin(needToSkip, limit, token, customFilters.filters).then(data => {
             if (data.error) {
                 setError(data.error);
             } else {
@@ -104,8 +104,11 @@ const ProductsByAdmin = () => {
                     <label>Store Manager</label>
                 </div>
             </div> <br/>
+            <a className="badge badge-warning fixed-top" href="/" style={{width : "150px", marginTop: "77px", marginLeft: "5px"}}>
+                Back to Dashboard
+            </a>
             <p className='mt-5'>
-                <a class="badge badge-warning" data-toggle="collapse" href="#" role="button"
+                <a className="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button" style={{ marginLeft: "145px"}}
                    aria-expanded="false" aria-controls="collapseExample">
                     More Filters
                 </a>

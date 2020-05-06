@@ -3,26 +3,40 @@ import RadioSelector from "./RadioSelector";
 import {getFilteredProducts} from "../APIBridge/APIProduct";
 import ProductCard from "./productCard";
 import {prices} from "./Prices";
+import {useParams} from 'react-router-dom'
 
-const AllProducts = () => {
+const AllProducts = (props) => {
+
+    const params = useParams();
+    // console.log('ishan', params.keyWord)
 
     const [myFilters, setMyFilters] = useState({
-        filters: {category: [], price: [], name: ''}
+        filters: {price: [], name: params.keyWord}
     });
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(4);
     const [skip, setSkip] = useState(0);
-    const [size, setSize] = useState(0);
+    const [size, setSize] = useState(1);
     const [filteredResults, setFilteredResults] = useState([]);
 
 
     const loadFilteredResults = newFilters => {
+        if (params.keyWord) {
+            newFilters = {
+                name: params.keyWord
+            };
+        }
         getFilteredProducts(skip, limit, newFilters).then(data => {
-            setFilteredResults(data.data);
-            setSize(data.size);
-            setSkip(0);
 
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResults(data.data);
+                setSize(data.size);
+                setSkip(0);
+            }
         });
+
     };
 
     const loadMore = () => {
@@ -50,9 +64,22 @@ const AllProducts = () => {
         );
     };
 
+    const showAlertEmpty = () => {
+        return (
+            size === 0 && (
+                <div className='container'>
+                    <div className="alert bg-danger d-flex justify-content-center" role="alert">
+                        Oops.. No Results!
+                    </div>
+                </div>
+            )
+        );
+    };
+
     useEffect(() => {
 
         loadFilteredResults(skip, limit, myFilters.filters);
+        console.log(size)
     }, []);
 
     const handleFilters = (filters, filterBy) => {
@@ -83,12 +110,12 @@ const AllProducts = () => {
     return (
         <div className="container-fluid">
             <p>
-                <a class="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+                <a className="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
                    aria-expanded="false" aria-controls="collapseExample">
                     More Filters
                 </a>
             </p>
-            <div className="collapse" id="collapseExample" >
+            <div className="collapse" id="collapseExample">
                 <div className="bg-dark rounded d-flex justify-content-center">
                     <div className="row h-25">
                         <RadioSelector
@@ -114,6 +141,7 @@ const AllProducts = () => {
                 <div className="d-flex justify-content-center">
                     {LoadMore()}
                 </div>
+                {showAlertEmpty()}
             </div>
         </div>
     );

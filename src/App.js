@@ -12,9 +12,9 @@ import "./App.css";
 import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 
-import Login from "./user/Pages/Login";
-import Register from "./user/Pages/Register";
-import Profile from "./user/Pages/Profile";
+import Login from "./user/pages/Login";
+import Register from "./user/pages/register";
+import Profile from "./user/pages/Profile";
 
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
@@ -40,97 +40,101 @@ const App = () => {
             <div>
                 <BrowserRouter>
 
-                <Header />
-                
                     <Switch>
 
                         <Route path="/addProduct" exact>
-                            <UploadProducts />
+                            <UploadProducts/>
                         </Route>
 
                         <Route path="/addCategory" exact>
-                            <UploadCategories />
+                            <UploadCategories/>
                         </Route>
 
                         <Route path="/" exact>
-                            <Home />
+                            <Header />
+                            <Home/>
                         </Route>
 
                         <Route path="/allProducts/:categoryId" exact>
-                            {/* <Header /> */}
-                            <AllProductsByCategory />
+                            <Header />
+                            <AllProductsByCategory/>
                         </Route>
 
                         <Route path="/products/:id" exact>
-                            {/* <Header /> */}
-                            <SingleIProductDetails />
+                            <Header />
+                            <SingleIProductDetails/>
                         </Route>
 
                         <Route path="/cart" exact>
-                            {/* <Header /> */}
-                            <Cart />
+                            <Header />
+                            <Cart/>
                         </Route>
 
                         <Route path="/order" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <h2>Add order page here</h2>
                         </Route>
 
                         <Route path="/contact" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <h2>Add contact page here</h2>
                         </Route>
 
                         <Route path="/about" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <h2>Add about page here</h2>
                         </Route>
 
                         <Route path="/signin" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <Login></Login>
                         </Route>
 
                         <Route path="/signup" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <Register></Register>
                         </Route>
 
                         {/* private routes */}
 
-                        <PrivateRoute path="/user/profile" exact component={Profile} />
+                        <PrivateRoute path="/user/profile" exact component={Profile}/>
 
-                        <PrivateRoute path="/checkout" exact component={Checkout} />
+                        <PrivateRoute path="/checkout" exact component={Checkout}/>
 
                         {/* admin routes */}
 
-                        <AdminRoute path="/admin/dashboard" exact component={Dashboard} />
+                        <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
 
                         <Route path="/uploadMultiple" exact>
-                            <UploadProductsMultiple />
+                            <UploadProductsMultiple/>
                         </Route>
 
                         <Route path="/allProducts" exact>
-                            {/* <Header /> */}
-                            <AllProducts />
+                            <Header />
+                            <AllProducts/>
                         </Route>
 
                         <Route path="/storeManager/updateProducts/:productId" exact>
-                            <UpdateProduct />
+                            <UpdateProduct/>
                         </Route>
 
                         <Route path="/storeManager/allProducts/" exact>
-                            <ProductsByAdmin />
+                            <ProductsByAdmin/>
                         </Route>
 
-                        <Redirect to="/" />
+                        <Route path="/allProducts/search/:keyWord" exact>
+                            <Header />
+                            <AllProducts/>
+                        </Route>
+
+                        <Redirect to="/"/>
 
                     </Switch>
                 </BrowserRouter>
             </div>
 
             <div className="cusfooter">
-                <Footer />
+                <Footer/>
             </div>
         </div>
     );
