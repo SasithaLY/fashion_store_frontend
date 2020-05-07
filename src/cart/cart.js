@@ -16,7 +16,7 @@ const Cart = () => {
     console.log(items);
     return (
       <div className="container">
-        <h5>Your cart has {items.length} items</h5>
+        <h5 >Your cart has {items.length} items</h5>
         <hr></hr>
         
         {items.map((product, i) => (
@@ -33,7 +33,7 @@ const Cart = () => {
   };
 
   const noItemMessage = () => (
-    <h4 className="card-header">
+    <h4>
       Your cart is Empty.
       <br />
       <Link to="../Components/Products">Click here to continue shopping...</Link>
@@ -41,16 +41,17 @@ const Cart = () => {
   );
   return (
     <div className="container-fluid">
-      <center><h3>Shopping Cart</h3></center>
-      <div className="row">
-        <div className="col-6">
+      <center><h3 class="yell-text" >Shopping Cart</h3></center>
+      
+        <div className="col-12">
           {items.length > 0 ? showItems(items) : noItemMessage()}
         </div>
+        
         <div className="col-6">
-          <p>Show checkout options</p>
+          <button className="btn btn-outline-warning mt-2 mb-2 mx-2">Show checkout options</button>
         </div>
       </div>
-    </div>
+   
   );
 };
 
