@@ -43,27 +43,9 @@ const App = () => {
 
                     <Switch>
 
-                        <Route path="/addProduct" exact>
-                            <UploadProducts/>
-                        </Route>
-
-                        <Route path="/addCategory" exact>
-                            <UploadCategories/>
-                        </Route>
-
                         <Route path="/" exact>
                             <Header />
                             <Home/>
-                        </Route>
-
-                        <Route path="/allProducts/:categoryId" exact>
-                            <Header />
-                            <AllProductsByCategory/>
-                        </Route>
-
-                        <Route path="/products/:id" exact>
-                            <Header />
-                            <SingleIProductDetails/>
                         </Route>
 
                         <Route path="/cart" exact>
@@ -106,8 +88,14 @@ const App = () => {
 
                         <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
 
-                        <Route path="/uploadMultiple" exact>
-                            <UploadProductsMultiple/>
+
+                        {/* PRODUCTS AND CATEGORIES */}
+                        <Route path="/addProduct" exact>
+                            <UploadProducts/>
+                        </Route>
+
+                        <Route path="/addCategory" exact>
+                            <UploadCategories/>
                         </Route>
 
                         <Route path="/allProducts" exact>
@@ -115,18 +103,37 @@ const App = () => {
                             <AllProducts/>
                         </Route>
 
-                        <Route path="/storeManager/updateProducts/:productId" exact>
-                            <UpdateProduct/>
-                        </Route>
-
-                        <Route path="/storeManager/allProducts/" exact>
-                            <ProductsByAdmin/>
-                        </Route>
-
                         <Route path="/allProducts/search/:keyWord" exact>
                             <Header />
                             <AllProducts/>
                         </Route>
+
+                        <Route path="/allProducts/:categoryId" exact>
+                            <Header />
+                            <AllProductsByCategory/>
+                        </Route>
+
+                        <Route path="/products/:id" exact>
+                            <Header />
+                            <SingleIProductDetails/>
+                        </Route>
+                        {/* PRODUCTS AND CATEGORIES */}
+
+
+                        {/* STORE MANAGER PRIVILEGES */}
+                        <Route path="/storeManager/updateProducts/:productId" exact>
+                            <UpdateProduct/>
+                        </Route>
+
+                        <Route path="/storeManager/allProducts" exact>
+                            <ProductsByAdmin/>
+                        </Route>
+
+                        <Route path="/uploadMultiple" exact>
+                            <UploadProductsMultiple/>
+                        </Route>
+                        {/* STORE MANAGER PRIVILEGES */}
+
 
                         <Redirect to="/"/>
 

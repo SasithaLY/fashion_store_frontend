@@ -85,8 +85,8 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
                 <p className="card-text overflow-hidden opacity-70"
                    style={{height: "60px", lineHeight: "20px", overflow: "hidden"}}>{Product.description}</p>
                 <div className="row ml-1">
-                    <p className='text-warning'>LKR {Product.price}</p>
-                    <p className='text-secondary ml-2' hidden={!Product.oldPrice}><s>LKR {Product.oldPrice}</s></p>
+                    <p className='text-warning'>USD {Product.price}</p>
+                    <p className='text-secondary ml-2' hidden={!Product.oldPrice}><s>USD {Product.oldPrice}</s></p>
                 </div>
 
                 {showAdminSegment()}

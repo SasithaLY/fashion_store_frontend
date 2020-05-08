@@ -105,7 +105,6 @@ const UploadProducts = () => {
     return (
         <div className="container">
 
-
             {displayError()}
 
             <div className="card">
@@ -173,6 +172,7 @@ const UploadProducts = () => {
                     </form>
                 </div>
             </div><br/>
+
             {displayError()}
         </div>
     );
