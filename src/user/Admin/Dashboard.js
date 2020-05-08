@@ -23,7 +23,7 @@ const adminNavs = () => {
                     <Link
                         className="nav-link"
                         aria-selected="true"
-                        to="/user/editProfile"
+                        to="/addProduct"
                     >
                         Create New Product
             </Link>
@@ -33,7 +33,7 @@ const adminNavs = () => {
                     <Link
                         className="nav-link"
                         aria-selected="false"
-                        to="/cart"
+                        to="/addCategory"
                     >
                         Create New Category
             </Link>
