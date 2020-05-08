@@ -66,6 +66,7 @@ const AllProducts = (props) => {
         );
     };
 
+
     const showAlertEmpty = () => {
         console.log(totalSize);
         totalSize = totalSize + size;
