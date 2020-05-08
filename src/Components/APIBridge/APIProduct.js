@@ -166,17 +166,20 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
         });
 };
 
-export const getProductsByAdmin = (skip, limit, filters = {}) => {
+export const getProductsByAdmin = (skip, limit, token, filters = {}) => {
     const data = {
         limit,
         skip,
         filters
     };
+
+    console.log(token)
     return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/productsByAdmin`, {
         method: "POST",
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(data)
     })

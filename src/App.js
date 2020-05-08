@@ -19,6 +19,7 @@ import Profile from "./user/pages/Profile";
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
 import Cart from "./cart/cart";
+import WishList from "./wishList/wishList";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
 import Checkout from "./payment/pages/Checkout";
 import SingleIProductDetails from "./Components/Products/singleIProductDetails";
@@ -40,97 +41,108 @@ const App = () => {
             <div>
                 <BrowserRouter>
 
-                <Header />
-                
                     <Switch>
 
-                        <Route path="/addProduct" exact>
-                            <UploadProducts />
-                        </Route>
-
-                        <Route path="/addCategory" exact>
-                            <UploadCategories />
-                        </Route>
-
                         <Route path="/" exact>
-                            <Home />
-                        </Route>
-
-                        <Route path="/allProducts/:categoryId" exact>
-                            {/* <Header /> */}
-                            <AllProductsByCategory />
-                        </Route>
-
-                        <Route path="/products/:id" exact>
-                            {/* <Header /> */}
-                            <SingleIProductDetails />
+                            <Header />
+                            <Home/>
                         </Route>
 
                         <Route path="/cart" exact>
-                            {/* <Header /> */}
-                            <Cart />
+                            <Header />
+                            <Cart/>
                         </Route>
 
                         <Route path="/order" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <h2>Add order page here</h2>
                         </Route>
 
                         <Route path="/contact" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <h2>Add contact page here</h2>
                         </Route>
 
                         <Route path="/about" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <h2>Add about page here</h2>
                         </Route>
 
                         <Route path="/signin" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <Login></Login>
                         </Route>
 
                         <Route path="/signup" exact>
-                            {/* <Header /> */}
+                            <Header />
                             <Register></Register>
                         </Route>
 
                         {/* private routes */}
 
-                        <PrivateRoute path="/user/profile" exact component={Profile} />
+                        <PrivateRoute path="/user/profile" exact component={Profile}/>
 
-                        <PrivateRoute path="/checkout" exact component={Checkout} />
+                        <PrivateRoute path="/checkout" exact component={Checkout}/>
 
                         {/* admin routes */}
 
-                        <AdminRoute path="/admin/dashboard" exact component={Dashboard} />
+                        <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
 
-                        <Route path="/uploadMultiple" exact>
-                            <UploadProductsMultiple />
+
+                        {/* PRODUCTS AND CATEGORIES */}
+                        <Route path="/addProduct" exact>
+                            <UploadProducts/>
+                        </Route>
+
+                        <Route path="/addCategory" exact>
+                            <UploadCategories/>
                         </Route>
 
                         <Route path="/allProducts" exact>
-                            {/* <Header /> */}
-                            <AllProducts />
+                            <Header />
+                            <AllProducts/>
                         </Route>
 
+                        <Route path="/allProducts/search/:keyWord" exact>
+                            <Header />
+                            <AllProducts/>
+                        </Route>
+
+                        <Route path="/allProducts/:categoryId" exact>
+                            <Header />
+                            <AllProductsByCategory/>
+                        </Route>
+
+                        <Route path="/products/:id" exact>
+                            <Header />
+                            <SingleIProductDetails/>
+                        </Route>
+                        {/* PRODUCTS AND CATEGORIES */}
+
+
+                        {/* STORE MANAGER PRIVILEGES */}
                         <Route path="/storeManager/updateProducts/:productId" exact>
-                            <UpdateProduct />
+                            <UpdateProduct/>
                         </Route>
 
-                        <Route path="/storeManager/allProducts/" exact>
-                            <ProductsByAdmin />
+                        <Route path="/storeManager/allProducts" exact>
+                            <ProductsByAdmin/>
                         </Route>
 
-                        <Redirect to="/" />
+                        <Route path="/uploadMultiple" exact>
+                            <UploadProductsMultiple/>
+                        </Route>
+                        {/* STORE MANAGER PRIVILEGES */}
+
+
+                        <Redirect to="/"/>
 
                     </Switch>
                 </BrowserRouter>
             </div>
 
             <div className="cusfooter">
-                <Footer />
+                <Footer/>
             </div>
         </div>
     );

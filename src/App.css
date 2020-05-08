@@ -59,6 +59,12 @@ th, tr{
   background-color: #181818;
 }
 
+.cart-header{
+    color: darkgoldenrod;
+    text-align: center;
+    align-content: center;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

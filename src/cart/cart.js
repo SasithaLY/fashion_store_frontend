@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../App.css";
 import moment from "moment";
 import { getCart } from "./cartHelper";
 import { Link } from "react-router-dom";
@@ -32,11 +33,11 @@ const Cart = () => {
   };
 
   const noItemMessage = () => (
-    <h2>
+    <h4 className="card-header">
       Your cart is Empty.
       <br />
-      <Link to="../Components/Products">Continue Shopping...</Link>
-    </h2>
+      <Link to="../Components/Products">Click here to continue shopping...</Link>
+    </h4>
   );
   return (
     <div className="container-fluid">

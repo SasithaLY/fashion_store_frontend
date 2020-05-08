@@ -5,11 +5,10 @@ import ProductCard from "./productCard";
 import {prices} from "./Prices";
 import {useParams} from "react-router-dom";
 
-
 const AllProductsByCategory = () => {
 
     const params = useParams();
-    console.log('jkhkjhkjh' ,params.categoryId);
+    // console.log('jkhkjhkjh' ,params.categoryId);
 
     const [customFilters, setCustomFilters] = useState({
         filters: {category: [params.categoryId], price: []}
@@ -17,21 +16,27 @@ const AllProductsByCategory = () => {
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(4);
     const [skip, setSkip] = useState(0);
-    const [size, setSize] = useState(0);
+    const [size, setSize] = useState(1);
     const [filteredResults, setFilteredResults] = useState([]);
+    const [LoadingResult, setLoadingResult] = useState(true);
 
 
     const loadFilteredResults = newFilters => {
+        setLoadingResult(true);
         let price = newFilters.price;
         newFilters = {
             category: [params.categoryId],
-            price : price
+            price: price
         };
         getFilteredProducts(skip, limit, newFilters).then(data => {
-            setFilteredResults(data.data);
-            setSize(data.size);
-            setSkip(0);
-
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResults(data.data);
+                setSize(data.size);
+                setSkip(0);
+                setLoadingResult(false);
+            }
         });
     };
 
@@ -89,15 +94,39 @@ const AllProductsByCategory = () => {
         return array_prices;
     };
 
+    const showAlertEmpty = () => {
+        return (
+            size === 0 && (
+                <div className='container'>
+                    <div className="alert bg-danger d-flex justify-content-center" role="alert">
+                        Oops.. No Results!
+                    </div>
+                </div>
+            )
+        );
+    };
+
+    const showLoading = () => {
+        return (
+            LoadingResult && (
+                <div className='container d-flex justify-content-center'>
+                    <div className="spinner-grow text-warning" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        );
+    };
+
     return (
         <div className="container-fluid">
             <p>
-                <a class="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+                <a className="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
                    aria-expanded="false" aria-controls="collapseExample">
                     More Filters
                 </a>
             </p>
-            <div className="collapse" id="collapseExample" >
+            <div className="collapse" id="collapseExample">
                 <div className="bg-dark rounded d-flex justify-content-center">
                     <div className="row h-25">
                         <RadioSelector
@@ -109,6 +138,7 @@ const AllProductsByCategory = () => {
                     </div>
                 </div>
             </div>
+            {showLoading()}
 
 
             <div>
@@ -123,6 +153,7 @@ const AllProductsByCategory = () => {
                 <div className="d-flex justify-content-center">
                     {LoadMore()}
                 </div>
+                {showAlertEmpty()}
             </div>
         </div>
     );

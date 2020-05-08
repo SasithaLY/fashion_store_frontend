@@ -38,7 +38,7 @@ const UploadProducts = () => {
     const init = () => {
 
         getCategories().then(data => {
-            console.log('cat ', data);
+            // console.log('cat ', data);
             setValues({
                 ...values,
                 categories: data,
@@ -70,7 +70,7 @@ const UploadProducts = () => {
         formData.set('storeMgrID', user._id);
         formData.set('oldPrice', '');
 
-        console.log(user._id)
+        // console.log(user._id)
         createProduct(formData).then(data => {
 
             if (data.error) {
@@ -104,7 +104,6 @@ const UploadProducts = () => {
 
     return (
         <div className="container">
-
 
             {displayError()}
 
@@ -173,6 +172,7 @@ const UploadProducts = () => {
                     </form>
                 </div>
             </div><br/>
+
             {displayError()}
         </div>
     );

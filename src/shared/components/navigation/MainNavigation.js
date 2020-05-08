@@ -7,6 +7,7 @@ import NavLinks from "./NavLinks";
 import { isAuthenticated } from "../../../auth/auth"
 
 const MainNavigation = props => {
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark topnav">
       <button
@@ -21,7 +22,7 @@ const MainNavigation = props => {
         <span className="navbar-toggler-icon"></span>
       </button>
 
-      <a className="navbar-brand" href="./">
+      <a className="navbar-brand" href="/">
         <img src={logo} className="logo"></img>
       </a>
 

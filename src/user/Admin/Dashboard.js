@@ -23,20 +23,30 @@ const adminNavs = () => {
                     <Link
                         className="nav-link"
                         aria-selected="true"
-                        to="/user/editProfile"
+                        to="/addProduct"
                     >
                         Create New Product
-            </Link>
+                    </Link>
                 </li>
 
                 <li className="nav-item">
                     <Link
                         className="nav-link"
                         aria-selected="false"
-                        to="/cart"
+                        to="/addCategory"
                     >
                         Create New Category
-            </Link>
+                    </Link>
+                </li>
+
+                <li className="nav-item">
+                    <Link
+                        className="nav-link"
+                        aria-selected="false"
+                        to="/admin/addManager"
+                    >
+                        Add New Manager
+                    </Link>
                 </li>
 
                 <li className="nav-item">
@@ -46,7 +56,7 @@ const adminNavs = () => {
                         to="/purchaseHistory"
                     >
                         Edit Profile
-            </Link>
+                    </Link>
                 </li>
             </ul>
         </div>
