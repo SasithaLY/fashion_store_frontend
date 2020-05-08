@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signup } from '../../auth/auth'
 
-const Register = () => {
+const AddManager = () => {
 
     const [values, setValues] = useState({
         fName: "",
@@ -121,4 +121,4 @@ return (
 );
 }
 
-export default Register;
+export default AddManager;
