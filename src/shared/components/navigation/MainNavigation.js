@@ -22,7 +22,7 @@ const MainNavigation = props => {
         <span className="navbar-toggler-icon"></span>
       </button>
 
-      <a className="navbar-brand" href="./">
+      <a className="navbar-brand" href="/">
         <img src={logo} className="logo"></img>
       </a>
 

@@ -32,7 +32,7 @@ class NavLinks extends Component {
             console.log(error)
         })
 
-        console.log('1',this.state.moreCategories)
+        // console.log('1',this.state.moreCategories)
         // this.state.filteredCategories = this.state.moreCategories.slice(1, 3);
 
     }
