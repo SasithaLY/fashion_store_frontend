@@ -8,6 +8,7 @@ import {useParams} from 'react-router-dom'
 const AllProducts = (props) => {
 
     const params = useParams();
+    let totalSize = useState(0);
     // console.log('ishan', params.keyWord)
 
     const [myFilters, setMyFilters] = useState({
@@ -66,8 +67,10 @@ const AllProducts = (props) => {
     };
 
     const showAlertEmpty = () => {
+        console.log(totalSize);
+        totalSize = totalSize + size;
         return (
-            size === 0 && (
+            totalSize === 0 && (
                 <div className='container'>
                     <div className="alert bg-danger d-flex justify-content-center" role="alert">
                         Oops.. No Results!
