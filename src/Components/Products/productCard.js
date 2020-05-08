@@ -76,6 +76,7 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
     return (
         <div className="card m-2" style={{width: '18rem', height: '28rem'}}>
             <div className="card-img-top">
+                <span className="badge badge-danger position-absolute m-1"  hidden={!Product.oldPrice}>SALE</span>
                 <ProductImageDisplay Product={Product} xsize="17.9rem" ysize="13rem"/>
             </div>
             <div className="card-body">
@@ -84,8 +85,8 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
                 <p className="card-text overflow-hidden opacity-70"
                    style={{height: "60px", lineHeight: "20px", overflow: "hidden"}}>{Product.description}</p>
                 <div className="row ml-1">
-                    <p className='text-warning'>LKR {Product.price}   </p>
-                    <p className='text-secondary' hidden={!Product.oldPrice}><s>LKR {Product.oldPrice}</s></p>
+                    <p className='text-warning'>LKR {Product.price}</p>
+                    <p className='text-secondary ml-2' hidden={!Product.oldPrice}><s>LKR {Product.oldPrice}</s></p>
                 </div>
 
                 {showAdminSegment()}
