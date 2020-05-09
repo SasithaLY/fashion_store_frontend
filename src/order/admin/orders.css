@@ -5,3 +5,7 @@ th{
 .cus-border{
     border-color: gainsboro;
  }
+
+ .modal-header{
+     color: black;
+ }
