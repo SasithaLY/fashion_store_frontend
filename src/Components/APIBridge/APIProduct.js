@@ -1,10 +1,13 @@
 import React from "react";
-import API from '../../Utils/API'
 
-export const createProduct = (product) => {
+export const createProduct = (product, token, userId) => {
     console.log(product);
-    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/create`, {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/create/${userId}`, {
         method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        },
         body: product
     }).then(response => {
             return response.json();
@@ -35,24 +38,15 @@ export const getProductsForHome = (sortBy,limit) => {
         })
         .catch(err => console.log(err));
 };
-//
-// export const getPhotoForHome = PRODUCT_ID => {
-//     return fetch(`http://localhost:8000/productsRouter/product/photo/5e99b26c40555909f89a8a18`, {
-//         method: "GET"
-//     })
-//         .then(response => {
-//             return response.json();
-//         })
-//         .catch(err => console.log('errrrresssssssssssssssssssssssssssssssssssss', err));
-// };
 
-export const deleteProduct = (productId/*, userId, token*/) => {
-    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/remove/${productId}`, {
+
+export const deleteProduct = (productId, userId, token) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/remove/${productId}/${userId}`, {
         method: 'DELETE',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            // Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         }
     })
         .then(response => {
@@ -72,12 +66,12 @@ export const getSingleProduct = productId => {
         .catch(err => console.log(err));
 };
 // , userId, token,
-export const updateProduct = (productId, product) => {
-    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/updateProduct/${productId}`, {
+export const updateProduct = (productId, product, userId, token) => {
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/updateProduct/${productId}/${userId}`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
-            // Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         },
         body: product
     })
