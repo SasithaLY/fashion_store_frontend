@@ -21,6 +21,7 @@ const UpdateProduct = ({match}) => {
         formData: ''
     });
     const [categories, setCategories] = useState([]);
+    const [LoadingResult, setLoadingResult] = useState(true);
 
     // const { user, token } = isAuthenticated();
     const {
@@ -34,6 +35,8 @@ const UpdateProduct = ({match}) => {
         error,
         formData
     } = values;
+
+
 
     const init = productId => {
         getProduct(productId).then(data => {
@@ -53,11 +56,11 @@ const UpdateProduct = ({match}) => {
                 });
                 // load categories
                 initCategories();
+                setLoadingResult(false);
             }
         });
     };
 
-    // load categories and set form data
     const initCategories = () => {
         getCategories().then(data => {
             if (data.error) {
@@ -112,91 +115,119 @@ const UpdateProduct = ({match}) => {
         </div>
     );
 
+    const showLoading = () => {
+        return (
+            LoadingResult && (
+                <div className='container d-flex justify-content-center mt-2'>
+                    <div className="spinner-grow text-warning" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        );
+    };
 
     return (
 
-        <div className="container">
-
-            {displayError()}
-
-            <div className="card">
-                <div className="card-header">
-                    Update Your Product!
+        <div>
+            <div className="card fixed-top mb-2">
+                <div className="card-body d-flex justify-content-center">
+                    <label>Store Manager</label>
                 </div>
+            </div>
+            <br/>
+            <a className="badge badge-warning fixed-top" href="/admin/dashboard"
+               style={{width: "150px", marginTop: "77px", marginLeft: "5px"}}>
+                Back to Dashboard
+            </a>
 
-                <div className="p-3">
-                    <form className="mb-3" onSubmit={clickSubmit}>
 
-                        <div className="form-group">
-                            <label className="text-warning">Name</label>
-                            <input onChange={handleChange('name')} type="text" className="form-control"
-                                   value={name}
-                                   required/>
-                        </div>
+            <div className="container mt-5">
+                {showLoading()}
+                {displayError()}
 
-                        <div className="form-group">
-                            <label className="text-warning">Description</label>
-                            <textarea onChange={handleChange('description')} className="form-control"
-                                      value={description} required/>
-                        </div>
+                <div className="card">
+                    <div className="card-header">
+                        Update Your Product!
+                    </div>
 
-                        <div className="form-group">
-                            <label className="text-warning">New Price</label>
-                            <input onChange={handleChange('price')} type="number" className="form-control"
-                                   value={price}
-                                   required/>
-                        </div>
+                    <div className="p-3">
+                        <form className="mb-3" onSubmit={clickSubmit}>
 
-                        <div className='row ml-1 mr-1'>
-                            <label className="text-danger"><b>Note : </b></label> <label>If you're throwing a discount, just update the Old Price..</label>
-                        </div>
-                        <div className="form-group">
-                            <label className="text-warning">Old Price</label>
-                            <input onChange={handleChange('oldPrice')} type="number" className="form-control"
-                                   value={oldPrice} placeholder="If you're done with discount, just wipe this away.."/>
-                        </div>
+                            <div className="form-group">
+                                <label className="text-warning">Name</label>
+                                <input onChange={handleChange('name')} type="text" className="form-control"
+                                       value={name}
+                                       required/>
+                            </div>
 
-                        <div className="form-group">
-                            <label className="text-warning">Category</label>
-                            <select onChange={handleChange('category')} className="form-control">
-                                <option>Please select</option>
-                                {categories && categories.map((c, i) => (
-                                    <option key={i} value={c._id} selected={category === c._id}>
-                                        {c.categoryName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                            <div className="form-group">
+                                <label className="text-warning">Description</label>
+                                <textarea onChange={handleChange('description')} className="form-control"
+                                          value={description} required/>
+                            </div>
 
-                        <div className="form-group">
-                            <label className="text-warning">Shipping</label>
-                            <select onChange={handleChange('shipping')} className="form-control">
-                                <option>Please select</option>
-                                <option value="1" selected={shipping === true}>Yes</option>
-                                <option value="0" selected={shipping === false}>No</option>
-                            </select>
-                        </div>
+                            <div className="form-group">
+                                <label className="text-warning">New Price</label>
+                                <input onChange={handleChange('price')} type="number" className="form-control"
+                                       value={price}
+                                       required/>
+                            </div>
 
-                        <div className="form-group">
-                            <label className="text-warning">Quantity</label>
-                            <input onChange={handleChange('quantity')} type="number"
-                                   className="form-control"
-                                   value={quantity}/>
-                        </div>
+                            <div className='row ml-1 mr-1'>
+                                <label className="text-danger"><b>Note :</b></label> <label> If you're throwing a
+                                discount, just update the Old Price..</label>
+                            </div>
+                            <div className="form-group">
+                                <label className="text-warning">Old Price</label>
+                                <input onChange={handleChange('oldPrice')} type="number" className="form-control"
+                                       value={oldPrice}
+                                       placeholder="If you're done with discount, just wipe this away.."/>
+                            </div>
 
-                        <div className="form-group">
-                            <label className="text-warning">Display Image</label><br/>
-                            <label className="btn btn-secondary">
-                                <input onChange={handleChange('photo')} type="file" name="photo"
-                                       accept="image/*"/>
-                            </label>
-                        </div>
+                            <div className="form-group">
+                                <label className="text-warning">Category</label>
+                                <select onChange={handleChange('category')} className="form-control">
+                                    <option>Please select</option>
+                                    {categories && categories.map((c, i) => (
+                                        <option key={i} value={c._id} selected={category === c._id}>
+                                            {c.categoryName}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                        <button className="btn btn-warning">Submit</button>
-                    </form>
+                            <div className="form-group">
+                                <label className="text-warning">Shipping</label>
+                                <select onChange={handleChange('shipping')} className="form-control">
+                                    <option>Please select</option>
+                                    <option value="1" selected={shipping === true}>Yes</option>
+                                    <option value="0" selected={shipping === false}>No</option>
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="text-warning">Quantity</label>
+                                <input onChange={handleChange('quantity')} type="number"
+                                       className="form-control"
+                                       value={quantity}/>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="text-warning">Display Image</label><br/>
+                                <label className="btn btn-secondary">
+                                    <input onChange={handleChange('photo')} type="file" name="photo"
+                                           accept="image/*"/>
+                                </label>
+                            </div>
+
+                            <button className="btn btn-warning">Submit</button>
+                        </form>
+                    </div>
                 </div>
-            </div><br/>
-            {displayError()}
+                <br/>
+                {displayError()}
+            </div>
         </div>
     );
 };

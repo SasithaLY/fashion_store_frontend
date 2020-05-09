@@ -21,7 +21,6 @@ import AddManager from "./user/Admin/AddManager";
 import AddAdmin from "./user/Admin/AddAdmin";
 
 import Home from "./home/pages/home";
-import Payment from './payment/pages/Payment';
 import Cart from "./cart/cart";
 import WishList from "./wishList/wishList";
 import UploadProducts from "./Components/Upload Products/uploadProducts";
@@ -34,6 +33,7 @@ import AllProductsByCategory from "./Components/Products/AllProductsByCategory";
 import AllProducts from "./Components/Products/AllProducts";
 import UpdateProduct from "./Components/Update/UpdateProduct";
 import ProductsByAdmin from "./Components/Products/ProductsByAdmin";
+import Orders from "./order/admin/orders"
 
 import PrivateRoute from "./auth/PrivateRoute"
 import AdminRoute from "./auth/AdminRoute"
@@ -95,6 +95,7 @@ const App = () => {
                         {/* admin routes */}
 
                         <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
+                        <AdminRoute path="/admin/orders" exact component={Orders}/>
 
                         <AdminRoute path="/admin/addManager" exact component={AddManager}/>
 
