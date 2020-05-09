@@ -12,9 +12,13 @@ import "./App.css";
 import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 
-import Login from "./user/pages/Login";
-import Register from "./user/pages/register";
-import Profile from "./user/pages/Profile";
+import Login from "./user/Pages/Login";
+import Register from "./user/Pages/Register";
+import Profile from "./user/Pages/Profile";
+import EditProfile from "./user/Pages/EditProfile"
+
+import AddManager from "./user/Admin/AddManager";
+import AddAdmin from "./user/Admin/AddAdmin";
 
 import Home from "./home/pages/home";
 import Payment from './payment/pages/Payment';
@@ -34,6 +38,8 @@ import ProductsByAdmin from "./Components/Products/ProductsByAdmin";
 import PrivateRoute from "./auth/PrivateRoute"
 import AdminRoute from "./auth/AdminRoute"
 import ManagerRoute from "./auth/ManagerRoute"
+
+
 
 const App = () => {
     return (
@@ -82,12 +88,17 @@ const App = () => {
 
                         <PrivateRoute path="/user/profile" exact component={Profile}/>
 
+                        <PrivateRoute path="/user/editProfile/:userId" exact component={EditProfile}/>
+
                         <PrivateRoute path="/checkout" exact component={Checkout}/>
 
                         {/* admin routes */}
 
                         <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
 
+                        <AdminRoute path="/admin/addManager" exact component={AddManager}/>
+
+                        <AdminRoute path="/admin/addAdmin" exact component={AddAdmin}/>
 
                         {/* PRODUCTS AND CATEGORIES */}
                         <Route path="/addProduct" exact>

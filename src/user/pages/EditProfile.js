@@ -1,21 +1,45 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { signup } from '../../auth/auth'
+import React, { useState, useEffect } from "react";
+import { Link, Redirect } from 'react-router-dom';
+import { isAuthenticated } from "../../auth/auth";
+import { read, update, updateUser } from "../UserAPIs/userApi";
 
-const AddManager = () => {
+
+const EditProfile = ({ match }) => {
 
     const [values, setValues] = useState({
         fName: "",
         lName: "",
-        password: "",
         email: "",
+        password: "",
         gender: "",
-        role: 2,
-        error: "",
+        error: false,
         success: false
-    });
+    })
 
-    const { fName, lName, password, email, gender, role, success, error } = values;
+    const { token } = isAuthenticated();
+    const { fName, lName, email, password, gender, error, success } = values;
+
+    const init = (userId) => {
+        //console.log(userId);
+        read(userId, token).then(data => {
+            if (data.error) {
+                setValues({ ...values, error: true })
+            }
+            else {
+                setValues({
+                    ...values,
+                    fName: data.fName,
+                    lName: data.lName,
+                    email: data.email,
+                    gender: data.gender,
+                })
+            }
+        })
+    }
+
+    useEffect(() => {
+        init(match.params.userId);
+    }, [])
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
@@ -23,37 +47,35 @@ const AddManager = () => {
 
     const clickSubmit = event => {
         event.preventDefault();
-        setValues({ ...values, error: false })
-
-        if (fName == "" || lName == "" || password == "" || email == "" | gender == "") {
-            setValues({ ...values, error: "Please fill all the fields!" })
-        }
-        else {
-                signup({ fName, lName, password, email, gender, role })
-                .then(data => {
-                    if (data.error) {
-                        setValues({ ...values, error: data.error, success: false })
-                    } else {
-                        setValues({
-                            ...values,
-                            fName: "",
-                            lName: "",
-                            password: "",
-                            email: "",
-                            gender: "",
-                            error: "",
-                            success: true
-                        })
-                    }
+        update(match.params.userId , token, {fName, lName, password, email, gender}). then(data => {
+            if(data.error) {
+                console.log(data.error)
+            }
+            else {
+                updateUser(data, () => {
+                    setValues({
+                        ...values,
+                        fName: data.fName,
+                        lName: data.lName,
+                        email: data.email,
+                        gender: data.gender,
+                        success: true
+                    })
                 })
-        }
-
+            }
+        })
 
     };
 
-    const signUpForm = () => (
+    const redirectUser = (success) => {
+        if (success) {
+            return <Redirect to="/user/profile" />
+        }
+    }
+
+    const profileEdit = (fName, lName, email, password, gender) => (
         <div className='container-sm'>
-            <h2><center>Add New Store Manager</center></h2><br />
+            <h2><center>Edit Profile</center></h2><br />
             <form>
                 <div className="form-row">
                     <div className="form-group col-sm">
@@ -88,32 +110,20 @@ const AddManager = () => {
                     </div>
                 </div> <br />
 
-                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Add Manager</button>
+                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Update Profile</button>
             </form> <br />
 
-            <center><p>Go Back to <Link to="/admin/dashboard">Dashboard</Link></p></center>
-        </div>
-    );
-
-    const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            <center><strong>{error}</strong></center>
-        </div>
-    )
-
-    const showSuccess = () => (
-        <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            <center><strong>Manager Added Succesfully! Go Back to <Link to="/admin/dashboard">Dashboard</Link></strong></center>
+            <center><p>Go Back to <Link to="/user/profile">Profile</Link></p></center>
         </div>
     )
 
     return (
         <div>
-            {showSuccess()}
-            {showError()}
-            {signUpForm()}
+            {profileEdit(fName, lName, email, password, gender)}
+            {redirectUser(success)}
         </div>
-    );
+    )
+
 }
 
-export default AddManager;
+export default EditProfile;
