@@ -21,6 +21,7 @@ const UpdateProduct = ({match}) => {
         formData: ''
     });
     const [categories, setCategories] = useState([]);
+    const [LoadingResult, setLoadingResult] = useState(true);
 
     // const { user, token } = isAuthenticated();
     const {
@@ -34,6 +35,8 @@ const UpdateProduct = ({match}) => {
         error,
         formData
     } = values;
+
+
 
     const init = productId => {
         getProduct(productId).then(data => {
@@ -53,11 +56,11 @@ const UpdateProduct = ({match}) => {
                 });
                 // load categories
                 initCategories();
+                setLoadingResult(false);
             }
         });
     };
 
-    // load categories and set form data
     const initCategories = () => {
         getCategories().then(data => {
             if (data.error) {
@@ -112,6 +115,17 @@ const UpdateProduct = ({match}) => {
         </div>
     );
 
+    const showLoading = () => {
+        return (
+            LoadingResult && (
+                <div className='container d-flex justify-content-center mt-2'>
+                    <div className="spinner-grow text-warning" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        );
+    };
 
     return (
 
@@ -129,7 +143,7 @@ const UpdateProduct = ({match}) => {
 
 
             <div className="container mt-5">
-
+                {showLoading()}
                 {displayError()}
 
                 <div className="card">
