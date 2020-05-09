@@ -73,3 +73,23 @@ h3.yell-text {
   color:darkgoldenrod ;
   font-style: bold;
 }
+#main {
+  width: auto;
+  height: auto;
+  border: 1px solid black; 
+  display: flex;
+  align-items: center;
+}
+
+#main div {
+   flex: 1;
+}
+#outerButton
+{
+    width:100%;
+    text-align: center;
+}
+.innerButton
+{
+    display: inline-block;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 import moment from "moment";
-import { getCart } from "./cartHelper";
+import { getCart,removeItem} from "./cartHelper";
 import { Link } from "react-router-dom";
 import ProductCard from "../Components/Products/productCard";
 
@@ -10,7 +10,7 @@ const Cart = () => {
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [items]);
 
   const showItems = (items) => {
     console.log(items);
@@ -26,6 +26,7 @@ const Cart = () => {
             Product={product}
             showAddToCartButton={false}
             cartUpdate={true}
+            showRemoveButton={true}
           />
         ))}
       </div>
@@ -33,24 +34,24 @@ const Cart = () => {
   };
 
   const noItemMessage = () => (
-    <h4>
+    <h3 class="yell-text">
       Your cart is Empty.
       <br />
       <Link to="../Components/Products">Click here to continue shopping...</Link>
-    </h4>
+    </h3>
   );
   return (
     <div className="container-fluid">
       <center><h3 class="yell-text" >Shopping Cart</h3></center>
-      
-        <div className="col-12">
+     
+      <div className="row mt-4 m-5 d-flex justify-content-center">
           {items.length > 0 ? showItems(items) : noItemMessage()}
         </div>
         
         <div className="col-6">
           <button className="btn btn-outline-warning mt-2 mb-2 mx-2">Show checkout options</button>
         </div>
-      </div>
+    </div> 
    
   );
 };

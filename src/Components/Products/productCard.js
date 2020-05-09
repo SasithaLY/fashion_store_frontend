@@ -1,13 +1,13 @@
 import React, {Component, useState} from 'react';
 import model1 from "../../shared/assets/tempImages/shop_model_1.png";
 import ProductImageDisplay from "./ProductImageDisplay";
-import {addItem, updateItem} from "../../cart/cartHelper";
+import {addItem, updateItem,removeItem} from "../../cart/cartHelper";
 import {Link, Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {deleteProduct} from "../APIBridge/APIProduct";
 
 let showAdminOptions = false;
-const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
+const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=false, cartUpdate = false, Admin}) => {
     // console.log(Product)
 
     if (Admin) {
@@ -17,6 +17,7 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
     // console.log(showAdminOptions)
 
     const [redirect, setRedirect] = useState(false);
+    const [count, setCount] = useState(Product.count);
 
     const addToCart = () => {
         addItem(Product, () => {
@@ -37,16 +38,45 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
                     onClick={addToCart}
                     className="btn btn-outline-warning mt-2 mb-2 mx-2"
                 >
-                    Add to Cart
+                   Add to Cart
                 </button>
             )
         );
     };
+    const handleChange = productId => event =>{
+        setCount (event.target.value < 1 ? 1 : event.target.value)
+        if(event.target.value >= 1){
+            updateItem(productId, event.target.value)
+        }
+    };
+    const showRemoveButtonCart = showRemoveButton => {
+        return (
+            showRemoveButton && (
+                <button
+                    onClick={() => removeItem(Product._id)}
+                    className="btn btn-outline-danger mt-2 mb-2 mx-2"
+                >
+                   Remove Product
+                </button>
+            )
+        );
+    };
+    const showCartUpdateOption = cartUpdate => {
+
+        return cartUpdate && <div>
+            <div className ="input-group mb-1">
+                <div className="input-group-prepend">
+                    <span className="input-group-text">Product Quantity</span>
+                </div>
+                <input type ="number" className="form-control" value={count} onChange={handleChange(Product.id)}/>
+            </div>
+        </div>
+    }
 
     const showUserSegment = () => {
         return ( showAdminOptions === false &&
             <div>
-                <a href={`/products/${Product._id}`} className="btn btn-danger text-white">Details</a>
+                <a href={`/products/${Product._id}`} className="btn btn-outline-success text-green">Details</a>
                 {showAddToCart(showAddToCartButton)}
                 {/* <a href="#" className="btn btn-warning text-white ml-3">Add to Cart</a> */}
             </div>
@@ -74,7 +104,7 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
     };
 
     return (
-        <div className="card m-2" style={{width: '18rem', height: '28rem'}}>
+        <div className="card m-2" style={{width: '18rem', height: '32rem'}}>
             <div className="card-img-top">
                 <ProductImageDisplay Product={Product} xsize="17.9rem" ysize="13rem"/>
             </div>
@@ -89,7 +119,17 @@ const ProductCard = ({Product, showAddToCartButton = true, Admin}) => {
                 </div>
 
                 {showAdminSegment()}
-                {showUserSegment()}
+                <div id="outerButton">
+                    <div className= "innerButton">
+                        {showUserSegment()}
+                    </div>
+                    <div className="innerButton">
+                        {showRemoveButtonCart(showRemoveButton)}
+                    </div>
+                </div>
+                {showCartUpdateOption(cartUpdate)}
+               
+                
             </div>
 
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
