@@ -76,8 +76,8 @@ const UploadProducts = () => {
         formData.set('storeMgrID', user._id);
         formData.set('oldPrice', '');
 
-        // console.log(user._id)
-        createProduct(formData).then(data => {
+        console.log(user._id)
+        createProduct(formData, token, user._id).then(data => {
 
             if (data.error) {
                 setValues({...values, error: data.error});

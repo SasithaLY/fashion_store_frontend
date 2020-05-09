@@ -53,11 +53,12 @@ const adminNavs = () => {
                     <Link
                         className="nav-link"
                         aria-selected="false"
-                        to="/purchaseHistory"
+                        to="/admin/addAdmin"
                     >
-                        Edit Profile
+                        Add New Admin
                     </Link>
                 </li>
+
             </ul>
         </div>
     )
@@ -65,7 +66,7 @@ const adminNavs = () => {
 
 const userProfile = () => {
 
-    const { user: { fName, lName, email, gender, role } } = isAuthenticated();
+    const { user: { _id, fName, lName, email, gender, role } } = isAuthenticated();
 
     return (
         <div>
@@ -85,7 +86,12 @@ const userProfile = () => {
                         </blockquote>
                         <p> Email: {email}  </p>
                         <p> Gender: {gender}  </p>
-                        <p> Role: {role === 1 ? "Admin" : "Registered User"}  </p>
+                        <p> Role: {role === 1 ? "Admin" : role === 2 ? "Store Manager" : "Registered User"}  </p>
+                        <p>
+                            <Link className="nav-link" aria-selected="true" to={`/user/editProfile/${_id}`}>
+                                Edit Profile
+                            </Link>
+                        </p>
                     </div>
                 </div>
             </div>

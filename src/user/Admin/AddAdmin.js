@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signup } from '../../auth/auth'
 
-const AddManager = () => {
+const AddAdmin = () => {
 
     const [values, setValues] = useState({
         fName: "",
@@ -10,7 +10,7 @@ const AddManager = () => {
         password: "",
         email: "",
         gender: "",
-        role: 2,
+        role: 1,
         error: "",
         success: false
     });
@@ -53,7 +53,7 @@ const AddManager = () => {
 
     const signUpForm = () => (
         <div className='container-sm'>
-            <h2><center>Add New Store Manager</center></h2><br />
+            <h2><center>Add New Admin</center></h2><br />
             <form>
                 <div className="form-row">
                     <div className="form-group col-sm">
@@ -88,7 +88,7 @@ const AddManager = () => {
                     </div>
                 </div> <br />
 
-                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Add Manager</button>
+                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Add Admin</button>
             </form> <br />
 
             <center><p>Go Back to <Link to="/admin/dashboard">Dashboard</Link></p></center>
@@ -103,7 +103,7 @@ const AddManager = () => {
 
     const showSuccess = () => (
         <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            <center><strong>Manager Added Succesfully! Go Back to <Link to="/admin/dashboard">Dashboard</Link></strong></center>
+            <center><strong>Admin Added Succesfully! Go Back to <Link to="/admin/dashboard">Dashboard</Link></strong></center>
         </div>
     )
 
@@ -116,4 +116,4 @@ const AddManager = () => {
     );
 }
 
-export default AddManager;
+export default AddAdmin;

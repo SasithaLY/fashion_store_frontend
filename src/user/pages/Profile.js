@@ -6,14 +6,14 @@ import { isAuthenticated } from "../../auth/auth";
 
 const userProfile = () => {
 
-  const { user: { fName, lName, email, gender, role } } = isAuthenticated();
+  const { user: { _id, fName, lName, email, gender, role } } = isAuthenticated();
 
   return (
     <div>
       <div className="container">
         <div className="row">
           <div className="col-md-6 img">
-          <h3> Hi! {fName}, Have a Good Day! </h3> <br/>
+            <h3> Hi! {fName}, Have a Good Day! </h3> <br />
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"
               alt=""
@@ -26,7 +26,12 @@ const userProfile = () => {
             </blockquote>
             <p> Email: {email}  </p>
             <p> Gender: {gender}  </p>
-            <p> Role: {role === 1 ? "Admin" : "Registered User"}  </p>
+            <p> Role: {role === 1 ? "Admin" : role === 2 ? "Store Manager" : "Registered User"}  </p>
+            <p>
+              <Link className="nav-link" aria-selected="true" to={`/user/editProfile/${_id}`}>
+                Edit Profile
+              </Link>
+            </p>
           </div>
         </div>
       </div>
@@ -48,16 +53,6 @@ const userNavs = () => {
             aria-selected="true"
           >
             Profile
-        </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link
-            className="nav-link"
-            aria-selected="true"
-            to="/user/editProfile"
-          >
-            Edit Profile
         </Link>
         </li>
 
