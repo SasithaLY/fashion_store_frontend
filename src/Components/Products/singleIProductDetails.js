@@ -9,11 +9,17 @@ import {getSingleProduct} from "../../Components/APIBridge/APIProduct";
 import ProductImageDisplay from "./ProductImageDisplay";
 import {updateReviewOnProduct} from "../APIBridge/APIProduct";
 
+import Rating from '@material-ui/lab/Rating';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
 
 const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = false}) => {
 
     const [subject, setSubject] = useState('');
     const [review, setReview] = useState('');
+    const [rating, setRating] = useState(0);
+    let [overallRating, setOverallRating] = useState(0);
 
     // const { subject,  review,  error, formData } = values;
 
@@ -22,24 +28,25 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
     const [singleProductDetails, setSingleProductDetails] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [currentReviews, setCurrentReviews] = useState('');
+    const [currentReviews, setCurrentReviews] = useState([]);
+    const [dataLengths, setDataLengths] = useState(0);
+
 
     const params = useParams();
 
-    const getSingleProductDetails = () => {
-        getSingleProduct(params.id).then(data => {
+    const getSingleProductDetails =  () => {
+         getSingleProduct(params.id).then(data => {
             setSingleProductDetails(data);
-            console.log(data.review)
-            setCurrentReviews(data.review)
+            setCurrentReviews(data.review);
+            setDataLengths(data.review.length);
         }).catch(error => {
             console.log(error);
         });
     };
 
     useEffect(() => {
-        getSingleProductDetails();
+        getSingleProductDetails()
     }, []);
-
 
     const showViewButton = (showViewProductButton) => {
         return (
@@ -117,6 +124,7 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
         event.preventDefault();
         console.log(subject, review);
         const data = {
+            rating: rating,
             subject: subject,
             review: review
         };
@@ -129,6 +137,7 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                 setSuccess('Got the Review!');
                 setSubject('');
                 setReview('');
+                setRating(0)
             }
         })
     };
@@ -136,7 +145,14 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
     const handleChangeOfDetails = name => event => {
         const value = event.target.value;
         console.log(value)
-        name === 'subject' ? setSubject(value) : setReview(value)
+        // name === 'subject' ? setSubject(value) : setReview(value)
+        if (name === 'subject') {
+            setSubject(value);
+        } else if (name === 'review') {
+            setReview(value);
+        } else if (name === 'rating') {
+            setRating(value)
+        }
     };
 
     const displayError = () => (
@@ -170,7 +186,15 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                     <div className="card p-1 col-md-6 ">
                         <ProductImageDisplay Product={singleProductDetails} xsize="44.75rem" ysize="30rem"/>
                     </div>
+
                     <div className="col-md-5 ml-5">
+                        <Box component="fieldset" mb={3} borderColor="transparent">
+                            <Typography component="legend">Rating</Typography>
+                            <Rating
+                                name="read-only"
+                                value={2.5}
+                                readOnly/>
+                        </Box>
                         <h3 className="my-0 text-warning">Description</h3>
                         <p>{singleProductDetails.description}
                         </p>
@@ -197,7 +221,10 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                 <h4 className="text-warning mb-3">Product's Reviews and Ratings</h4>
                 {currentReviews && currentReviews.map((value, i) => (
                     <div className="container-fluid rounded m2 p-3 mt-2" style={{backgroundColor: "#515251"}}>
-                        <h6 className="text-warning">{value.subject}</h6>
+                        <Box component="fieldset" mb={1} borderColor="transparent">
+                            <Rating name="read-only" value={value.rating} readOnly/>
+                        </Box>
+                        <b><h6 className="text-warning">{value.subject}</h6></b>
                         <p className="card-text overflow-hidden" style={{
                             height: "40px",
                             lineHeight: "20px",
@@ -219,6 +246,14 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                 <h4 className="text-warning mb-3">Add a Review</h4>
                 <div className="container-fluid rounded m2 p-3 mt-2" style={{backgroundColor: "#515251"}}>
                     <form onSubmit={handleSubmitReview}>
+                        <Box component="fieldset" mb={2} borderColor="transparent">
+                            <Typography component="legend">Rating</Typography>
+                            <Rating
+                                name="simple-controlled"
+                                value={rating}
+                                onChange={handleChangeOfDetails('rating')}
+                            />
+                        </Box>
                         <div className="form-group">
                             <input type="text" className="form-control" id="inputName" name='subject'
                                    onChange={handleChangeOfDetails('subject')} value={subject}
