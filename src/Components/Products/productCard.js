@@ -6,10 +6,12 @@ import {addItem, updateItem, removeItem} from "../../cart/cartHelper";
 import {Link, Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {deleteProduct} from "../APIBridge/APIProduct";
+import {isAuthenticated} from "../../auth/auth";
 
 let showAdminOptions = false;
 const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
     // console.log(Product)
+    const { user, token } = isAuthenticated();
 
     if (Admin) {
         showAdminOptions = Admin;
@@ -96,7 +98,7 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
     };
 
     const handleDelete = (ID) => {
-        deleteProduct(ID).then(data => {
+        deleteProduct(ID, user._id, token).then(data => {
             console.log(data)
             alert('Successfully deleted!');
             window.location.reload();
@@ -131,8 +133,8 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
                     </div>
                 </div>
                 {showCartUpdateOption(cartUpdate)}
-               
-                
+
+
             </div>
 
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
