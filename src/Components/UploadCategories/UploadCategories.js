@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import API from '../../Utils/API'
-import {deleteCategory, getCategories, getProduct, updateCategory, updateProduct} from "../APIBridge/APIProduct";
+import {
+    createCategory,
+    deleteCategory,
+    getCategories,
+    getProduct,
+    updateCategory,
+    updateProduct
+} from "../APIBridge/APIProduct";
+import {isAuthenticated} from "../../auth/auth";
+
+const { user, token } = isAuthenticated();
 
 class UploadCategories extends Component {
 
@@ -46,16 +56,26 @@ class UploadCategories extends Component {
         const data = {
             categoryName: this.state.categoryName
         };
-
-        await API.post('categoriesRouter/addCategory', data).then(r => {
-            // console.log(r);
-            alert('Category Created Successfully!');
-            // window.location = "/";
-            this.getCategories();
-        }).catch(error => {
-            // console.log(error);
-            alert(error);
+        console.log(data, token, user._id)
+        createCategory(data, token, user._id).then(data => {
+            if (data.error) {
+                alert(data.error)
+                console.log(data.error);
+            } else {
+                alert('success')
+                console.log(data);
+            }
         });
+
+        // await API.post('categoriesRouter/addCategory', data).then(r => {
+        //     // console.log(r);
+        //     alert('Category Created Successfully!');
+        //     // window.location = "/";
+        //     this.getCategories();
+        // }).catch(error => {
+        //     // console.log(error);
+        //     alert(error);
+        // });
 
         this.setState({
             categoryName: ''
@@ -69,7 +89,7 @@ class UploadCategories extends Component {
             categoryName: this.state.updateCategoryName
         };
 
-        updateCategory(this.state.selectedCategoryId, category).then(data => {
+        updateCategory(this.state.selectedCategoryId, category, token, user._id).then(data => {
             if (data.error) {
 
                 alert(data.error);
@@ -89,7 +109,10 @@ class UploadCategories extends Component {
     }
 
     deleteCategory(){
-        deleteCategory(this.state.selectedCategoryId).then(data => {
+        const data = {
+            categoryName: this.state.categoryName
+        };
+        deleteCategory(data, this.state.selectedCategoryId, token, user._id).then(data => {
             if (data.error) {
                 alert(data.error);
             } else {
