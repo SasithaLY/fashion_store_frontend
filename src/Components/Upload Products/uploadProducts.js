@@ -19,8 +19,11 @@ const UploadProducts = () => {
         error: '',
         storeMgrID: '',
         oldPrice: '',
+        ratings: '',
+        reviews: [],
         formData: ''
     });
+    const [LoadingResult, setLoadingResult] = useState(true);
 
     const {
         name,
@@ -31,6 +34,8 @@ const UploadProducts = () => {
         shipping,
         quantity,
         error,
+        ratings,
+        reviews,
         formData
     } = values;
 
@@ -38,18 +43,19 @@ const UploadProducts = () => {
     const init = () => {
 
         getCategories().then(data => {
-            console.log('cat ', data);
+            // console.log('cat ', data);
             setValues({
                 ...values,
                 categories: data,
                 formData: new FormData()
             });
+            setLoadingResult(false);
         }).catch(error => {
             setValues({...values, error: error});
         });
 
         setValues({
-            storeMgrID: '5e9f554e1f81f30cbcdff10c'
+            storeMgrID: user._id
         });
 
     };
@@ -71,7 +77,7 @@ const UploadProducts = () => {
         formData.set('oldPrice', '');
 
         console.log(user._id)
-        createProduct(formData).then(data => {
+        createProduct(formData, token, user._id).then(data => {
 
             if (data.error) {
                 setValues({...values, error: data.error});
@@ -102,10 +108,21 @@ const UploadProducts = () => {
         </div>
     );
 
+    const showLoading = () => {
+        return (
+            LoadingResult && (
+                <div className='container d-flex justify-content-center mt-5'>
+                    <div className="spinner-grow text-warning" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        );
+    };
+
     return (
         <div className="container">
-
-
+            {showLoading()}
             {displayError()}
 
             <div className="card">
@@ -173,6 +190,7 @@ const UploadProducts = () => {
                     </form>
                 </div>
             </div><br/>
+
             {displayError()}
         </div>
     );

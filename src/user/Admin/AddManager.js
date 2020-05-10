@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signup } from '../../auth/auth'
 
-const Register = () => {
+const AddManager = () => {
 
     const [values, setValues] = useState({
         fName: "",
         lName: "",
         password: "",
-        cPass: "",
         email: "",
         gender: "",
+        role: 2,
         error: "",
         success: false
     });
 
-    const { fName, lName, password, cPass, email, gender, success, error } = values;
+    const { fName, lName, password, email, gender, role, success, error } = values;
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
@@ -25,11 +25,11 @@ const Register = () => {
         event.preventDefault();
         setValues({ ...values, error: false })
 
-        if (fName == "" || lName == "" || password == "" || cPass == "" || email == "" | gender == "") {
+        if (fName == "" || lName == "" || password == "" || email == "" | gender == "") {
             setValues({ ...values, error: "Please fill all the fields!" })
         }
         else {
-            signup({ fName, lName, password, email, gender })
+                signup({ fName, lName, password, email, gender, role })
                 .then(data => {
                     if (data.error) {
                         setValues({ ...values, error: data.error, success: false })
@@ -39,7 +39,6 @@ const Register = () => {
                             fName: "",
                             lName: "",
                             password: "",
-                            cPass: "",
                             email: "",
                             gender: "",
                             error: "",
@@ -54,7 +53,7 @@ const Register = () => {
 
     const signUpForm = () => (
         <div className='container-sm'>
-            <h2><center>Create an Account</center></h2><br />
+            <h2><center>Add New Store Manager</center></h2><br />
             <form>
                 <div className="form-row">
                     <div className="form-group col-sm">
@@ -73,8 +72,12 @@ const Register = () => {
                         <input onChange={handleChange("password")} value={password} type="password" className="form-control" required />
                     </div>
                     <div className="form-group col-sm">
-                        <label>Confirm Password</label>
-                        <input onChange={handleChange("cPass")} value={cPass} type="password" className="form-control" required />
+                        <label>Gender</label>
+                        <select onChange={handleChange("gender")} value={gender} className="form-control">
+                            <option selected hidden>Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
                     </div>
                 </div>
 
@@ -83,20 +86,12 @@ const Register = () => {
                         <label>E-mail</label>
                         <input onChange={handleChange("email")} value={email} type="email" className="form-control" required />
                     </div>
-                    <div className="form-group col-sm">
-                        <label>Gender</label>
-                        <select onChange={handleChange("gender")} value={gender} className="form-control">
-                            <option selected hidden>Select Gender</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                        </select>
-                    </div>
                 </div> <br />
 
-                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">SIGN UP</button>
+                <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Add Manager</button>
             </form> <br />
 
-            <center><p>Already a Member?  <Link to="/signin">SIGN IN</Link></p></center>
+            <center><p>Go Back to <Link to="/admin/dashboard">Dashboard</Link></p></center>
         </div>
     );
 
@@ -106,19 +101,19 @@ const Register = () => {
         </div>
     )
 
-const showSuccess = () => (
-    <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-        <center><strong>Succesfully Signed up. Please <Link to="/signin">Signin!</Link></strong></center>      
-    </div>
-)
+    const showSuccess = () => (
+        <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
+            <center><strong>Manager Added Succesfully! Go Back to <Link to="/admin/dashboard">Dashboard</Link></strong></center>
+        </div>
+    )
 
-return (
-    <div>
-        {showSuccess()}
-        {showError()}
-        {signUpForm()}
-    </div>
-);
+    return (
+        <div>
+            {showSuccess()}
+            {showError()}
+            {signUpForm()}
+        </div>
+    );
 }
 
-export default Register;
+export default AddManager;

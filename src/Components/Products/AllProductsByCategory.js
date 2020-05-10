@@ -126,7 +126,6 @@ const AllProductsByCategory = () => {
                     More Filters
                 </a>
             </p>
-            {showLoading()}
             <div className="collapse" id="collapseExample">
                 <div className="bg-dark rounded d-flex justify-content-center">
                     <div className="row h-25">
@@ -139,6 +138,7 @@ const AllProductsByCategory = () => {
                     </div>
                 </div>
             </div>
+            {showLoading()}
 
 
             <div>

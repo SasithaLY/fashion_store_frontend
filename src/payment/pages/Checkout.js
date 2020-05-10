@@ -13,7 +13,7 @@ import {
   getBraintreeToken,
   processPayment,
   createOrder,
-} from "../components/paymentHelper";
+} from "./paymentHelper";
 import { getCart, clearCart } from "../../cart/cartHelper";
 import { confirmAlert } from "react-confirm-alert";
 import "braintree-web";
@@ -200,7 +200,6 @@ export default function Checkout() {
       errors: newErr,
     });
 
-    console.log(values.shippingAddress);
   };
 
   const handleInputChange = (event) => {
@@ -404,7 +403,7 @@ export default function Checkout() {
         orderData.transactionId = "";
         orderData.amount = getTotal(cart);
 
-        createOrder(userId, token, orderData)
+        createOrder(userId, token, orderData);
         setPayment({ ...payment, success: true });
         setValues({ ...values, showDivs: false });
 
@@ -413,6 +412,7 @@ export default function Checkout() {
         });
         setCart(getCart());
       } else {
+        
         let nonce;
         let getNonce = payment.instance
           .requestPaymentMethod()

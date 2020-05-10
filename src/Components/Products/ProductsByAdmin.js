@@ -104,7 +104,7 @@ const ProductsByAdmin = () => {
                     <label>Store Manager</label>
                 </div>
             </div> <br/>
-            <a className="badge badge-warning fixed-top" href="/" style={{width : "150px", marginTop: "77px", marginLeft: "5px"}}>
+            <a className="badge badge-warning fixed-top" href="/admin/dashboard" style={{width : "150px", marginTop: "77px", marginLeft: "5px"}}>
                 Back to Dashboard
             </a>
             <p className='mt-5'>

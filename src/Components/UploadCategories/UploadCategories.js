@@ -31,12 +31,12 @@ class UploadCategories extends Component {
             if (data.error) {
 
             } else {
-                console.log('asd', data)
+                // console.log('asd', data)
                 this.setState({
                     currentCategories: data
                 })
             }
-            console.log(this.state.currentCategories)
+            // console.log(this.state.currentCategories)
         });
 
     }
@@ -48,12 +48,12 @@ class UploadCategories extends Component {
         };
 
         await API.post('categoriesRouter/addCategory', data).then(r => {
-            console.log(r);
+            // console.log(r);
             alert('Category Created Successfully!');
             // window.location = "/";
             this.getCategories();
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
             alert(error);
         });
 
@@ -64,7 +64,7 @@ class UploadCategories extends Component {
 
     async handleUpdateSubmit(event) {
         event.preventDefault();
-        console.log('called!', this.state.updateCategoryName);
+        // console.log('called!', this.state.updateCategoryName);
         const category = {
             categoryName: this.state.updateCategoryName
         };
@@ -118,7 +118,7 @@ class UploadCategories extends Component {
     }
 
     updateName(id, name) {
-        console.log(id, name)
+        // console.log(id, name)
         this.setState({
             updateCategoryName: name,
             selectedCategoryName: name,
@@ -136,7 +136,7 @@ class UploadCategories extends Component {
     render() {
         return (
             <div className="container">
-                <a href="/" className="badge badge-warning mt-3" style={{float: 'right'}}>Back to DashBoard</a><br/><br/>
+                <a href="/admin/dashboard" className="badge badge-warning mt-3" style={{float: 'right'}}>Back to DashBoard</a><br/><br/>
                 <div className="card">
                     <div className="card-header">
                         Add Category
