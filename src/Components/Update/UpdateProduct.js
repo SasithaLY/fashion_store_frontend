@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {getCategories, getProduct, updateProduct} from '../../Components/APIBridge/APIProduct'
 import {useParams} from 'react-router-dom'
+import {isAuthenticated} from "../../auth/auth";
 
 const UpdateProduct = ({match}) => {
+    const { user, token } = isAuthenticated();
+
     const params = useParams();
     const [values, setValues] = useState({
         name: '',
@@ -85,7 +88,7 @@ const UpdateProduct = ({match}) => {
         event.preventDefault();
         setValues({...values, error: '', loading: true});
         // , user._id, token,
-        updateProduct(params.productId, formData).then(data => {
+        updateProduct(params.productId, formData, user._id, token).then(data => {
             if (data.error) {
                 setValues({...values, error: data.error});
             } else {

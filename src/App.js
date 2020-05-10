@@ -12,10 +12,10 @@ import "./App.css";
 import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 
-import Login from "./user/Pages/Login";
-import Register from "./user/Pages/Register";
-import Profile from "./user/Pages/Profile";
-import EditProfile from "./user/Pages/EditProfile"
+import Login from "./user/pages/Login";
+import Register from "./user/pages/register";
+import Profile from "./user/pages/Profile";
+import EditProfile from "./user/pages/EditProfile"
 
 import AddManager from "./user/Admin/AddManager";
 import AddAdmin from "./user/Admin/AddAdmin";
@@ -38,6 +38,7 @@ import Orders from "./order/admin/orders"
 import PrivateRoute from "./auth/PrivateRoute"
 import AdminRoute from "./auth/AdminRoute"
 import ManagerRoute from "./auth/ManagerRoute"
+import StoreManagerRoute from "./auth/StoreManagerRoute";
 
 
 
@@ -94,7 +95,7 @@ const App = () => {
 
                         {/* admin routes */}
 
-                        <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
+                        <AdminRoute path="/admin/dashboard" exact component={Dashboard} HeaderVisibility={false}/>
                         
                         <AdminRoute path="/admin/orders" exact component={Orders}/>
 
@@ -107,9 +108,7 @@ const App = () => {
                             <UploadProducts/>
                         </Route>
 
-                        <Route path="/addCategory" exact>
-                            <UploadCategories/>
-                        </Route>
+                        <AdminRoute path="/addCategory" exact component={UploadCategories} />
 
                         <Route path="/allProducts" exact>
                             <Header />
@@ -134,13 +133,10 @@ const App = () => {
 
 
                         {/* STORE MANAGER PRIVILEGES */}
-                        <Route path="/storeManager/updateProducts/:productId" exact>
-                            <UpdateProduct/>
-                        </Route>
+                        <AdminRoute path="/admin/orders" exact component={Orders}/>
+                        <StoreManagerRoute path="/storeManager/updateProducts/:productId" exact component={UpdateProduct} />
 
-                        <Route path="/storeManager/allProducts" exact>
-                            <ProductsByAdmin/>
-                        </Route>
+                        <StoreManagerRoute path="/storeManager/allProducts" exact component={ProductsByAdmin} />
 
                         <Route path="/uploadMultiple" exact>
                             <UploadProductsMultiple/>

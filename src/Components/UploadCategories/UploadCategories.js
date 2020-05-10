@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import API from '../../Utils/API'
-import {deleteCategory, getCategories, getProduct, updateCategory, updateProduct} from "../APIBridge/APIProduct";
+import {
+    createCategory,
+    deleteCategory,
+    getCategories,
+    getProduct,
+    updateCategory,
+    updateProduct
+} from "../APIBridge/APIProduct";
+import {isAuthenticated} from "../../auth/auth";
+
+const {user, token} = isAuthenticated();
 
 class UploadCategories extends Component {
 
@@ -19,7 +29,8 @@ class UploadCategories extends Component {
             currentCategories: [] = [],
             updateCategoryName: '',
             selectedCategoryName: '',
-            selectedCategoryId: ''
+            selectedCategoryId: '',
+            error: ''
         };
 
         this.getCategories();
@@ -46,19 +57,22 @@ class UploadCategories extends Component {
         const data = {
             categoryName: this.state.categoryName
         };
-
-        await API.post('categoriesRouter/addCategory', data).then(r => {
-            // console.log(r);
-            alert('Category Created Successfully!');
-            // window.location = "/";
-            this.getCategories();
-        }).catch(error => {
-            // console.log(error);
-            alert(error);
-        });
-
-        this.setState({
-            categoryName: ''
+        console.log(data, token, user._id)
+        createCategory(data, token, user._id).then(data => {
+            if (data.error) {
+                this.setState({
+                    error: data.error
+                })
+                console.log(data.error);
+            } else {
+                alert('Successfully Added!')
+                console.log(data);
+                this.getCategories();
+                this.setState({
+                    categoryName: '',
+                    error: ''
+                });
+            }
         });
     }
 
@@ -69,13 +83,17 @@ class UploadCategories extends Component {
             categoryName: this.state.updateCategoryName
         };
 
-        updateCategory(this.state.selectedCategoryId, category).then(data => {
+        updateCategory(this.state.selectedCategoryId, category, token, user._id).then(data => {
             if (data.error) {
-
-                alert(data.error);
+                this.setState({
+                    error: data.error
+                })
             } else {
                 this.getCategories();
-                alert('Successfully Update!')
+                alert('Successfully Update!');
+                this.setState({
+                    error: ''
+                })
             }
         }).catch(reason => {
             console.log(reason)
@@ -88,15 +106,21 @@ class UploadCategories extends Component {
         });
     }
 
-    deleteCategory(){
-        deleteCategory(this.state.selectedCategoryId).then(data => {
+    deleteCategory() {
+        const data = {
+            categoryName: this.state.categoryName
+        };
+        deleteCategory(data, this.state.selectedCategoryId, token, user._id).then(data => {
             if (data.error) {
-                alert(data.error);
+                this.setState({
+                    error: data.error
+                })
             } else {
                 this.getCategories();
                 this.setState({
                     updateCategoryName: '',
-                    selectedCategoryName: ''
+                    selectedCategoryName: '',
+                    error: ''
                 });
                 alert('Successfully Deleted!')
             }
@@ -126,8 +150,14 @@ class UploadCategories extends Component {
         })
     }
 
-    deleteButton = () =>{
-        return(
+    displayError = () => (
+        <div className="alert border-danger alert-danger" style={{display: this.state.error ? '' : 'none'}}>
+            {this.state.error}
+        </div>
+    );
+
+    deleteButton = () => {
+        return (
             this.state.selectedCategoryName !== '' &&
             (<button type='button' onClick={this.deleteCategory} className="btn btn-danger ml-3">Delete</button>)
         )
@@ -136,7 +166,9 @@ class UploadCategories extends Component {
     render() {
         return (
             <div className="container">
-                <a href="/admin/dashboard" className="badge badge-warning mt-3" style={{float: 'right'}}>Back to DashBoard</a><br/><br/>
+                {this.displayError()}
+                <a href="/admin/dashboard" className="badge badge-warning mt-3" style={{float: 'right'}}>Back to
+                    DashBoard</a><br/><br/>
                 <div className="card">
                     <div className="card-header">
                         Add Category
@@ -157,7 +189,7 @@ class UploadCategories extends Component {
                     </div>
                 </div>
 
-{/*//CATEGORY LIST*/}
+                {/*//CATEGORY LIST*/}
                 <div className="card mt-5">
                     <div className="card-header">
                         Current Categories
@@ -166,12 +198,13 @@ class UploadCategories extends Component {
                         update from Here!</small>
                     <div className="m-2 mb-3 row">
                         {this.state.currentCategories.map((c, i) => (
-                            <button key={i} className="btn btn-outline-warning text-white ml-3 mt-3" value={c.categoryName}
+                            <button key={i} className="btn btn-outline-warning text-white ml-3 mt-3"
+                                    value={c.categoryName}
                                     onClick={() => this.updateName(c._id, c.categoryName)}>{c.categoryName}</button>
                         ))}
                     </div>
                 </div>
-{/*//UPDATE CATEGORY*/}
+                {/*//UPDATE CATEGORY*/}
                 <div className="card mt-5">
                     <div className="card-header">
                         Update Category
@@ -183,11 +216,12 @@ class UploadCategories extends Component {
                                 <small className="form-text text-muted">Click on the Category you need to
                                     update from <b>Current Categories!</b></small>
                                 <input name="categoryName" type="text"
-                                       className="form-control mt-1" placeholder="Select Category Name from Current Categories.."
+                                       className="form-control mt-1"
+                                       placeholder="Select Category Name from Current Categories.."
                                        value={this.state.selectedCategoryName} disabled/>
 
                                 <input onChange={this.onchangeUpdateCategoryName} name="categoryName" type="text"
-                                       className="form-control mt-3" placeholder="Enter Category Name.."
+                                       className="form-control mt-3" placeholder="Enter New Category Name.."
                                        value={this.state.updateCategoryName} required/>
                             </div>
 
@@ -195,8 +229,8 @@ class UploadCategories extends Component {
                             {this.deleteButton()}
                         </form>
                     </div>
-                </div>
-
+                </div><br/>
+                {this.displayError()}
 
             </div>
         );
