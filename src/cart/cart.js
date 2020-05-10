@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 import moment from "moment";
-import { getCart,removeItem} from "./cartHelper";
+import { getCart,removeItem,updateItem} from "./cartHelper";
 import { Link } from "react-router-dom";
 import ProductCard from "../Components/Products/productCard";
+import CheckoutCart from "../payment/pages/checkCart";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     setItems(getCart());
-  }, [items]);
+  }, []);
 
-  const showItems = (items) => {
+  const showItems = items => {
     console.log(items);
     return (
       <div className="container">
-        <h5 >Your cart has {items.length} items</h5>
+        <h5 >Your cart has {`${items.length}`} items</h5>
         <hr></hr>
         
         {items.map((product, i) => (
@@ -49,6 +50,8 @@ const Cart = () => {
         </div>
         
         <div className="col-6">
+          <h3> Your Total</h3>
+          <CheckoutCart products={items}/>
           <button className="btn btn-outline-warning mt-2 mb-2 mx-2">Show checkout options</button>
         </div>
     </div> 

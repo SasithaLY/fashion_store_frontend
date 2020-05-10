@@ -1,7 +1,7 @@
 import React, {Component, useState} from 'react';
 import model1 from "../../shared/assets/tempImages/shop_model_1.png";
 import ProductImageDisplay from "./ProductImageDisplay";
-import {addItem, updateItem,removeItem} from "../../cart/cartHelper";
+import {addItem, updateItem, removeItem} from "../../cart/cartHelper";
 import {Link, Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {deleteProduct} from "../APIBridge/APIProduct";
@@ -43,10 +43,10 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
             )
         );
     };
-    const handleChange = productId => event =>{
-        setCount (event.target.value < 1 ? 1 : event.target.value)
+    const handleChange = productId => event => {
+        setCount(event.target.value < 1 ? 1 : event.target.value);
         if(event.target.value >= 1){
-            updateItem(productId, event.target.value)
+            updateItem(productId, event.target.value);
         }
     };
     const showRemoveButtonCart = showRemoveButton => {
@@ -66,12 +66,12 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
         return cartUpdate && <div>
             <div className ="input-group mb-1">
                 <div className="input-group-prepend">
-                    <span className="input-group-text">Product Quantity</span>
+                    <span className="input-group-text">Product Quantity:</span>
                 </div>
-                <input type ="number" className="form-control" value={count} onChange={handleChange(Product.id)}/>
+                <input type ="number" className="form-control" value={count} onChange={handleChange(Product._id)}/>
             </div>
         </div>
-    }
+    };
 
     const showUserSegment = () => {
         return ( showAdminOptions === false &&
