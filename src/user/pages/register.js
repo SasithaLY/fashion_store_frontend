@@ -27,6 +27,12 @@ const Register = () => {
 
         if (fName == "" || lName == "" || password == "" || cPass == "" || email == "" | gender == "") {
             setValues({ ...values, error: "Please fill all the fields!" })
+        }       
+        else if (!fName.match(/^[A-Za-z]+$/) || !lName.match(/^[A-Za-z]+$/)) {
+            setValues({ ...values, error: "You are only allowed to enter letters in First Name and Last Name!" })
+        }
+        else if (password != cPass) {
+            setValues({ ...values, error: "Password and Confirm Password should be Same!" })
         }
         else {
             signup({ fName, lName, password, email, gender })
@@ -59,7 +65,7 @@ const Register = () => {
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>First Name </label>
-                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" required />
+                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" pattern = "[A-Za-z]" required />
                     </div>
                     <div className="form-group col-sm">
                         <label >Last Name</label>
@@ -108,7 +114,7 @@ const Register = () => {
 
 const showSuccess = () => (
     <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-        <center><strong>Succesfully Signed up. Please <Link to="/signin">Signin!</Link></strong></center>      
+        <center><strong>Account Created Succesfully!. Please <Link to="/signin">Signin!</Link></strong></center>      
     </div>
 )
 

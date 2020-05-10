@@ -95,6 +95,7 @@ const App = () => {
                         {/* admin routes */}
 
                         <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
+                        
                         <AdminRoute path="/admin/orders" exact component={Orders}/>
 
                         <AdminRoute path="/admin/addManager" exact component={AddManager}/>

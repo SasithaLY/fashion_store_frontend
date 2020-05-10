@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import { useHistory, withRouter } from "react-router-dom";
 import { itemTotal } from "../../../cart/cartHelper";
 import MainNavigation from "./MainNavigation";
@@ -8,8 +8,10 @@ import { signout, isAuthenticated } from "../../../auth/auth"
 const MainHeader = () => {
 
   let history = useHistory();
+  const { user} = isAuthenticated();
 
   return (
+
     <header>
       <div className="col-md-12 navbar-dark bg-dark text-light">
         <div className="row container-fluid">
@@ -24,7 +26,7 @@ const MainHeader = () => {
                     href={"/signin"}
                     className="text-success"
                   >
-                    <span>SignIn</span>
+                    LOGIN
                   </a>
 
                   <a
@@ -32,7 +34,7 @@ const MainHeader = () => {
                     href={"/signup"}
                     className="mx-3 text-warning"
                   >
-                    SignUp
+                    REGISTER
                   </a>
 
                 </Fragment>
@@ -40,6 +42,15 @@ const MainHeader = () => {
 
               {isAuthenticated() &&
                 <Fragment>
+                  Welcome&nbsp;
+                  <a
+                    style={{ textDecoration: "none" }}
+                    href={"/user/profile"}
+                    className="text-success"
+                  >
+                      {user.fName}
+                  </a>
+                  
                   <a
                     style={{ cursor: "pointer", color: "#ffffff" }}
                     className="mx-3 text-warning"
@@ -47,9 +58,10 @@ const MainHeader = () => {
                       history.push("/");
                     })}
                   >
-                    SignOut
-              </a>
+                    LOGOUT
+                  </a>
                 </Fragment>
+
               }
 
               <a href={"/cart"}>
@@ -62,7 +74,7 @@ const MainHeader = () => {
               <a href={"/wishList"}>
                 <span className="p1 fa-stack has-badge">
                   <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white">
-                    
+
                   </i>
                 </span>
               </a>

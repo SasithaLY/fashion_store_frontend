@@ -28,6 +28,9 @@ const AddAdmin = () => {
         if (fName == "" || lName == "" || password == "" || email == "" | gender == "") {
             setValues({ ...values, error: "Please fill all the fields!" })
         }
+        else if (!fName.match(/^[A-Za-z]+$/) || !lName.match(/^[A-Za-z]+$/)) {
+            setValues({ ...values, error: "You are only allowed to enter letters in First Name and Last Name!" })
+        }
         else {
                 signup({ fName, lName, password, email, gender, role })
                 .then(data => {
