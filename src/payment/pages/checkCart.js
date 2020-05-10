@@ -11,7 +11,7 @@ const CheckoutCart = ({products}) => {
     }
     
     return<div>
-      <h4>Total: LKR{getTotal()}</h4>
+      <h3> Total: LKR{getTotal()}</h3>
     </div>
   }
 

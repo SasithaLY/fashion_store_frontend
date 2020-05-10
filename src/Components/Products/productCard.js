@@ -1,13 +1,14 @@
 import React, {Component, useState} from 'react';
 import model1 from "../../shared/assets/tempImages/shop_model_1.png";
 import ProductImageDisplay from "./ProductImageDisplay";
+import moment from "moment";
 import {addItem, updateItem, removeItem} from "../../cart/cartHelper";
 import {Link, Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {deleteProduct} from "../APIBridge/APIProduct";
 
 let showAdminOptions = false;
-const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=false, cartUpdate = false, Admin}) => {
+const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
     // console.log(Product)
 
     if (Admin) {
@@ -44,6 +45,7 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
         );
     };
     const handleChange = productId => event => {
+        setRun(!run);
         setCount(event.target.value < 1 ? 1 : event.target.value);
         if(event.target.value >= 1){
             updateItem(productId, event.target.value);
@@ -53,7 +55,7 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
         return (
             showRemoveButton && (
                 <button
-                    onClick={() => removeItem(Product._id)}
+                    onClick={() => {removeItem(Product._id); setRun(!run);}}
                     className="btn btn-outline-danger mt-2 mb-2 mx-2"
                 >
                    Remove Product

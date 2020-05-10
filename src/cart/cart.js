@@ -8,10 +8,11 @@ import CheckoutCart from "../payment/pages/checkCart";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
+  const[run,setRun] = useState(false);
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [run]);
 
   const showItems = items => {
     console.log(items);
@@ -28,6 +29,8 @@ const Cart = () => {
             showAddToCartButton={false}
             cartUpdate={true}
             showRemoveButton={true}
+            setRun = {setRun}
+            run ={run}
           />
         ))}
       </div>
@@ -44,12 +47,16 @@ const Cart = () => {
   return (
     <div className="container-fluid">
       <center><h3 class="yell-text" >Shopping Cart</h3></center>
-     
       <div className="row mt-4 m-5 d-flex justify-content-center">
-          {items.length > 0 ? showItems(items) : noItemMessage()}
+      <div className="row" style = {{display:"inline-block"}}>
+        <div class="column">
+          <div class="card">
+              {items.length > 0 ? showItems(items) : noItemMessage()}
+          </div>
         </div>
-        
-        <div className="col-6">
+      </div>
+      </div> 
+      <div className="col-6">
           <h3> Your Total</h3>
           <CheckoutCart products={items}/>
           <button className="btn btn-outline-warning mt-2 mb-2 mx-2">Show checkout options</button>
