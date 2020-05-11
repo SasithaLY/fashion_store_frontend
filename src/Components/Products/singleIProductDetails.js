@@ -29,16 +29,23 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [currentReviews, setCurrentReviews] = useState([]);
-    const [dataLengths, setDataLengths] = useState(0);
-
 
     const params = useParams();
 
-    const getSingleProductDetails =  () => {
-         getSingleProduct(params.id).then(data => {
+    const getSingleProductDetails = () => {
+        let total = 0
+        let dataLength = 0
+        let ratingarray = [];
+        getSingleProduct(params.id).then(data => {
             setSingleProductDetails(data);
             setCurrentReviews(data.review);
-            setDataLengths(data.review.length);
+            ratingarray = data.review;
+            dataLength = data.review.length;
+            ratingarray.map(value => {
+                total = total + value.rating
+            });
+            console.log('fuck', total/dataLength);
+            setOverallRating(total/dataLength);
         }).catch(error => {
             console.log(error);
         });
@@ -192,19 +199,17 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
                             <Typography component="legend">Rating</Typography>
                             <Rating
                                 name="read-only"
-                                value={2.5}
+                                value={overallRating}
                                 readOnly/>
                         </Box>
+
+                        <h3 className="my-3 text-warning">Price USD {singleProductDetails.price}</h3>
+
                         <h3 className="my-0 text-warning">Description</h3>
                         <p>{singleProductDetails.description}
                         </p>
-                        <h3 className="my-3 text-warning">Item Details</h3>
-                        <ul>
-                            <li>Lorem Ipsum</li>
-                            <li>Dolor Sit Amet</li>
-                            <li>Consectetur</li>
-                            <li>Adipiscing Elit</li>
-                        </ul>
+
+
                         <div className="p-1 align-content-between">
                             {showAddToCartButton(showAddToCartButton)}
                             {showCartUpdateOptions(cartUpdate)}
@@ -220,7 +225,7 @@ const SingleIProductDetails = ({product, showCartAddButton = true, cartUpdate = 
             <div className="container-fluid bg-dark mt-4 p-3">
                 <h4 className="text-warning mb-3">Product's Reviews and Ratings</h4>
                 {currentReviews && currentReviews.map((value, i) => (
-                    <div className="container-fluid rounded m2 p-3 mt-2" style={{backgroundColor: "#515251"}}>
+                    <div className="container-fluid rounded m2 p-3 mt-2" style={{backgroundColor: "#515251"}} key={i}>
                         <Box component="fieldset" mb={1} borderColor="transparent">
                             <Rating name="read-only" value={value.rating} readOnly/>
                         </Box>
