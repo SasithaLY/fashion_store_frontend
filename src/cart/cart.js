@@ -53,13 +53,13 @@ const Cart = () => {
           <div class="card">
               {items.length > 0 ? showItems(items) : noItemMessage()}
           </div>
-        </div>
+        </div> 
       </div>
       </div> 
       <div className="col-6">
           <h3> Your Total</h3>
           <CheckoutCart products={items}/>
-          <button className="btn btn-outline-warning mt-2 mb-2 mx-2">Show checkout options</button>
+         
         </div>
     </div> 
    
