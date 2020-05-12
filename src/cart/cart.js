@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import "../App.css";
 import moment from "moment";
 import { getCart,removeItem,updateItem} from "./cartHelper";
@@ -27,6 +28,7 @@ const Cart = () => {
             key={i}
             Product={product}
             showAddToCartButton={false}
+            showWishListButton = {false}
             cartUpdate={true}
             showRemoveButton={true}
             setRun = {setRun}
@@ -48,10 +50,12 @@ const Cart = () => {
     <div className="container-fluid">
       <center><h3 class="yell-text" >Shopping Cart</h3></center>
       <div className="row mt-4 m-5 d-flex justify-content-center">
-      <div className="row" style = {{display:"inline-block"}}>
+      <div className="row" >
         <div class="column">
           <div class="card">
+         
               {items.length > 0 ? showItems(items) : noItemMessage()}
+             
           </div>
         </div> 
       </div>
