@@ -60,10 +60,8 @@ const MainHeader = () => {
                 </span>
               </a>
               <a href={"/wishList"}>
-                <span className="p1 fa-stack has-badge">
-                  <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white">
-                    
-                  </i>
+                <span className="p1 fa-stack has-badge ">
+                <i class="fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
                 </span>
               </a>
             </div>

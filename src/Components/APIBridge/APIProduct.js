@@ -202,3 +202,19 @@ export const getProductsByAdmin = (skip, limit, token, filters = {}) => {
             console.log(err);
         });
 };
+
+export const updateReviewOnProduct = (productId, data) => {
+    console.log(JSON.stringify(data));
+    return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/updateReview/${productId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

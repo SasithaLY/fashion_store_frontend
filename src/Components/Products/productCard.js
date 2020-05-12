@@ -1,14 +1,17 @@
 import React, {Component, useState} from 'react';
 import model1 from "../../shared/assets/tempImages/shop_model_1.png";
 import ProductImageDisplay from "./ProductImageDisplay";
+import moment from "moment";
 import {addItem, updateItem, removeItem} from "../../cart/cartHelper";
 import {Link, Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {deleteProduct} from "../APIBridge/APIProduct";
+import {isAuthenticated} from "../../auth/auth";
 
 let showAdminOptions = false;
-const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=false, cartUpdate = false, Admin}) => {
+const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
     // console.log(Product)
+    const { user, token } = isAuthenticated();
 
     if (Admin) {
         showAdminOptions = Admin;
@@ -44,6 +47,7 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
         );
     };
     const handleChange = productId => event => {
+        setRun(!run);
         setCount(event.target.value < 1 ? 1 : event.target.value);
         if(event.target.value >= 1){
             updateItem(productId, event.target.value);
@@ -53,7 +57,7 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
         return (
             showRemoveButton && (
                 <button
-                    onClick={() => removeItem(Product._id)}
+                    onClick={() => {removeItem(Product._id); setRun(!run);}}
                     className="btn btn-outline-danger mt-2 mb-2 mx-2"
                 >
                    Remove Product
@@ -94,7 +98,7 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
     };
 
     const handleDelete = (ID) => {
-        deleteProduct(ID).then(data => {
+        deleteProduct(ID, user._id, token).then(data => {
             console.log(data)
             alert('Successfully deleted!');
             window.location.reload();
@@ -129,8 +133,8 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
                     </div>
                 </div>
                 {showCartUpdateOption(cartUpdate)}
-               
-                
+
+
             </div>
 
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
