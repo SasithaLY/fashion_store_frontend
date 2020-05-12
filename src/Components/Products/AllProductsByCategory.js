@@ -58,7 +58,7 @@ const AllProductsByCategory = () => {
         return (
             size > 0 &&
             size >= limit && (
-                <button onClick={loadMoreData} className="btn btn-primary mb-5">
+                <button onClick={loadMoreData} className="btn btn-warning mb-5">
                     Load more
                 </button>
             )
