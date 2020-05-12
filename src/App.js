@@ -107,9 +107,7 @@ const App = () => {
                             <UploadProducts/>
                         </Route>
 
-                        <Route path="/addCategory" exact>
-                            <UploadCategories/>
-                        </Route>
+                        <AdminRoute path="/addCategory" exact component={UploadCategories} />
 
                         <Route path="/allProducts" exact>
                             <Header />
