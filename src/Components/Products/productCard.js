@@ -89,6 +89,9 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
             <div>
                 <a href={`/products/${Product._id}`} className="btn btn-outline-success text-green">Details</a>
                 {showAddToCart(showAddToCartButton)}
+                <div className="innerButton">
+                    {showWishList(showWishListButton)}
+                </div>
                 {/* <a href="#" className="btn btn-warning text-white ml-3">Add to Cart</a> */}
             </div>
         )
@@ -137,9 +140,6 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
                     </div>
                     <div className="innerButton">
                         {showRemoveButtonCart(showRemoveButton)}
-                    </div>
-                    <div className="innerButton">
-                       {showWishList(showWishListButton)}
                     </div>
                 </div>
                 {showCartUpdateOption(cartUpdate)}
