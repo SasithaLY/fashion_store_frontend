@@ -62,7 +62,7 @@ const MainHeader = () => {
               </a>
               <Link to={"/wishList"}>
                 <span className="p1 fa-stack has-badge ">
-                <i class="fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
+                <i className="fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
                 </span>
               </Link>
             </div>
