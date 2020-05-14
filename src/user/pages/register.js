@@ -102,7 +102,7 @@ const Register = () => {
                 <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">SIGN UP</button>
             </form> <br />
 
-            <center><p>Already a Member?  <Link to="/signin">SIGN IN</Link></p></center>
+            <center><p>Already a Member?  <Link to="/signin">SIGN IN</Link></p></center><br />
         </div>
     );
 
