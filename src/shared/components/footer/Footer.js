@@ -22,7 +22,6 @@ const Footer = () => {
               <div className="col-md-3 p-2">
                 <i className="fas fa-envelope icon-white"></i>&nbsp;
                 {process.env.REACT_APP_EMAIL}
-                {process.env.REACT_APP_API_URL}
               </div>
             </div>
           </div>

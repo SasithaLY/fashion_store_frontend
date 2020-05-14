@@ -103,7 +103,7 @@ const Dashboard = () => {
     return (
         <div className="row">
             <div className="col-3">
-                {adminNavs()}
+               {/*  {adminNavs()} */}
             </div>
             <div className="col-9">
                 {userProfile()}

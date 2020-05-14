@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { useHistory, withRouter } from "react-router-dom";
 import { itemTotal } from "../../../cart/cartHelper";
 import MainNavigation from "./MainNavigation";
+import { Link } from "react-router-dom";
 import "./MainHeader.css";
 import { signout, isAuthenticated } from "../../../auth/auth"
 
@@ -64,20 +65,18 @@ const MainHeader = () => {
 
               }
 
-              <a href={"/cart"}>
+              <a  href={"/cart"}  >
                 <span className="p1 fa-stack has-badge" data-count={itemTotal()}>
                   <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white">
 
                   </i>
                 </span>
               </a>
-              <a href={"/wishList"}>
-                <span className="p1 fa-stack has-badge">
-                  <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white">
-
-                  </i>
+              <Link to={"/wishList"}>
+                <span className="p1 fa-stack has-badge ">
+                <i className="fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

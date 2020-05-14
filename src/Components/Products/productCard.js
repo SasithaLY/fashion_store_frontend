@@ -9,7 +9,7 @@ import {deleteProduct} from "../APIBridge/APIProduct";
 import {isAuthenticated} from "../../auth/auth";
 
 let showAdminOptions = false;
-const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
+const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
     // console.log(Product)
     const { user, token } = isAuthenticated();
 
@@ -43,6 +43,13 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
                 >
                    Add to Cart
                 </button>
+            )
+        );
+    };
+    const showWishList = (showWishListButton) => {
+        return (
+            showWishListButton && (
+                <button className="btn btn-outline-primary"><i class="fa fa-heart  icon-yellow"></i></button>
             )
         );
     };
@@ -82,6 +89,9 @@ const ProductCard = ({Product, showAddToCartButton = true, showRemoveButton=fals
             <div>
                 <a href={`/products/${Product._id}`} className="btn btn-outline-success text-green">Details</a>
                 {showAddToCart(showAddToCartButton)}
+                <div className="innerButton">
+                    {showWishList(showWishListButton)}
+                </div>
                 {/* <a href="#" className="btn btn-warning text-white ml-3">Add to Cart</a> */}
             </div>
         )
