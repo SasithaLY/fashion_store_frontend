@@ -53,7 +53,7 @@ const Sidebar = () => {
         <NavLink to="/addCategory" activeClassName="activeClass">
           <MDBListGroupItem className="list-group-item-custom"> 
             <MDBIcon icon="square" className="mr-3" />
-            Add New Category
+            Manage Categories
           </MDBListGroupItem>
         </NavLink>
       </MDBListGroup>
