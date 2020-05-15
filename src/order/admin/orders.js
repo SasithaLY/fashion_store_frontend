@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { isAuthenticated } from "../../auth/auth";
-import { getOrders, getStatus, updateStatus } from "./orderHelper";
+import { getOrders, getStatus, updateStatus, ordersList } from "./orderHelper";
 import moment from "moment";
 import DataTable, { createTheme } from "react-data-table-component";
 import OrderCard from "../components/OrderCard";
@@ -9,6 +9,7 @@ import Modal from "react-bootstrap/Modal";
 import "./orders.css";
 
 const Orders = () => {
+  const [values, setValues] = useState({});
   const [orders, setOrders] = useState([]);
   const [statusValues, setStatusValues] = useState([]);
   const [status, setStatus] = useState();
@@ -18,6 +19,7 @@ const Orders = () => {
   const { user, token } = isAuthenticated();
 
   const retrieveOrders = () => {
+    setLoading(true);
     getOrders(user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
@@ -162,12 +164,7 @@ const Orders = () => {
         cusName: order.user.fName + " " + order.user.lName,
         email: order.user.email,
         amount: "$ " + order.amount.toFixed(2),
-        orderedOn:
-          moment(order.createdAt).year() +
-          "-" +
-          (moment(order.createdAt).month() + 1) +
-          "-" +
-          moment(order.createdAt).date(),
+        orderedOn: moment(order.createdAt).format("YYYY-MM-DD"),
         shipTo:
           order.shippingAddress.city + ", " + order.shippingAddress.country,
         paymentMethod: order.paymentMethod,
@@ -221,36 +218,132 @@ const Orders = () => {
     );
   };
 
+  const handleInputChange = (event) => {
+    const target = event.target;
+
+    const name = target.id;
+    const value = target.value;
+
+    setValues({
+      ...values,
+      [name]: value,
+    });
+
+  };
+
+  const searchSubmit = (e) =>{
+    e.preventDefault()
+    searchOrders();
+  }
+
+  const searchOrders = () => {
+    if(Object.keys(values).length !== 0){
+      setLoading(true);
+      ordersList(user._id, token, values || undefined ).then(response => {
+        setLoading(false);
+        if(response.error){
+          console.log(response.error);
+        }else{
+          ordersArray(response);
+        }
+      })
+    }else{
+      retrieveOrders();
+    }
+    //console.log(values);
+
+  }
+
   const handleClose = () => setModal(false);
   const handleShow = () => setModal(true);
 
   return (
     <div className="container-fluid">
-      {showLoading()}
+      <h2 className="text-center">
+        <label>Orders</label>
+      </h2>
       <div>
-        {loading ? null : (
-          <div className="card">
-            <div className="card-header">
-              <h4>Orders</h4>
-            </div>
+        <div className="card">
+          <div className="card-header">
+            <form className="form-inline" onSubmit={searchSubmit}>
+              <div className="form-group mx-sm-3">
+                <label htmlFor="orderId" className="control-label mx-2">
+                  Order ID
+                </label>
+                <input
+                  type="text"
+                  className="form-control-sm"
+                  id="orderId"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group mx-sm-3">
+                <label htmlFor="product" className="control-label mx-2">
+                  Product
+                </label>
+                <input
+                  type="text"
+                  className="form-control-sm"
+                  id="product"
+                  onChange={handleInputChange}
+                />
+              </div>
+              {/* <div className="form-group mx-sm-3">
+                <label htmlFor="email" className="control-label mx-2">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  className="form-control-sm"
+                  id="email"
+                  onChange={handleInputChange}
+                />
+              </div> */}
+              <div className="form-group mx-sm-3">
+                <label htmlFor="from" className="control-label mx-2">
+                  From Date
+                </label>
+                <input
+                  type="date"
+                  className="form-control-sm"
+                  id="from"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group mx-sm-3">
+                <label htmlFor="to" className="control-label mx-2">
+                  To Date
+                </label>
+                <input type="date" className="form-control-sm" id="to" onChange={handleInputChange}/>
+              </div>
+              <button type="submit" className="btn btn-primary btn-sm">
+                Search
+              </button>
+            </form>
+          </div>
+          {loading ? null : (
             <div className="card-body">
               <DataTable
                 theme="dark"
                 columns={columns}
                 data={orders}
+                noHeader
                 pagination={true}
                 customStyles={customStyles}
                 expandableRows
                 expandableRowsComponent={<OrderCard />}
               />
             </div>
-          </div>
-        )}
+          )}
+          {showLoading()}
+        </div>
       </div>
 
       <Modal show={showModal} onHide={handleClose}>
         <form className="needs-validation" onSubmit={handleUpdateStatus}>
-          <Modal.Header closeButton><h4>Change Status</h4></Modal.Header>
+          <Modal.Header closeButton>
+            <h4>Change Status</h4>
+          </Modal.Header>
           <Modal.Body>
             <div className="input-group mb-3">
               <div className="input-group-prepend">

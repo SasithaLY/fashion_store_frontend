@@ -26,11 +26,13 @@ import AllProducts from "./Components/Products/AllProducts";
 import UpdateProduct from "./Components/Update/UpdateProduct";
 import ProductsByAdmin from "./Components/Products/ProductsByAdmin";
 import Orders from "./order/admin/orders";
+import OrdersHistory from "./order/user/orderHistory";
 
 import PrivateRoute from "./auth/PrivateRoute";
 import AdminRoute from "./auth/AdminRoute";
 import StoreManagerRoute from "./auth/StoreManagerRoute";
 import NormalRoute from "./auth/NormalRoute";
+import OrderHistory from "./order/user/orderHistory";
 
 const App = () => {
   return (
@@ -57,6 +59,7 @@ const App = () => {
             <PrivateRoute path="/user/profile" exact component={Profile} />
             <PrivateRoute path="/user/editProfile/:userId" exact component={EditProfile}/>
             <PrivateRoute path="/checkout" exact component={Checkout} />
+            <PrivateRoute path="/user/orderHistory" exact component={OrderHistory} />
 
             {/* admin routes */}
 
