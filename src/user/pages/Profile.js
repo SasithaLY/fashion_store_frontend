@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import "../components/profileStyles.css";
 import { isAuthenticated } from "../../auth/auth";
-
+import userImg from "../../shared/assets/images/index.png"
 
 const userProfile = () => {
 
@@ -15,7 +15,7 @@ const userProfile = () => {
           <div className="col-md-6 img">
             <h3> Hi! {fName}, Have a Good Day! </h3> <br />
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"
+              src={userImg}
               alt=""
               className="img-rounded"
             />
@@ -70,7 +70,7 @@ const userNavs = () => {
           <Link
             className="nav-link"
             aria-selected="false"
-            to="/purchaseHistory"
+            to="/user/orderHistory"
           >
             Purchase History
         </Link>

@@ -1,4 +1,5 @@
 import { API } from '../../config';
+import queryString from "query-string";
 
 export const getOrders = (userId, token) => {
     return fetch(`${API}/order/getlist/${userId}`, {
@@ -42,6 +43,56 @@ export const updateStatus = (userId, token, orderId, status) => {
     })
     .then(response => {
         return response.json();
+    })
+    .catch(err => console.log(err));
+}
+
+export const getOrdersHistory = (userId, token) => {
+    return fetch(`${API}/oder/by/user/${userId}`, {
+        method: "GET",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then(Response => {
+        return Response.json();
+    })
+    .catch(err => console.log(err));
+}
+
+
+export const ordersList = (userId, token, params) => {
+    const query = queryString.stringify(params);
+    console.log('query', query);
+    return fetch(`${API}/oders/${userId}/search?${query}`, {
+        method: "GET",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then(Response => {
+        return Response.json();
+    })
+    .catch(err => console.log(err));
+}
+
+export const searchOrderHistory = (userId, token, params) => {
+    const query = queryString.stringify(params);
+    console.log('query', query);
+    return fetch(`${API}/oders/by/user/${userId}/search?${query}`, {
+        method: "GET",
+        headers:{
+            Accept:"application/json",
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then(Response => {
+        return Response.json();
     })
     .catch(err => console.log(err));
 }
