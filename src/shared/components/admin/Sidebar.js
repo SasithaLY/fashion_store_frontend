@@ -15,37 +15,43 @@ const Sidebar = () => {
           to="/admin/dashboard"
           activeClassName="activeClass"
         >
-          <MDBListGroupItem>
+          <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="chart-pie" className="mr-3" />
             Dashboard
           </MDBListGroupItem>
         </NavLink>
+        <NavLink to="/admin/user/profile" activeClassName="activeClass">
+          <MDBListGroupItem className="list-group-item-custom">
+            <MDBIcon icon="user" className="mr-3" />
+            Profile
+          </MDBListGroupItem>
+        </NavLink>
         <NavLink to="/admin/orders" activeClassName="activeClass">
-          <MDBListGroupItem>
+          <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="table" className="mr-3" />
             Orders
           </MDBListGroupItem>
         </NavLink>
         <NavLink to="/admin/addAdmin" activeClassName="activeClass">
-          <MDBListGroupItem>
+          <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="user-secret" className="mr-3" />
             Add New Admin
           </MDBListGroupItem>
         </NavLink>
         <NavLink to="/admin/addManager" activeClassName="activeClass">
-          <MDBListGroupItem>
+          <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="user-tie" className="mr-3" />
             Add New Manager
           </MDBListGroupItem>
         </NavLink>
         <NavLink to="/addProduct" activeClassName="activeClass">
-          <MDBListGroupItem>
+          <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="tshirt" className="mr-3" />
             Add New Product
           </MDBListGroupItem>
         </NavLink>
         <NavLink to="/addCategory" activeClassName="activeClass">
-          <MDBListGroupItem>
+          <MDBListGroupItem className="list-group-item-custom"> 
             <MDBIcon icon="square" className="mr-3" />
             Manage Categories
           </MDBListGroupItem>

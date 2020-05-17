@@ -70,7 +70,7 @@ const userNavs = () => {
           <Link
             className="nav-link"
             aria-selected="false"
-            to="/purchaseHistory"
+            to="/user/orderHistory"
           >
             Purchase History
         </Link>

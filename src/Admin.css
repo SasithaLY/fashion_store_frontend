@@ -34,21 +34,27 @@
     padding: 2.5rem;
   }
   
-  .list-group-item {
+  .list-group-item-custom {
     display: block !important;
     transition: background-color 0.3s;
+    margin-top: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    
   }
   
-  .list-group-item:hover {
+  .list-group-item-custom:hover {
     color: #49505B;
     text-decoration: none;
-    background-color: #f8f9fa
+    background-color: #f8f9fa;
+    border-radius: 5px;
   }
   
-  .list-group-item:hover {
+  .list-group-item-custom:hover {
     color: #49505B;
     text-decoration: none;
-    background-color: #f8f9fa
+    background-color: #f8f9fa;
+    border-radius: 5px;
   }
   
   
@@ -142,13 +148,14 @@
   
   .activeClass .list-group-item {
     z-index: 5;
-    color: #fff;
-    border-color: #007bff;
+    color: rgb(0, 0, 0);
+    border-color: goldenrod;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     border-radius: 5px !important;
-    background-color: #007bff !important;
+    background-color: goldenrod !important;
+    text-decoration: none;
   }
-  
+
   .cus-page-footer{
     padding-left: 270px;
     position: absolute;
@@ -192,6 +199,4 @@
   .list-group-item{
     background-color:  rgb(24, 24, 24);
   }
-  
-  
   
