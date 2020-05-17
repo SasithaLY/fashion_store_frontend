@@ -6,7 +6,7 @@ import logo from "../../assets/images/logowhite.png";
 const Sidebar = () => {
   return (
     <div className="sidebar-fixed position-fixed">
-      <a href="#" className="logo-wrapper waves-effect">
+      <a href="/" className="logo-wrapper waves-effect">
         <img alt="MDB React Logo" className="img-fluid" src={logo} />
       </a>
       <MDBListGroup className="list-group-flush">
@@ -18,12 +18,6 @@ const Sidebar = () => {
           <MDBListGroupItem>
             <MDBIcon icon="chart-pie" className="mr-3" />
             Dashboard
-          </MDBListGroupItem>
-        </NavLink>
-        <NavLink to="/admin/user/profile" activeClassName="activeClass">
-          <MDBListGroupItem>
-            <MDBIcon icon="user" className="mr-3" />
-            Profile
           </MDBListGroupItem>
         </NavLink>
         <NavLink to="/admin/orders" activeClassName="activeClass">
