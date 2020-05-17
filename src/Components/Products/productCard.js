@@ -7,6 +7,7 @@ import {Link, Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {deleteProduct} from "../APIBridge/APIProduct";
 import {isAuthenticated} from "../../auth/auth";
+import {createWishlist} from "../../wishList/wishAPI";
 
 let showAdminOptions = false;
 const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
@@ -27,7 +28,16 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
             setRedirect(true);
         });
     };
+    const userId = isAuthenticated().user._id;
+    
 
+    const AddToWishList =() =>{
+        let createWishData = {
+            products: Product
+        }
+        createWishlist(userId, token, createWishData);
+            
+    };
     const shouldRedirect = (redirect) => {
         if (redirect) {
             return <Redirect to="/cart"/>;
@@ -49,7 +59,7 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
     const showWishList = (showWishListButton) => {
         return (
             showWishListButton && (
-                <button className="btn btn-outline-primary"><i class="fa fa-heart  icon-yellow"></i></button>
+                <button onClick={AddToWishList} className="btn btn-outline-primary"><i class="fa fa-heart  icon-yellow"></i></button>
             )
         );
     };

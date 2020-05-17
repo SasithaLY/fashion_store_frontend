@@ -89,6 +89,8 @@ const App = () => {
 
                         <PrivateRoute path="/user/profile" exact component={Profile}/>
 
+                        <PrivateRoute path="/wishList" exact component={WishList}/>
+
                         <PrivateRoute path="/user/editProfile/:userId" exact component={EditProfile}/>
 
                         <PrivateRoute path="/checkout" exact component={Checkout}/>
