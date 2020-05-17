@@ -86,8 +86,6 @@ const App = () => {
             <StoreManagerRoute path="/storeManager/updateProducts/:productId" exact component={UpdateProduct}/>
             <StoreManagerRoute path="/storeManager/allProducts" exact component={ProductsByAdmin}/>
 
-            {/* STORE MANAGER PRIVILEGES */}
-
             <Redirect to="/" />
           </Switch>
         </BrowserRouter>

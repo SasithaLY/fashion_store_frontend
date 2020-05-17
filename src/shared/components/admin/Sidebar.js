@@ -20,12 +20,6 @@ const Sidebar = () => {
             Dashboard
           </MDBListGroupItem>
         </NavLink>
-        <NavLink to="/admin/user/profile" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom">
-            <MDBIcon icon="user" className="mr-3" />
-            Profile
-          </MDBListGroupItem>
-        </NavLink>
         <NavLink to="/admin/orders" activeClassName="activeClass">
           <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="table" className="mr-3" />
