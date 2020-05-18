@@ -18,23 +18,29 @@ const Cart = () => {
   const showItems = items => {
     console.log(items);
     return (
-      <div className="container">
+      <div className="container-fluid">
         <h5 >Your cart has {`${items.length}`} items</h5>
         <hr></hr>
+        <div className="col-12">
+          <div className="row">
+            {items.map((product, i) => (
+            <div className="col">
+              <ProductCard
+                key={i}
+                Product={product}
+                showAddToCartButton={false}
+                showWishListButton = {false}
+                cartUpdate={true}
+                showRemoveButton={true}
+                setRun = {setRun}
+                run ={run}
+              />
+            </div>
+          ))}
+
+          </div>
+        </div>
         
-        {items.map((product, i) => (
-          
-          <ProductCard
-            key={i}
-            Product={product}
-            showAddToCartButton={false}
-            showWishListButton = {false}
-            cartUpdate={true}
-            showRemoveButton={true}
-            setRun = {setRun}
-            run ={run}
-          />
-        ))}
       </div>
     );
   };
@@ -50,15 +56,11 @@ const Cart = () => {
     <div className="container-fluid">
       <center><h3 class="yell-text" >Shopping Cart</h3></center>
       <div className="row mt-4 m-5 d-flex justify-content-center">
-      <div className="row" >
-        <div class="column">
-          <div class="card">
+        <div className="row">
          
               {items.length > 0 ? showItems(items) : noItemMessage()}
              
-          </div>
-        </div> 
-      </div>
+        </div>
       </div> 
       <div className="col-6">
           <h3> Your Total</h3>

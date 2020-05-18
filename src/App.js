@@ -65,6 +65,8 @@ const App = () => {
             <PrivateRoute path="/user/editProfile/:userId" exact component={EditProfile}/>
             <PrivateRoute path="/checkout" exact component={Checkout} />
             <PrivateRoute path="/user/orderHistory" exact component={OrderHistory} />
+            <PrivateRoute path="/wishList" exact component={WishList} />
+
 
             {/* admin routes */}
 
