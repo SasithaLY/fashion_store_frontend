@@ -56,6 +56,12 @@ const Sidebar = () => {
             Manage Categories
           </MDBListGroupItem>
         </NavLink>
+        <NavLink to="/admin/locations" activeClassName="activeClass">
+          <MDBListGroupItem className="list-group-item-custom"> 
+            <MDBIcon icon="globe-americas" className="mr-3" />
+            Shipping Locations
+          </MDBListGroupItem>
+        </NavLink>
       </MDBListGroup>
     </div>
   );
