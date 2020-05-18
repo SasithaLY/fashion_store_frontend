@@ -19,7 +19,7 @@ const TopNavigationBar = () => {
                     href={"/signin"}
                     className="text-success"
                   >
-                    <span>SignIn</span>
+                    <span>LOGIN</span>
                   </a>
 
                   <a
@@ -27,7 +27,7 @@ const TopNavigationBar = () => {
                     href={"/signup"}
                     className="mx-3 text-warning"
                   >
-                    SignUp
+                    REGISTER
                   </a>
                 </Fragment>
               )}
@@ -41,7 +41,7 @@ const TopNavigationBar = () => {
                         history.push("/");
                       })
                     }>
-                  SignOut</button>
+                  LOGOUT</button>
                 </Fragment>
               )}
 

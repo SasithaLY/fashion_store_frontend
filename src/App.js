@@ -4,10 +4,13 @@ import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Login from "./user/pages/Login";
-import Register from "./user/pages/register";
-import Profile from "./user/pages/Profile";
-import EditProfile from "./user/pages/EditProfile";
+import Header from "./shared/components/navigation/MainHeader";
+import Footer from "./shared/components/footer/Footer";
+
+import Login from "./user/Pages/Login";
+import Register from "./user/Pages/Register";
+import Profile from "./user/Pages/Profile";
+import EditProfile from "./user/Pages/EditProfile"
 
 import AddManager from "./user/Admin/AddManager";
 import AddAdmin from "./user/Admin/AddAdmin";
@@ -84,8 +87,6 @@ const App = () => {
             <StoreManagerRoute path="/admin/orders" exact component={Orders} />
             <StoreManagerRoute path="/storeManager/updateProducts/:productId" exact component={UpdateProduct}/>
             <StoreManagerRoute path="/storeManager/allProducts" exact component={ProductsByAdmin}/>
-
-            {/* STORE MANAGER PRIVILEGES */}
 
             <Redirect to="/" />
           </Switch>

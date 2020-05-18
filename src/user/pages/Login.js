@@ -48,11 +48,11 @@ const Login = () => {
                         <input type="email" onChange={handleChange("email")} value={email} className="form-control" />
 
                         <label>Password</label>
-                        <input type="password" onChange={handleChange("password")} value={password} className="form-control" />
+                        <input type="password" onChange={handleChange("password")} value={password} className="form-control" /> <br/>
 
-                        <label className="form-check-label mb-2 mt-2">
+                        {/* <label className="form-check-label mb-2 mt-2">
                             <a href="#">Forgot Password?</a>
-                        </label>
+                        </label> */}
 
                         <button onClick={clickSubmit} className="btn btn-outline-warning btn-md btn-block">Sign in</button>
 
