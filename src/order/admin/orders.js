@@ -69,7 +69,7 @@ const Orders = () => {
       right: true,
     },
     {
-      name: "Amount",
+      name: "Amount (USD)",
       selector: "amount",
       sortable: true,
       right: true,
@@ -163,7 +163,7 @@ const Orders = () => {
         transactionId: order.transactionId,
         cusName: order.user.fName + " " + order.user.lName,
         email: order.user.email,
-        amount: "$ " + order.amount.toFixed(2),
+        amount: order.amount.toFixed(2),
         orderedOn: moment(order.createdAt).format("YYYY-MM-DD"),
         shipTo:
           order.shippingAddress.city + ", " + order.shippingAddress.country,
@@ -172,6 +172,7 @@ const Orders = () => {
         shippingAddress: order.shippingAddress,
         billingAddress: order.billingAddress,
         products: order.products,
+        promocode:order.promocode,
       };
 
       orderArr.push(obj);

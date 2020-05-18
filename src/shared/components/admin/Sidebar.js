@@ -56,6 +56,12 @@ const Sidebar = () => {
             Shipping Locations
           </MDBListGroupItem>
         </NavLink>
+        <NavLink to="/admin/promocodes" activeClassName="activeClass">
+          <MDBListGroupItem className="list-group-item-custom"> 
+            <MDBIcon icon="dollar-sign" className="mr-3" />
+            Promo Codes
+          </MDBListGroupItem>
+        </NavLink>
       </MDBListGroup>
     </div>
   );

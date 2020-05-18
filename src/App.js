@@ -7,10 +7,10 @@ import "./App.css";
 import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 
-import Login from "./user/Pages/Login";
-import Register from "./user/Pages/Register";
-import Profile from "./user/Pages/Profile";
-import EditProfile from "./user/Pages/EditProfile"
+import Login from "./user/pages/Login";
+import Register from "./user/pages/register";
+import Profile from "./user/pages/Profile";
+import EditProfile from "./user/pages/EditProfile"
 
 import AddManager from "./user/Admin/AddManager";
 import AddAdmin from "./user/Admin/AddAdmin";
@@ -37,6 +37,7 @@ import StoreManagerRoute from "./auth/StoreManagerRoute";
 import NormalRoute from "./auth/NormalRoute";
 import OrderHistory from "./order/user/orderHistory";
 import Locations from "./locations/Locations";
+import Promo from "./promo/promo";
 
 const App = () => {
   return (
@@ -74,6 +75,7 @@ const App = () => {
             <AdminRoute path="/admin/addAdmin" exact component={AddAdmin} />
             <AdminRoute path="/addProduct" exact component={UploadProducts} />
             <AdminRoute path="/admin/locations" exact component={Locations} />
+            <AdminRoute path="/admin/promocodes" exact component={Promo} />
 
             {/* PRODUCTS AND CATEGORIES */}
             

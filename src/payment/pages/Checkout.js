@@ -18,6 +18,7 @@ import { getCart, clearCart } from "../../cart/cartHelper";
 import { confirmAlert } from "react-confirm-alert";
 import "braintree-web";
 import DropIn from "braintree-web-drop-in-react";
+import {getSinglePromoCode} from "../../promo/promoHelper"
 
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./Checkout.css";
@@ -86,11 +87,13 @@ export default function Checkout() {
       country: "",
       state: "",
       postal: "",
+      promocode:"",
     },
+    code:"",
     promocode: {
       applied: false,
-      code: "10OUT",
-      discount: 10,
+      code: "",
+      discount: 0,
     },
   });
 
@@ -155,9 +158,15 @@ export default function Checkout() {
   };
 
   const getTotal = () => {
-    return cart.reduce((current, next) => {
+    
+    let cartTotal = cart.reduce((current, next) => {
       return current + next.count * next.price;
     }, 0);
+
+    if(values.promocode.applied){
+      cartTotal = cartTotal - (cartTotal * values.promocode.discount / 100);
+    }
+    return cartTotal;
   };
 
   const showDropIn = () => (
@@ -396,6 +405,7 @@ export default function Checkout() {
         products: cart,
         shippingAddress: values.shippingAddress,
         billingAddress: billAddress,
+        promocode:values.promocode
       };
 
       if (values.paymentMethod === "cod") {
@@ -451,16 +461,38 @@ export default function Checkout() {
 
   const submitPromoCode = (e) => {
     e.preventDefault();
-
+    if(values.code && values.code !== ""){
+      getSinglePromoCode(userId, token, {promocode:values.code} || undefined).then(response => {
+        if(response.error){
+          console.log(response.error);
+          let newErr = values.errors;
+          newErr.promocode = response.error;
+          setValues({...values,errors: newErr});
+        }else{
+          let newErr = values.errors;
+          newErr.promocode = "";
+          setValues({
+            ...values,
+            promocode: {
+              applied: true,
+              code: response.promocode,
+              discount:response.discount,
+            },
+            errors: newErr
+          });
+          console.log(response);
+        }
+      })
+    }
     //this is dummy for now, should validate the code with db.
-    setValues({
+    /* setValues({
       ...values,
       promocode: {
         applied: true,
         code: values.promo,
         discount: 10,
       },
-    });
+    }); */
   };
 
   const getAddressData = () => {
@@ -874,6 +906,7 @@ export default function Checkout() {
           <div className="col-md-4">
             <Cart
               cart={cart}
+              error={values.errors.promocode}
               promocode={values.promocode}
               handleInputChange={handleInputChange}
               submitPromoCode={submitPromoCode}
