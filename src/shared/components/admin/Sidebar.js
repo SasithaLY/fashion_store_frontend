@@ -32,12 +32,21 @@ const Sidebar = () => {
             Add New Admin
           </MDBListGroupItem>
         </NavLink>
+
         <NavLink to="/admin/addManager" activeClassName="activeClass">
           <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="user-tie" className="mr-3" />
             Add New Manager
           </MDBListGroupItem>
         </NavLink>
+
+        <NavLink to="/admin/viewUsers" activeClassName="activeClass">
+          <MDBListGroupItem className="list-group-item-custom">
+            <MDBIcon icon="portrait" className="mr-3" />
+            Manage Users
+          </MDBListGroupItem>
+        </NavLink>
+
         <NavLink to="/addProduct" activeClassName="activeClass">
           <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="tshirt" className="mr-3" />
