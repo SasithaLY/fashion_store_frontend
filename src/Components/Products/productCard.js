@@ -10,7 +10,7 @@ import {isAuthenticated} from "../../auth/auth";
 import {createWishlist} from "../../wishList/wishAPI";
 
 let showAdminOptions = false;
-const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
+const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showAddToCartButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
     // console.log(Product)
     const { user, token } = isAuthenticated();
 
@@ -45,21 +45,39 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
     };
 
     const showAddToCart = (showAddToCartButton) => {
+        if(Product.quantity !== 0){
+            return (
+            
+                showAddToCartButton && (
+                    <button
+                        onClick={addToCart}
+                        className="btn btn-outline-warning mt-1 mb-1 mx-1"
+                    >
+                       Add to Cart
+                    </button>
+                )
+            );
+                
+        }
+       
+    };
+    const showSoldOut = (showsoldout) =>{
+       if(Product.quantity <= 0){
         return (
-            showAddToCartButton && (
-                <button
-                    onClick={addToCart}
-                    className="btn btn-outline-warning mt-2 mb-2 mx-2"
-                >
-                   Add to Cart
-                </button>
+            
+            showsoldout && (
+               <label className="badge badge-danger mt-3 text-white p-2">Sold Out</label>
             )
         );
-    };
+       }
+            
+
+        
+    }
     const showWishList = (showWishListButton) => {
         return (
             showWishListButton && (
-                <button onClick={AddToWishList} className="btn btn-outline-primary"><i class="fa fa-heart  icon-yellow"></i></button>
+                <button onClick={AddToWishList} className="btn btn-outline-primary mt-1 mb-1 mx-1"><i class="fa fa-heart  icon-yellow"></i></button>
             )
         );
     };
@@ -67,7 +85,13 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
         setRun(!run);
         setCount(event.target.value < 1 ? 1 : event.target.value);
         if(event.target.value >= 1){
-            updateItem(productId, event.target.value);
+            if(Product.quantity >= event.target.value){
+                updateItem(productId, event.target.value);
+            }else{
+                setCount(event.target.value = Product.quantity);
+                
+            }
+           
         }
     };
     const showRemoveButtonCart = showRemoveButton => {
@@ -75,7 +99,7 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
             showRemoveButton && (
                 <button
                     onClick={() => {removeItem(Product._id); setRun(!run);}}
-                    className="btn btn-outline-danger mt-2 mb-2 mx-2"
+                    className="btn btn-outline-danger mt-1 mb-1 mx-1"
                 >
                    Remove Product
                 </button>
@@ -98,10 +122,11 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
         return ( showAdminOptions === false &&
             <div>
                 <a href={`/products/${Product._id}`} className="btn btn-outline-success text-green">Details</a>
-                {showAddToCart(showAddToCartButton)}
-                <div className="innerButton">
+                
                     {showWishList(showWishListButton)}
-                </div>
+               
+                {showAddToCart(showAddToCartButton)}
+                
                 {/* <a href="#" className="btn btn-warning text-white ml-3">Add to Cart</a> */}
             </div>
         )
@@ -135,7 +160,7 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
             </div>
             <div className="card-body">
 
-                <h5 className="card-title">{Product.name}</h5>
+                <h5 className="card-title">{Product.name} <span>{showSoldOut(showsoldout)}</span></h5>
                 <p className="card-text overflow-hidden opacity-70"
                    style={{height: "60px", lineHeight: "20px", overflow: "hidden"}}>{Product.description}</p>
                 <div className="row ml-1">
