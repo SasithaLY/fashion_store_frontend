@@ -77,7 +77,7 @@ const AddAdmin = () => {
                     <div className="form-group col-sm">
                         <label>Gender</label>
                         <select onChange={handleChange("gender")} value={gender} className="form-control">
-                            <option selected hidden>Select Gender</option>
+                            <option defaultValue hidden>Select Gender</option>
                             <option>Male</option>
                             <option>Female</option>
                         </select>

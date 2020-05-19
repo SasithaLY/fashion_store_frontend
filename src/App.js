@@ -37,6 +37,7 @@ import StoreManagerRoute from "./auth/StoreManagerRoute";
 import NormalRoute from "./auth/NormalRoute";
 import OrderHistory from "./order/user/orderHistory";
 import Locations from "./locations/Locations";
+import Promo from "./promo/promo";
 
 const App = () => {
   return (
@@ -76,6 +77,7 @@ const App = () => {
             <AdminRoute path="/admin/addAdmin" exact component={AddAdmin} />
             <AdminRoute path="/addProduct" exact component={UploadProducts} />
             <AdminRoute path="/admin/locations" exact component={Locations} />
+            <AdminRoute path="/admin/promocodes" exact component={Promo} />
 
             {/* PRODUCTS AND CATEGORIES */}
             
