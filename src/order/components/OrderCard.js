@@ -2,26 +2,41 @@ import React, { useState, useEffect } from "react";
 import ProductItem from "../components/ProductItem";
 
 const OrderCard = (d) => {
+
+  const getTotal = (products) => {
+    
+    return products.reduce((current, next) => {
+      return current + next.count * next.price;
+    }, 0);
+
+  };
+
   return (
     <div className="card">
       <div className="card-body">
         <div className="col-12">
           <div className="row">
             <div className="col-4">
-              <h4>
+              <h6>
                 <label>Order ID : </label> <span>{d.data.orderId}</span>
-              </h4>
+              </h6>
             </div>
-            <div className="col-4">
-              <h4>
+            <div className="col-3">
+              <h6>
                 <label>Total Amount : </label> <span>{d.data.amount}</span>
-              </h4>
+              </h6>
             </div>
-            <div className="col-4">
-              <h4>
+            <div className="col-2">
+              <h6>
                 <label>No of items : </label>{" "}
                 <span>{d.data.products.length}</span>
-              </h4>
+              </h6>
+            </div>
+            <div className="col-3">
+              <h6>
+                <label>Discount : </label>{" "}
+                <span>USD {(getTotal(d.data.products) * d.data.promocode.discount /100)}</span>
+              </h6>
             </div>
           </div>
           <div className="row" style={{ paddingTop: "20px" }}>

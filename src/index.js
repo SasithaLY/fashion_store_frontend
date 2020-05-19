@@ -8,9 +8,10 @@ import axios from "axios";
 axios.defaults.baseURL = 'http://localhost:8000/';
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  // </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

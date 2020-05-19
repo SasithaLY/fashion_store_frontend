@@ -17,7 +17,7 @@ const WishList = () => {
       getWishList(userId, token).then((data) => {
        
           setItems(data);
-         
+         console.log(data)
       });
     };
   
@@ -30,22 +30,30 @@ const showItems = () => {
     console.log(items);
     return (
       <div className="container">
-        <h5 >Your Wishlist has  items</h5>
+        <h5 >Your Wishlist has {items.length} items</h5>
         <hr></hr>
-        
-        {items.map((product, i) => (
-          
-          <ProductCard
-            key={i}
-            Product={product}
-            showAddToCartButton={true}
-            showWishListButton = {false}
-        
-            showRemoveButton={false}
-            setRun = {setRun}
-            run ={run}
-          />
-        ))}
+        <div className="col-12">
+          <div className="row">
+              {items.map((WishItem, i) => (
+              
+                WishItem.products.map((product, p)=>(  
+                  <div className="col mx-2"> 
+                  <ProductCard
+                    key={p}
+                    Product={product}
+                    showAddToCartButton={true}
+                    showWishListButton = {false}
+                
+                    showRemoveButton={false}
+                    setRun = {setRun}
+                    run ={run}
+                />
+                </div> 
+                ))
+               
+              ))}
+            </div>
+        </div>
       </div>
     );
   };
@@ -60,16 +68,12 @@ const showItems = () => {
   return (
     <div className="container-fluid">
       <center><h3 class="yell-text" >Wish List</h3></center>
-      <div className="row mt-4 m-5 d-flex justify-content-center">
-      <div className="row" >
-        <div class="column">
-          <div class="card">
+      <div>
+     
          
               {items.length > 0 ? showItems(items) : noItemMessage()} 
              
-          </div>
-        </div> 
-      </div>
+         
       </div> 
     </div> 
    

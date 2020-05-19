@@ -4,7 +4,7 @@ import './Cart.css';
 
 export default class Cart extends Component {
   render() {
-    const { cart, promocode, submitPromoCode, handleInputChange } = this.props;
+    const { cart, promocode, submitPromoCode, handleInputChange, error } = this.props;
     let total = 0;
     return (
       <div className="custom-div">
@@ -51,7 +51,7 @@ export default class Cart extends Component {
               <input
                 type="text"
                 className="form-control"
-                name="promo"
+                name="code"
                 placeholder="Promo code"
                 onChange={handleInputChange}
               />
@@ -61,6 +61,9 @@ export default class Cart extends Component {
                 </button>
               </div>
             </div>
+            <div className="cus-invalid-feedback">
+                  {error}
+                </div>
           </form>
         </div>
       </div>

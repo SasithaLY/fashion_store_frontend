@@ -28,14 +28,14 @@ const ProductCard = ({Product, showAddToCartButton = true,showWishListButton = t
             setRedirect(true);
         });
     };
-    const userId = isAuthenticated().user._id;
+    //const userId = isAuthenticated().user._id;
     
 
     const AddToWishList =() =>{
         let createWishData = {
             products: Product
         }
-        createWishlist(userId, token, createWishData);
+        createWishlist(user._id, token, createWishData);
             
     };
     const shouldRedirect = (redirect) => {
