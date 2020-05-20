@@ -13,3 +13,11 @@ footer.page-footer .footer-copyright {
 footer.page-footer a {
   color: #fff;
 }
+
+@media (max-width: 1199.98px) {
+  .footer-main {
+   display: none;
+   
+  }
+ 
+}
