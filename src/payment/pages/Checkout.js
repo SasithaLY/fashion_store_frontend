@@ -16,7 +16,7 @@ import swal from "@sweetalert/with-react";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./Checkout.css";
 
-export default function Checkout() {
+const Checkout = (product) => {
   const [payment, setPayment] = useState({
     success: false,
     clientToken: null,
@@ -136,12 +136,16 @@ export default function Checkout() {
     initAddress(userId, token);
     loadCountries(userId, token);
     getToken(userId, token);
-
-    let data = getCart();
-    if (data.length == 0) {
-      setRedirect(true);
+    
+    if (product.location.product) {
+      setCart([product.location.product]);
     } else {
-      setCart(data);
+      let data = getCart();
+      if (data.length == 0) {
+        setRedirect(true);
+      } else {
+        setCart(data);
+      }
     }
   }, []);
 
@@ -706,10 +710,9 @@ export default function Checkout() {
               {showError()}
               <div className="card-body">
                 <div className="container-fluid">
-               
                   <div className="row">
                     <div className="cus-invalid-feedback">{addresses.length == 0 ? "No Addresses Found" : ""}</div>
-                    
+
                     {values.showing
                       ? null
                       : addresses.map((address) => {
@@ -851,4 +854,6 @@ export default function Checkout() {
       </div>
     </div>
   );
-}
+};
+
+export default Checkout;
