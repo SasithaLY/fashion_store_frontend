@@ -41,9 +41,8 @@ const showItems = () => {
                   <ProductCard
                     key={p}
                     Product={product}
-                    showAddToCartButton={true}
                     showWishListButton = {false}
-                
+                    showAddToCartButton={true}
                     showRemoveButton={false}
                     setRun = {setRun}
                     run ={run}

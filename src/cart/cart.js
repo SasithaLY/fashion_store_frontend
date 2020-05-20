@@ -28,8 +28,8 @@ const Cart = () => {
               <ProductCard
                 key={i}
                 Product={product}
-                showAddToCartButton={false}
                 showWishListButton = {false}
+                showAddToCartButton={false}
                 cartUpdate={true}
                 showRemoveButton={true}
                 setRun = {setRun}
