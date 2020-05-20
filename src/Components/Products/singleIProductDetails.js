@@ -192,7 +192,7 @@ const SingleIProductDetails = ({ product, showCartAddButton = true, cartUpdate =
 
         <div className="row">
           <div className="card p-1 col-md-6 ">
-            <ProductImageDisplay Product={singleProductDetails} xsize="44.75rem" ysize="30rem" />
+            <ProductImageDisplay Product={singleProductDetails} xsize="100%" ysize="auto" />
           </div>
 
           <div className="col-md-5 ml-5">
