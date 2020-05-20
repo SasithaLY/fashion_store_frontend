@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 export default class BillingAddress extends Component {
   render() {
-    const { handleInputChange, errors, validate } = this.props;
+    const { handleInputChange, errors, validate, countries } = this.props;
 
     return (
       <div className="row ">
@@ -27,9 +27,7 @@ export default class BillingAddress extends Component {
                   required
                   onChange={handleInputChange}
                 />
-                <div className="cus-invalid-feedback">
-                  {errors.billingFirstName}
-                </div>
+                <div className="cus-invalid-feedback">{errors.billingFirstName}</div>
               </div>
               <div className="col-md-6 mb-3">
                 <label htmlFor="billingLastName">Last name</label>
@@ -48,9 +46,7 @@ export default class BillingAddress extends Component {
                   required
                   onChange={handleInputChange}
                 />
-                <div className="cus-invalid-feedback">
-                  {errors.billingLastName}
-                </div>
+                <div className="cus-invalid-feedback">{errors.billingLastName}</div>
               </div>
             </div>
 
@@ -71,9 +67,7 @@ export default class BillingAddress extends Component {
                 required
                 onChange={handleInputChange}
               />
-              <div className="cus-invalid-feedback">
-                {errors.billingAddress1}
-              </div>
+              <div className="cus-invalid-feedback">{errors.billingAddress1}</div>
             </div>
 
             <div className="mb-3">
@@ -95,11 +89,7 @@ export default class BillingAddress extends Component {
               <input
                 type="text"
                 className={
-                  errors.billingCity === null
-                    ? "form-control cus-valid"
-                    : errors.billingCity === ""
-                    ? "form-control"
-                    : "form-control cus-invalid"
+                  errors.billingCity === null ? "form-control cus-valid" : errors.billingCity === "" ? "form-control" : "form-control cus-invalid"
                 }
                 id="billingCity"
                 name="billingCity"
@@ -127,33 +117,28 @@ export default class BillingAddress extends Component {
                   onChange={handleInputChange}
                 >
                   <option value="">Choose...</option>
-                  <option>United States</option>
+                  {countries.map((country, i) => (
+                    <option key={i} value={country.country}>
+                      {country.country}
+                    </option>
+                  ))}
                 </select>
-                <div className="cus-invalid-feedback">
-                  {errors.billingCountry}
-                </div>
+                <div className="cus-invalid-feedback">{errors.billingCountry}</div>
               </div>
               <div className="col-md-4 mb-3">
-                <label htmlFor="billingState">State</label>
-                <select
+                <label htmlFor="billingState">State/District</label>
+                <input
+                  type="text"
                   className={
-                    errors.billingState === null
-                      ? "custom-select d-block w-100 cus-valid"
-                      : errors.billingState === ""
-                      ? "custom-select d-block w-100"
-                      : "custom-select d-block w-100 cus-invalid"
+                    errors.billingState === null ? "form-control cus-valid" : errors.billingState === "" ? "form-control" : "form-control cus-invalid"
                   }
                   id="billingState"
                   name="billingState"
-                  required
                   onChange={handleInputChange}
-                >
-                  <option value="">Choose...</option>
-                  <option>California</option>
-                </select>
-                <div className="cus-invalid-feedback">
-                  {errors.billingState}
-                </div>
+                  required
+                />
+
+                <div className="cus-invalid-feedback">{errors.billingState}</div>
               </div>
               <div className="col-md-3 mb-3">
                 <label htmlFor="billingPostal">Zip/Postal Code</label>
@@ -172,9 +157,7 @@ export default class BillingAddress extends Component {
                   required
                   onChange={handleInputChange}
                 />
-                <div className="cus-invalid-feedback">
-                  {errors.billingPostal}
-                </div>
+                <div className="cus-invalid-feedback">{errors.billingPostal}</div>
               </div>
             </div>
           </form>

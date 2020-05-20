@@ -800,7 +800,7 @@ const Checkout = (product) => {
                   </div>
 
                   <div>
-                    {values.billingSame ? null : <BillingAddress handleInputChange={handleInputChange} errors={values.errors} validate={validate} />}
+                    {values.billingSame ? null : <BillingAddress handleInputChange={handleInputChange} errors={values.errors} validate={validate} countries={countries}/>}
                   </div>
                 </div>
               </div>

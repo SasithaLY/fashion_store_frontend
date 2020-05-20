@@ -140,9 +140,6 @@ export default class AddressInput extends Component {
                 {countries.map((country, i) => (
                   <option key={i} value={country.country}>{country.country}</option>
                 ))}
-
-                {/* <option value="Sri Lanka">Sri Lanka</option>
-                <option value="United States">United States</option> */}
               </select>
               <div className="cus-invalid-feedback">{errors.country}</div>
             </div>
