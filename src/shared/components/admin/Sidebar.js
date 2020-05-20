@@ -2,6 +2,7 @@ import React from "react";
 import { MDBListGroup, MDBListGroupItem, MDBIcon } from "mdbreact";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logowhite.png";
+import { isAuthenticated } from "../../../auth/auth"
 
 const Sidebar = () => {
   return (
@@ -20,32 +21,42 @@ const Sidebar = () => {
             Dashboard
           </MDBListGroupItem>
         </NavLink>
-        <NavLink to="/admin/orders" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom">
-            <MDBIcon icon="table" className="mr-3" />
+
+        {isAuthenticated() && (isAuthenticated().user.role === 1) &&
+          <NavLink to="/admin/orders" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="table" className="mr-3" />
             Orders
           </MDBListGroupItem>
-        </NavLink>
-        <NavLink to="/admin/addAdmin" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom">
-            <MDBIcon icon="user-secret" className="mr-3" />
+          </NavLink>
+        }
+
+        {isAuthenticated() && (isAuthenticated().user.role === 1) &&
+          <NavLink to="/admin/addAdmin" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="user-secret" className="mr-3" />
             Add New Admin
           </MDBListGroupItem>
-        </NavLink>
+          </NavLink>
+        }
 
-        <NavLink to="/admin/addManager" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom">
-            <MDBIcon icon="user-tie" className="mr-3" />
+        {isAuthenticated() && (isAuthenticated().user.role === 1) &&
+          <NavLink to="/admin/addManager" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="user-tie" className="mr-3" />
             Add New Manager
           </MDBListGroupItem>
-        </NavLink>
+          </NavLink>
+        }
 
-        <NavLink to="/admin/viewUsers" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom">
-            <MDBIcon icon="portrait" className="mr-3" />
+        {isAuthenticated() && (isAuthenticated().user.role === 1) &&
+          <NavLink to="/admin/viewUsers" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="portrait" className="mr-3" />
             Manage Users
           </MDBListGroupItem>
-        </NavLink>
+          </NavLink>
+        }
 
         <NavLink to="/addProduct" activeClassName="activeClass">
           <MDBListGroupItem className="list-group-item-custom">
@@ -53,20 +64,28 @@ const Sidebar = () => {
             Add New Product
           </MDBListGroupItem>
         </NavLink>
-        <NavLink to="/addCategory" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom"> 
-            <MDBIcon icon="square" className="mr-3" />
+
+
+        {isAuthenticated() && (isAuthenticated().user.role === 1) &&
+          <NavLink to="/addCategory" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="square" className="mr-3" />
             Manage Categories
           </MDBListGroupItem>
-        </NavLink>
-        <NavLink to="/admin/locations" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom"> 
-            <MDBIcon icon="globe-americas" className="mr-3" />
+          </NavLink>
+        }
+
+        {isAuthenticated() && (isAuthenticated().user.role === 1) &&
+          <NavLink to="/admin/locations" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="globe-americas" className="mr-3" />
             Shipping Locations
           </MDBListGroupItem>
-        </NavLink>
+          </NavLink>
+        }
+
         <NavLink to="/admin/promocodes" activeClassName="activeClass">
-          <MDBListGroupItem className="list-group-item-custom"> 
+          <MDBListGroupItem className="list-group-item-custom">
             <MDBIcon icon="dollar-sign" className="mr-3" />
             Promo Codes
           </MDBListGroupItem>
