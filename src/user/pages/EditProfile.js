@@ -20,7 +20,7 @@ const EditProfile = ({ match }) => {
     const { fName, lName, email, password, gender, error, success } = values;
 
     const init = (userId) => {
-       // console.log(userId);
+        // console.log(userId);
         read(userId, token).then(data => {
             if (data.error) {
                 setValues({ ...values, error: true })
@@ -47,9 +47,15 @@ const EditProfile = ({ match }) => {
 
     const clickSubmit = event => {
         event.preventDefault();
-        update(match.params.userId , token, {fName, lName, password, email, gender}). then(data => {
-            if(data.error) {
+        update(match.params.userId, token, { fName, lName, password, email, gender }).then(data => {
+            if (data.error) {
                 console.log(data.error)
+            }
+            else if (fName == "" || lName == "" || gender == "") {
+                setValues({ ...values, error: "Please fill all the fields!" })
+            }
+            else if (!fName.match(/^[A-Za-z]+$/) || !lName.match(/^[A-Za-z]+$/)) {
+                setValues({ ...values, error: "You are only allowed to enter letters in First Name and Last Name!" })
             }
             else {
                 updateUser(data, () => {
@@ -66,6 +72,12 @@ const EditProfile = ({ match }) => {
         })
 
     };
+
+    const showError = () => (
+        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+            <center><strong>{error}</strong></center>
+        </div>
+    )
 
     const redirectUser = (success) => {
         if (success) {
@@ -84,14 +96,14 @@ const EditProfile = ({ match }) => {
                     </div>
                     <div className="form-group col-sm">
                         <label >Last Name</label>
-                        <input onChange={handleChange("lName")} value={lName} type="text" className="form-control"/>
+                        <input onChange={handleChange("lName")} value={lName} type="text" className="form-control" />
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>Password</label>
-                        <input onChange={handleChange("password")} value={password} type="password" className="form-control"/>
+                        <input onChange={handleChange("password")} value={password} type="password" className="form-control" />
                     </div>
                     <div className="form-group col-sm">
                         <label>Gender</label>
@@ -106,7 +118,7 @@ const EditProfile = ({ match }) => {
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>E-mail</label>
-                        <input onChange={handleChange("email")} value={email} type="email" className="form-control" required />
+                        <input onChange={handleChange("email")} value={email} type="email" className="form-control" readOnly />
                     </div>
                 </div> <br />
 
@@ -119,6 +131,7 @@ const EditProfile = ({ match }) => {
 
     return (
         <div>
+            {showError()}
             {profileEdit(fName, lName, email, password, gender)}
             {redirectUser(success)}
         </div>

@@ -7,10 +7,10 @@ import "./App.css";
 import Header from "./shared/components/navigation/MainHeader";
 import Footer from "./shared/components/footer/Footer";
 
-import Login from "./user/pages/Login";
-import Register from "./user/pages/register";
-import Profile from "./user/pages/Profile";
-import EditProfile from "./user/pages/EditProfile"
+import Login from "./user/Pages/Login";
+import Register from "./user/Pages/Register";
+import Profile from "./user/Pages/Profile";
+import EditProfile from "./user/Pages/EditProfile"
 
 import AddManager from "./user/Admin/AddManager";
 import AddAdmin from "./user/Admin/AddAdmin";
