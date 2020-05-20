@@ -184,6 +184,8 @@ const Orders = () => {
   };
 
   const handleSelect = (id) => {
+    const selectedOrder = orders.find((order) => order.orderId === id);
+    setStatus(selectedOrder.status)
     setSelectedOrder(id);
     handleShow();
   };
@@ -341,7 +343,7 @@ const Orders = () => {
                   Status
                 </label>
               </div>
-              <select className="custom-select" id="status" onChange={handleStatusChange} required>
+              <select className="custom-select" id="status" value={status} onChange={handleStatusChange} required>
                 <option value="">Choose...</option>
                 {statusValues.map((status, index) => (
                   <option key={index} value={status}>
