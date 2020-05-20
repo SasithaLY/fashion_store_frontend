@@ -23,6 +23,16 @@ const ViewUsers = () => {
         loadUsers()
     }, [])
 
+    const showTotalUsers = () => {
+        if(users.length > 0) {
+            return (
+                <h4 className="text-danger display-2">
+                    Total Users: {users.length}
+                </h4>
+            )
+        }
+    }
+
     const userTable = () => (
         <div className="container-fluid">
             <h2 className="text-center">
@@ -34,6 +44,7 @@ const ViewUsers = () => {
     return (
         <div>
             {userTable()}
+            {showTotalUsers()}
             {JSON.stringify(users)}
         </div>        
     )
