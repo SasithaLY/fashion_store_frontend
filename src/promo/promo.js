@@ -2,14 +2,7 @@ import React, { useEffect, useState, createRef } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Modal from "react-bootstrap/Modal";
 import swal from "@sweetalert/with-react";
-import {
-  addPromoCode,
-  getPromoCodes,
-  updatePromoCode,
-  deletePromoCode,
-  getSinglePromoCode,
-  search
-} from "./promoHelper";
+import { addPromoCode, getPromoCodes, updatePromoCode, deletePromoCode, getSinglePromoCode, search } from "./promoHelper";
 import { isAuthenticated } from "../auth/auth";
 
 const Promo = () => {
@@ -43,16 +36,10 @@ const Promo = () => {
       name: "Action",
       cell: (row) => (
         <div>
-          <button
-            className="btn btn-primary btn-sm mx-2"
-            onClick={() => handleSelect(row._id)}
-          >
+          <button className="btn btn-primary btn-sm mx-2" onClick={() => handleSelect(row._id)}>
             Edit
           </button>
-          <button
-            className="btn btn-danger btn-sm mx-2"
-            onClick={() => handleDelete(row._id)}
-          >
+          <button className="btn btn-danger btn-sm mx-2" onClick={() => handleDelete(row._id)}>
             Delete
           </button>
         </div>
@@ -102,7 +89,7 @@ const Promo = () => {
       buttons: true,
       dangerMode: true,
     }).then((willDelete) => {
-      if(willDelete){
+      if (willDelete) {
         deletePromoCode(user._id, token, id).then((data) => {
           loadPromocodes(user._id, token);
           if (data.error) {
@@ -116,23 +103,22 @@ const Promo = () => {
           }
         });
       }
-      
     });
   };
 
   const searchSubmit = (e) => {
     e.preventDefault();
-    if(values.searchPromocode && values.searchPromocode != ""){
+    if (values.searchPromocode && values.searchPromocode != "") {
       setLoading(true);
-      search(user._id, token, {promocode:values.searchPromocode} || undefined ).then(response => {
+      search(user._id, token, { promocode: values.searchPromocode } || undefined).then((response) => {
         setLoading(false);
-        if(response.error){
+        if (response.error) {
           console.log(response.error);
-        }else{
+        } else {
           setPromocodes(response);
         }
-      })
-    }else{
+      });
+    } else {
       loadPromocodes(user._id, token);
     }
   };
@@ -175,13 +161,13 @@ const Promo = () => {
     //let letters = /^[a-zA-Z][a-zA-Z\s]*$/;
     let count = 0;
     let err = {};
-    if ((values.promocode === "")) {
+    if (values.promocode === "") {
       count++;
       err.promocode = "Please Enter Code!";
     } else {
       err.promocode = "";
     }
-    if ((values.discount === "") || (!number.test(values.discount))) {
+    if (values.discount === "" || !number.test(values.discount)) {
       count++;
       err.discount = "Please Enter Valid Discount!";
     } else {
@@ -261,41 +247,38 @@ const Promo = () => {
       <div className="my-2">
         <div className="card">
           <div className="card-header">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                showInsert();
-              }}
-            >
-              Add Country
-            </button>
-            <div className="float-right">
-              <form className="form-inline " onSubmit={searchSubmit}>
-                <div className="form-group mx-sm-3">
-                  <input
-                    type="text"
-                    className="form-control-sm"
-                    id="searchPromocode"
-                    placeholder="Code"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary btn-sm ">
-                  Search
+            <div className="row">
+              <div className="col p-2">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    showInsert();
+                  }}
+                >
+                  Add Country
                 </button>
-              </form>
+              </div>
+              <div className="col p-2">
+                <div className="float-right">
+                  <form className="form-inline " onSubmit={searchSubmit}>
+                    <div className="row mx-auto">
+                      <div className="form-group">
+                        <input type="text" className="form-control-sm" id="searchPromocode" placeholder="Code" onChange={handleInputChange} />
+                      </div>
+                      <div className="form-group  px-2">
+                        <button type="submit" className="btn btn-primary btn-sm ">
+                          Search
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
           {loading ? null : (
             <div className="card-body">
-              <DataTable
-                theme="dark"
-                columns={columns}
-                data={promocodes}
-                noHeader
-                pagination={true}
-                customStyles={customStyles}
-              />
+              <DataTable theme="dark" columns={columns} data={promocodes} noHeader pagination={true} customStyles={customStyles} />
             </div>
           )}
           {showLoading()}
@@ -303,10 +286,7 @@ const Promo = () => {
       </div>
 
       <Modal size="md" show={showModal} onHide={handleClose}>
-        <form
-          className="needs-validation"
-          onSubmit={edit ? handleUpdatePromocode : submitPromocode}
-        >
+        <form className="needs-validation" onSubmit={edit ? handleUpdatePromocode : submitPromocode}>
           <Modal.Header closeButton>
             <h4>{edit ? "Edit Country" : "Insert Country"}</h4>
           </Modal.Header>
@@ -315,20 +295,13 @@ const Promo = () => {
             {modalLoading ? null : (
               <div>
                 <div className="form-group row">
-                  <label
-                    htmlFor="promocode"
-                    className="col-sm-4 col-form-label text-dark"
-                  >
+                  <label htmlFor="promocode" className="col-sm-4 col-form-label text-dark">
                     Country
                   </label>
                   <div className="col-sm-8">
                     <input
                       type="text"
-                      className={
-                        errors.promocode
-                          ? "form-control cus-invalid"
-                          : "form-control"
-                      }
+                      className={errors.promocode ? "form-control cus-invalid" : "form-control"}
                       id="promocode"
                       placeholder="Promocode"
                       onChange={handleInputChange}
@@ -338,20 +311,13 @@ const Promo = () => {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label
-                    htmlFor="discount"
-                    className="col-sm-4 col-form-label text-dark"
-                  >
+                  <label htmlFor="discount" className="col-sm-4 col-form-label text-dark">
                     Shipping Amount
                   </label>
                   <div className="col-sm-8">
                     <input
                       type="text"
-                      className={
-                        errors.discount
-                          ? "form-control cus-invalid"
-                          : "form-control"
-                      }
+                      className={errors.discount ? "form-control cus-invalid" : "form-control"}
                       id="discount"
                       placeholder="Discount"
                       onChange={handleInputChange}
@@ -364,11 +330,7 @@ const Promo = () => {
             )}
           </Modal.Body>
           <Modal.Footer>
-            <button
-              type="submit"
-              className="btn btn-success"
-              disabled={btnDisable}
-            >
+            <button type="submit" className="btn btn-success" disabled={btnDisable}>
               {edit ? "Edit" : "Add"}
             </button>
           </Modal.Footer>

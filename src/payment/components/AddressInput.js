@@ -11,14 +11,16 @@ export default class AddressInput extends Component {
       editAddress,
       handleCancel,
       handleUpdateAddress,
-      values
+      values,
+      countries,
     } = this.props;
 
     return (
       <div>
-        <hr />
-
-        <form className="needs-validation" onSubmit={isEdit ? handleUpdateAddress : submitNewAddress}>
+        <form
+          className="needs-validation"
+          onSubmit={isEdit ? handleUpdateAddress : submitNewAddress}
+        >
           <div className="row">
             <div className="col-md-6 mb-3">
               <label htmlFor="firstName">First name</label>
@@ -135,32 +137,29 @@ export default class AddressInput extends Component {
                 required
               >
                 <option value="">Choose...</option>
-                <option value="Sri Lanka">Sri Lanka</option>
-                <option value="United States">United States</option>
+                {countries.map((country, i) => (
+                  <option key={i} value={country.country}>{country.country}</option>
+                ))}
               </select>
               <div className="cus-invalid-feedback">{errors.country}</div>
             </div>
             <div className="col-md-4 mb-3">
               <label htmlFor="state">State</label>
-              <select
+              <input
+                type="text"
                 className={
                   errors.state === null
-                    ? "custom-select d-block w-100 cus-valid"
+                    ? "form-control cus-valid"
                     : errors.state === ""
-                    ? "custom-select d-block w-100"
-                    : "custom-select d-block w-100 cus-invalid"
+                    ? "form-control"
+                    : "form-control cus-invalid"
                 }
                 id="state"
                 name="state"
                 value={values.state}
-                onInput={handleInputChange}
                 onChange={handleInputChange}
                 required
-              >
-                <option value="">Choose...</option>
-                <option value="Anuradhapura">Anuradhapura</option>
-                <option value="Colombo">Colombo</option>
-              </select>
+              />
               <div className="cus-invalid-feedback">{errors.state}</div>
             </div>
             <div className="col-md-3 mb-3">
@@ -192,20 +191,13 @@ export default class AddressInput extends Component {
                 >
                   Cancel
                 </button>
-                {
-                  isEdit ? <button
-                  className="btn btn-sm btn-success "
-                >
-                  Edit
-                </button> : <button
-                  type="submit"
-                  className="btn btn-sm btn-success "
-                  
-                >
-                  Save
-                </button>
-                }
-                
+                {isEdit ? (
+                  <button className="btn btn-sm btn-success ">Edit</button>
+                ) : (
+                  <button type="submit" className="btn btn-sm btn-success ">
+                    Save
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ const ProductImageDisplay = ({Product, xsize, ysize}) => {
 return (
     <div className="card-img-top">
 
-        <img src={`http://localhost:8000/productsRouter/product/photo/${Product._id}`} className="rounded-top" style={{width: `${xsize}`, height: `${ysize}`}}  alt="ProductPhoto"/>
+        <img src={`${process.env.REACT_APP_APIURL}/productsRouter/product/photo/${Product._id}`} className="rounded-top" style={{width: `${xsize}`, height: `${ysize}`}}  alt="ProductPhoto"/>
         {/*"http://localhost:8000/productsRouter/product/photo/5e99bfca40555909f89a8a19"*/}
     </div>
 )
