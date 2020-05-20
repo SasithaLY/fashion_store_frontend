@@ -60,13 +60,13 @@ const Orders = () => {
       name: "Customer",
       selector: "cusName",
       sortable: true,
-      right: true,
+      center: true,
     },
     {
       name: "Email",
       selector: "email",
       sortable: true,
-      right: true,
+      center: true,
     },
     {
       name: "Amount (USD)",
@@ -87,10 +87,10 @@ const Orders = () => {
       right: true,
     },
     {
-      name: "Payement Method",
+      name: "Payment Method",
       selector: "paymentMethod",
       sortable: true,
-      right: true,
+      center: true,
     },
     {
       name: "Status",
@@ -173,6 +173,7 @@ const Orders = () => {
         billingAddress: order.billingAddress,
         products: order.products,
         promocode:order.promocode,
+        shipping:order.shipping
       };
 
       orderArr.push(obj);
@@ -251,8 +252,6 @@ const Orders = () => {
     }else{
       retrieveOrders();
     }
-    //console.log(values);
-
   }
 
   const handleClose = () => setModal(false);
@@ -266,61 +265,51 @@ const Orders = () => {
       <div>
         <div className="card">
           <div className="card-header">
-            <form className="form-inline" onSubmit={searchSubmit}>
-              <div className="form-group mx-sm-3">
-                <label htmlFor="orderId" className="control-label mx-2">
-                  Order ID
-                </label>
-                <input
-                  type="text"
-                  className="form-control-sm"
-                  id="orderId"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group mx-sm-3">
-                <label htmlFor="product" className="control-label mx-2">
-                  Product
-                </label>
-                <input
-                  type="text"
-                  className="form-control-sm"
-                  id="product"
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* <div className="form-group mx-sm-3">
-                <label htmlFor="email" className="control-label mx-2">
-                  Email
-                </label>
-                <input
-                  type="text"
-                  className="form-control-sm"
-                  id="email"
-                  onChange={handleInputChange}
-                />
-              </div> */}
-              <div className="form-group mx-sm-3">
-                <label htmlFor="from" className="control-label mx-2">
-                  From Date
-                </label>
-                <input
-                  type="date"
-                  className="form-control-sm"
-                  id="from"
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group mx-sm-3">
-                <label htmlFor="to" className="control-label mx-2">
-                  To Date
-                </label>
-                <input type="date" className="form-control-sm" id="to" onChange={handleInputChange}/>
-              </div>
-              <button type="submit" className="btn btn-primary btn-sm">
-                Search
-              </button>
-            </form>
+            
+              <form className="form-inline" onSubmit={searchSubmit}>
+                <div className="row">
+                  
+                    <div className="form-group m-sm-3">
+                      <label htmlFor="orderId" className="control-label mx-2">
+                        Order ID
+                      </label>
+                      <input placeholder="Order ID" type="text" className="form-control-sm" id="orderId" onChange={handleInputChange} />
+                    </div>
+                  
+                  
+                    <div className="form-group m-sm-3">
+                      <label htmlFor="product" className="control-label mx-2">
+                        Product
+                      </label>
+                      <input placeholder="Product" type="text" className="form-control-sm" id="product" onChange={handleInputChange} />
+                    </div>
+                  
+                  
+                    <div className="form-group m-sm-3">
+                      <label htmlFor="from" className="control-label mx-2">
+                        From Date
+                      </label>
+                      <input type="date" className="form-control-sm" id="from" onChange={handleInputChange} />
+                    </div>
+                  
+                  
+                    <div className="form-group m-sm-3">
+                      <label htmlFor="to" className="control-label mx-2">
+                        To Date
+                      </label>
+                      <input type="date" className="form-control-sm" id="to" onChange={handleInputChange} />
+                    </div>
+                  
+
+                    <div className="form-group m-sm-3 px-2">
+                    <button type="submit" className="btn btn-primary btn-sm">
+                      Search
+                    </button>
+                    </div>
+                  
+                </div>
+              </form>
+            
           </div>
           {loading ? null : (
             <div className="card-body">
@@ -352,12 +341,7 @@ const Orders = () => {
                   Status
                 </label>
               </div>
-              <select
-                className="custom-select"
-                id="status"
-                onChange={handleStatusChange}
-                required
-              >
+              <select className="custom-select" id="status" onChange={handleStatusChange} required>
                 <option value="">Choose...</option>
                 {statusValues.map((status, index) => (
                   <option key={index} value={status}>

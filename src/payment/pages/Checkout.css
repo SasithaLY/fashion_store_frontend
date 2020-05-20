@@ -117,3 +117,7 @@
 .braintree-heading{
   color: #28a745;
 }
+
+a:hover{
+  cursor: pointer;
+}

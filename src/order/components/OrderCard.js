@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import ProductItem from "../components/ProductItem";
 
 const OrderCard = (d) => {
-
   const getTotal = (products) => {
-    
     return products.reduce((current, next) => {
       return current + next.count * next.price;
     }, 0);
-
   };
 
   return (
@@ -23,7 +20,7 @@ const OrderCard = (d) => {
             </div>
             <div className="col-3">
               <h6>
-                <label>Total Amount : </label> <span>{d.data.amount}</span>
+                <label>Total Amount (USD) : </label> <span>{d.data.amount}</span>
               </h6>
             </div>
             <div className="col-2">
@@ -34,13 +31,15 @@ const OrderCard = (d) => {
             </div>
             <div className="col-3">
               <h6>
-                <label>Discount : </label>{" "}
-                <span>USD {(getTotal(d.data.products) * d.data.promocode.discount /100)}</span>
+                <label>Promo : </label>{" "}
+                <span>
+                  {d.data.promocode.code}
+                </span>
               </h6>
             </div>
           </div>
           <div className="row" style={{ paddingTop: "20px" }}>
-            <div className="col-4">
+            <div className="col-3">
               <ul>
                 <li>
                   <label>Transaction ID : </label>{" "}
@@ -62,11 +61,16 @@ const OrderCard = (d) => {
                 </li>
               </ul>
             </div>
-            <div className="col-4">
+            <div className="col-3">
               <h6>
                 <label>Shipping Address</label>
               </h6>
-              <ul style={{ listStyleType: "none" }}>
+              <ul
+                style={{
+                  listStyleType: "none",
+                  padding: "0px",
+                }}
+              >
                 <li>
                   {d.data.shippingAddress.firstName +
                     " " +
@@ -74,17 +78,25 @@ const OrderCard = (d) => {
                 </li>
                 <li>{d.data.shippingAddress.address1}</li>
                 <li>{d.data.shippingAddress.address2}</li>
-                <li>{d.data.shippingAddress.city}</li>
+                <li>
+                  {d.data.shippingAddress.city +
+                    " " +
+                    d.data.shippingAddress.postal}
+                </li>
                 <li>{d.data.shippingAddress.state}</li>
-                <li>{d.data.shippingAddress.postal}</li>
                 <li>{d.data.shippingAddress.country}</li>
               </ul>
             </div>
-            <div className="col-4">
+            <div className="col-3">
               <h6>
                 <label>Billing Address</label>
               </h6>
-              <ul style={{ listStyleType: "none" }}>
+              <ul
+                style={{
+                  listStyleType: "none",
+                  padding: "0px",
+                }}
+              >
                 <li>
                   {d.data.billingAddress.firstName +
                     " " +
@@ -92,18 +104,54 @@ const OrderCard = (d) => {
                 </li>
                 <li>{d.data.billingAddress.address1}</li>
                 <li>{d.data.billingAddress.address2}</li>
-                <li>{d.data.billingAddress.city}</li>
+                <li>
+                  {d.data.billingAddress.city +
+                    " " +
+                    d.data.billingAddress.postal}
+                </li>
                 <li>{d.data.billingAddress.state}</li>
-                <li>{d.data.billingAddress.postal}</li>
                 <li>{d.data.billingAddress.country}</li>
               </ul>
+            </div>
+            <div className="col-3 px-5">
+              <center>
+                <h6>
+                  <label>Order Summery</label>
+                </h6>
+                <ul style={{ listStyleType: "none" }}>
+                  <li className="d-flex justify-content-between">
+                    <label>Sub Total (USD) :</label>{" "}
+                    {getTotal(d.data.products).toFixed(2)}
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <label>Shipping (USD) :</label>{" "}
+                    {d.data.shipping.shipping.toFixed(2)}
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <label>Discount (USD) :</label> -{" "}
+                    {(
+                      (getTotal(d.data.products) * d.data.promocode.discount) /
+                      100
+                    ).toFixed(2)}
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <label>Total (USD) :</label>{" "}
+                    {(
+                      getTotal(d.data.products) +
+                      d.data.shipping.shipping -
+                      (getTotal(d.data.products) * d.data.promocode.discount) /
+                        100
+                    ).toFixed(2)}
+                  </li>
+                </ul>
+              </center>
             </div>
           </div>
           <div>
             <h4>
               <label>Items</label>
             </h4>
-            
+
             <ul className="list-group ">
               {d.data.products.map((item) => {
                 return <ProductItem key={item._id} data={item} />;

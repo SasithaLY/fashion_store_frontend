@@ -5,21 +5,14 @@ import AddressInput from "../components/AddressInput";
 import { isAuthenticated } from "../../auth/auth";
 import BillingAddress from "../components/BillingAddress";
 import CreditCardInput from "../components/CreditCardInput";
-import {
-  getAddresses,
-  insertAddress,
-  updateAddress,
-  deleteAddress,
-  getBraintreeToken,
-  processPayment,
-  createOrder,
-} from "./paymentHelper";
+import { getAddresses, insertAddress, updateAddress, deleteAddress, getBraintreeToken, processPayment, createOrder } from "./paymentHelper";
 import { getCart, clearCart } from "../../cart/cartHelper";
 import { confirmAlert } from "react-confirm-alert";
 import "braintree-web";
 import DropIn from "braintree-web-drop-in-react";
-import {getSinglePromoCode} from "../../promo/promoHelper"
-
+import { getSinglePromoCode } from "../../promo/promoHelper";
+import { getCountries } from "../../locations/locationHelper";
+import swal from "@sweetalert/with-react";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./Checkout.css";
 
@@ -34,7 +27,9 @@ export default function Checkout() {
   const [cart, setCart] = useState([]);
   const [error, setError] = useState({ isSet: false, message: "" });
   const [success, setSuccess] = useState({ isSet: false, message: "" });
+  const [shippingCost, setShipping] = useState({ shipping: "" });
   const [addresses, setAddresses] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [values, setValues] = useState({
     showing: false,
     showDivs: true,
@@ -87,9 +82,9 @@ export default function Checkout() {
       country: "",
       state: "",
       postal: "",
-      promocode:"",
+      promocode: "",
     },
-    code:"",
+    code: "",
     promocode: {
       applied: false,
       code: "",
@@ -100,13 +95,29 @@ export default function Checkout() {
   const userId = isAuthenticated().user._id;
   const token = isAuthenticated().token;
 
+  const loadCountries = (userId, token) => {
+    getCountries(userId, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setCountries(data);
+      }
+    });
+  };
+
   const initAddress = (userId, token) => {
     getAddresses(userId, token).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
         setAddresses(data);
-        handleCancel();
+        /*  if(values.shippingAddress !== ""){
+          const selectCountry = countries.find(
+            (country) => country.country === values.shippingAddress.country
+          );
+          setShipping({country:"shsdfjk", shipping:55});
+          console.log(selectCountry);
+        } */
       }
     });
   };
@@ -123,6 +134,8 @@ export default function Checkout() {
 
   useEffect(() => {
     initAddress(userId, token);
+    loadCountries(userId, token);
+    getToken(userId, token);
 
     let data = getCart();
     if (data.length == 0) {
@@ -130,8 +143,6 @@ export default function Checkout() {
     } else {
       setCart(data);
     }
-
-    getToken(userId, token);
   }, []);
 
   const shouldRedirect = (redirect) => {
@@ -158,22 +169,23 @@ export default function Checkout() {
   };
 
   const getTotal = () => {
-    
     let cartTotal = cart.reduce((current, next) => {
       return current + next.count * next.price;
     }, 0);
 
-    if(values.promocode.applied){
-      cartTotal = cartTotal - (cartTotal * values.promocode.discount / 100);
+    if (values.promocode.applied) {
+      cartTotal = cartTotal - (cartTotal * values.promocode.discount) / 100;
+    }
+    if (shippingCost.shipping !== "") {
+      cartTotal = cartTotal + shippingCost.shipping;
+      console.log(shippingCost);
     }
     return cartTotal;
   };
 
   const showDropIn = () => (
     <div onBlur={() => setPayment({ ...payment, error: "" })}>
-      {payment.clientToken !== null &&
-      cart.length > 0 &&
-      values.paymentMethod === "paynow" ? (
+      {payment.clientToken !== null && cart.length > 0 && values.paymentMethod === "paynow" ? (
         <div>
           <DropIn
             options={{
@@ -190,11 +202,12 @@ export default function Checkout() {
   );
 
   const onAddressChange = (event) => {
-    const address = addresses.find(
-      (address) => address._id == event.target.value
-    );
+    const address = addresses.find((address) => address._id == event.target.value);
     console.log(address);
     const newErr = values.errors;
+
+    const selectCountry = countries.find((country) => country.country === address.country);
+    setShipping(selectCountry);
 
     if (values.shippingAddress === "") {
       let e = err[event.target.name];
@@ -208,7 +221,6 @@ export default function Checkout() {
       shippingAddress: address,
       errors: newErr,
     });
-
   };
 
   const handleInputChange = (event) => {
@@ -296,6 +308,12 @@ export default function Checkout() {
       count++;
     } else {
       newErr["shippingAddress"] = null;
+    }
+    if (values.paymentMethod === "paynow" && Object.keys(payment.instance).length === 0) {
+      newErr["paymentMethod"] = "Wait for payment methods to load.";
+      count++;
+    } else {
+      newErr["paymentMethod"] = null;
     }
 
     setValues({
@@ -388,7 +406,7 @@ export default function Checkout() {
 
   const submitCheckout = (e) => {
     e.preventDefault();
-
+    console.log(Object.keys(payment.instance).length !== 0);
     if (validate()) {
       setPayment({ ...payment, error: "" });
       setValues({ ...values, btnDissable: true });
@@ -405,7 +423,8 @@ export default function Checkout() {
         products: cart,
         shippingAddress: values.shippingAddress,
         billingAddress: billAddress,
-        promocode:values.promocode
+        promocode: values.promocode,
+        shipping: shippingCost,
       };
 
       if (values.paymentMethod === "cod") {
@@ -422,7 +441,6 @@ export default function Checkout() {
         });
         setCart(getCart());
       } else {
-        
         let nonce;
         let getNonce = payment.instance
           .requestPaymentMethod()
@@ -436,6 +454,7 @@ export default function Checkout() {
 
             processPayment(userId, token, payData)
               .then((response) => {
+                console.log(response);
                 orderData.paymentMethod = data.type;
                 orderData.transactionId = response.transaction.id;
                 orderData.amount = response.transaction.amount;
@@ -461,14 +480,14 @@ export default function Checkout() {
 
   const submitPromoCode = (e) => {
     e.preventDefault();
-    if(values.code && values.code !== ""){
-      getSinglePromoCode(userId, token, {promocode:values.code} || undefined).then(response => {
-        if(response.error){
+    if (values.code && values.code !== "") {
+      getSinglePromoCode(userId, token, { promocode: values.code } || undefined).then((response) => {
+        if (response.error) {
           console.log(response.error);
           let newErr = values.errors;
           newErr.promocode = response.error;
-          setValues({...values,errors: newErr});
-        }else{
+          setValues({ ...values, errors: newErr });
+        } else {
           let newErr = values.errors;
           newErr.promocode = "";
           setValues({
@@ -476,23 +495,14 @@ export default function Checkout() {
             promocode: {
               applied: true,
               code: response.promocode,
-              discount:response.discount,
+              discount: response.discount,
             },
-            errors: newErr
+            errors: newErr,
           });
           console.log(response);
         }
-      })
+      });
     }
-    //this is dummy for now, should validate the code with db.
-    /* setValues({
-      ...values,
-      promocode: {
-        applied: true,
-        code: values.promo,
-        discount: 10,
-      },
-    }); */
   };
 
   const getAddressData = () => {
@@ -520,6 +530,7 @@ export default function Checkout() {
           setError({ isSet: true, message: data.error });
           console.log(data.error);
         } else {
+          handleCancel();
           setSuccess({ isSet: true, message: "Address added successfully!" });
           initAddress(userId, token);
           window.setTimeout(() => {
@@ -534,11 +545,7 @@ export default function Checkout() {
   const showSuccess = () => {
     if (success.isSet) {
       return (
-        <div
-          className="alert alert-success alert-dismissible fade show"
-          role="alert"
-          style={{ display: success.isSet ? "" : "none" }}
-        >
+        <div className="alert alert-success alert-dismissible fade show" role="alert" style={{ display: success.isSet ? "" : "none" }}>
           {success.message}
         </div>
       );
@@ -548,11 +555,7 @@ export default function Checkout() {
   const showError = () => {
     if (error.isSet) {
       return (
-        <div
-          className="alert alert-danger alert-dismissible"
-          role="alert"
-          style={{ display: error.isSet ? "" : "none" }}
-        >
+        <div className="alert alert-danger alert-dismissible" role="alert" style={{ display: error.isSet ? "" : "none" }}>
           {error.message}
         </div>
       );
@@ -560,21 +563,13 @@ export default function Checkout() {
   };
 
   const showPayError = (error) => (
-    <div
-      className="alert alert-danger alert-dismissible"
-      role="alert"
-      style={{ display: payment.error ? "" : "none" }}
-    >
+    <div className="alert alert-danger alert-dismissible" role="alert" style={{ display: payment.error ? "" : "none" }}>
       {error}
     </div>
   );
 
   const showPaySuccess = (success) => (
-    <div
-      className="alert alert-success alert-dismissible"
-      role="alert"
-      style={{ display: payment.success ? "" : "none" }}
-    >
+    <div className="alert alert-success alert-dismissible" role="alert" style={{ display: payment.success ? "" : "none" }}>
       Order Placed Successfully!
     </div>
   );
@@ -584,16 +579,12 @@ export default function Checkout() {
     const isAddressValid = validateAddress();
 
     if (isAddressValid) {
-      updateAddress(
-        userId,
-        token,
-        values.editAddress._id,
-        getAddressData()
-      ).then((data) => {
+      updateAddress(userId, token, values.editAddress._id, getAddressData()).then((data) => {
         if (data.error) {
           setError({ isSet: true, message: data.error });
           console.log(data.error);
         } else {
+          handleCancel();
           setSuccess({
             isSet: true,
             message: "Address Updated successfully!",
@@ -648,6 +639,7 @@ export default function Checkout() {
 
     setValues({
       ...values,
+      shippingAddress: "",
       editAddress: selectAddress,
       isEdit: true,
       showing: true,
@@ -663,43 +655,35 @@ export default function Checkout() {
   };
 
   const handleDeleteAddress = (id) => {
-    confirmAlert({
-      title: "Confirm To Delete",
-      message: "Are you sure you want to delete this address?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => {
-            deleteAddress(userId, id, token).then((data) => {
-              if (data.error) {
-                setError({ isSet: true, message: data.error });
-              } else {
-                setSuccess({
-                  isSet: true,
-                  message: "Address Deleted Successfully!",
-                });
-                initAddress(userId, token);
-                window.setTimeout(() => {
-                  setSuccess({ isSet: false, message: "" });
-                }, 5000);
-              }
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteAddress(userId, id, token).then((data) => {
+          if (data.error) {
+            setError({ isSet: true, message: data.error });
+          } else {
+            setSuccess({
+              isSet: true,
+              message: "Address Deleted Successfully!",
             });
-          },
-        },
-        {
-          label: "No",
-        },
-      ],
-      closeOnEscape: true,
-      closeOnClickOutside: true,
+            setValues({ ...values, shippingAddress: "" });
+            initAddress(userId, token);
+            window.setTimeout(() => {
+              setSuccess({ isSet: false, message: "" });
+            }, 5000);
+          }
+        });
+      }
     });
   };
 
   return (
-    <div
-      className="container-lg"
-      onBlur={() => setPayment({ ...payment, error: "" })}
-    >
+    <div className="container-lg" onBlur={() => setPayment({ ...payment, error: "" })}>
       {shouldRedirect(redirect)}
       <h2>
         <b>Checkout</b>
@@ -711,10 +695,7 @@ export default function Checkout() {
         </h4>
       </div>
 
-      <div
-        className="col-md-12"
-        style={{ display: values.showDivs ? "" : "none" }}
-      >
+      <div className="col-md-12" style={{ display: values.showDivs ? "" : "none" }}>
         <div className="row my-3">
           <div className="col-md-8">
             <div className="card">
@@ -725,71 +706,61 @@ export default function Checkout() {
               {showError()}
               <div className="card-body">
                 <div className="container-fluid">
+               
                   <div className="row">
-                    <div className="cus-invalid-feedback">
-                      {addresses.length == 0 ? "No Addresses Found" : ""}
-                    </div>
-                    {addresses.map((address) => {
-                      return (
-                        <div key={address._id} className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="shippingAddress"
-                            id={"radio" + address.id}
-                            value={address._id}
-                            onChange={onAddressChange}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={"radio" + address._id}
-                          >
-                            {address.firstName +
-                              " " +
-                              address.lastName +
-                              ", " +
-                              address.address1 +
-                              ", " +
-                              address.address2 +
-                              ", " +
-                              address.city +
-                              ", " +
-                              address.postal +
-                              ", " +
-                              address.country}
-                          </label>
-                          <button
-                            className="btn btn-sm button-transparent mx-2"
-                            data-toggle="modal"
-                            data-target="#confirmModal"
-                            onClick={() => handleDeleteAddress(address._id)}
-                          >
-                            <i className="fas fa-trash icon-red"></i>
-                          </button>
-                          <button
-                            className="btn btn-sm button-transparent mx-2"
-                            onClick={() => handleEdit(address._id)}
-                          >
-                            <i className="fas fa-pen icon-green"></i>
-                          </button>
-                        </div>
-                      );
-                    })}
-                    <div className="cus-invalid-feedback">
-                      {values.errors.shippingAddress}
-                    </div>
+                    <div className="cus-invalid-feedback">{addresses.length == 0 ? "No Addresses Found" : ""}</div>
+                    
+                    {values.showing
+                      ? null
+                      : addresses.map((address) => {
+                          return (
+                            <div className="custom-form-check mx-2" key={address._id}>
+                              <label className="form-check-label">
+                                <ul
+                                  style={{
+                                    listStyleType: "none",
+                                    padding: "0px",
+                                  }}
+                                >
+                                  <li>{address.firstName + " " + address.lastName},</li>
+                                  <li>{address.address1},</li>
+                                  <li>{address.address2}</li>
+                                  <li>{address.city + " " + address.postal},</li>
+                                  <li>{address.country}.</li>
+                                  <li>
+                                    <a className="text-danger pr-2" onClick={() => handleDeleteAddress(address._id)}>
+                                      Delete
+                                    </a>
+                                    <a className="text-success" onClick={() => handleEdit(address._id)}>
+                                      Edit
+                                    </a>
+                                  </li>
+                                </ul>
+                                <input
+                                  className="form-check-input"
+                                  type="radio"
+                                  name="shippingAddress"
+                                  id={"radio" + address.id}
+                                  value={address._id}
+                                  onChange={onAddressChange}
+                                  checked={values.shippingAddress._id && values.shippingAddress._id == address._id ? true : false}
+                                />
+                                <span className="checkmark"></span>
+                              </label>
+                            </div>
+                          );
+                        })}
                   </div>
-                  <div className="row">
-                    <div className="my-2">
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={() => setValues({ ...values, showing: true })}
-                      >
-                        Add New
-                      </button>
+                  <div className="cus-invalid-feedback">{values.errors.shippingAddress}</div>
+                  {values.showing ? null : (
+                    <div className="row">
+                      <div className="my-2">
+                        <button className="btn btn-sm btn-success" onClick={() => setValues({ ...values, showing: true })}>
+                          Add New
+                        </button>
+                      </div>
                     </div>
-                  </div>
-
+                  )}
                   <div className="row">
                     <div className="col justify-content-center my-3">
                       {values.showing ? (
@@ -801,6 +772,7 @@ export default function Checkout() {
                           handleUpdateAddress={handleUpdateAddress}
                           handleCancel={handleCancel}
                           errors={values.errors}
+                          countries={countries}
                         />
                       ) : null}
                     </div>
@@ -817,30 +789,15 @@ export default function Checkout() {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="billingSame"
-                        id="billingSame"
-                        onChange={handleInputChange}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="addressCheck"
-                      >
+                      <input className="form-check-input" type="checkbox" name="billingSame" id="billingSame" onChange={handleInputChange} />
+                      <label className="form-check-label" htmlFor="addressCheck">
                         Billing address is the same as my Shipping address
                       </label>
                     </div>
                   </div>
 
                   <div>
-                    {values.billingSame ? null : (
-                      <BillingAddress
-                        handleInputChange={handleInputChange}
-                        errors={values.errors}
-                        validate={validate}
-                      />
-                    )}
+                    {values.billingSame ? null : <BillingAddress handleInputChange={handleInputChange} errors={values.errors} validate={validate} />}
                   </div>
                 </div>
               </div>
@@ -856,46 +813,23 @@ export default function Checkout() {
                     <div className="custom-form-check">
                       <label className="form-check-label">
                         Pay Now
-                        <input
-                          type="radio"
-                          className="form-check-input"
-                          name="paymentMethod"
-                          value="paynow"
-                          onChange={handleInputChange}
-                        />
+                        <input type="radio" className="form-check-input" name="paymentMethod" value="paynow" onChange={handleInputChange} />
                         <span className="checkmark"></span>
                       </label>
                     </div>
                     <div className="custom-form-check">
                       <label className="form-check-label">
                         Cash On Delivery
-                        <input
-                          type="radio"
-                          className="form-check-input"
-                          name="paymentMethod"
-                          value="cod"
-                          onChange={handleInputChange}
-                        />
+                        <input type="radio" className="form-check-input" name="paymentMethod" value="cod" onChange={handleInputChange} />
                         <span className="checkmark"></span>
                       </label>
                     </div>
-                    <div className="cus-invalid-feedback">
-                      {values.errors.paymentMethod}
-                    </div>
+                    <div className="cus-invalid-feedback">{values.errors.paymentMethod}</div>
                   </div>
-                  {/* {values.paymentMethod === "card" ? (
-                    <CreditCardInput handleInputChange={handleInputChange} />
-                  ) : null} */}
                   {showPayError(payment.error)}
-
                   {showDropIn()}
                   <hr className="mb-4" />
-                  <button
-                    className="btn btn-primary btn-lg btn-block"
-                    type="submit"
-                    onClick={submitCheckout}
-                    disabled={values.btnDissable}
-                  >
+                  <button className="btn btn-primary btn-lg btn-block" type="submit" onClick={submitCheckout} disabled={values.btnDissable}>
                     Continue to checkout
                   </button>
                 </div>
@@ -910,6 +844,7 @@ export default function Checkout() {
               promocode={values.promocode}
               handleInputChange={handleInputChange}
               submitPromoCode={submitPromoCode}
+              shipping={shippingCost}
             />
           </div>
         </div>

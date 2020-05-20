@@ -15,8 +15,17 @@
     background-color: rgb(24, 24, 24);
     padding: 1.5rem;
     padding-top: 0;
+    transition:padding-left 0.5s;
   }
   
+  .sidebar-button{
+    left: 5;
+    top: 0;
+    z-index: 9999;
+    position: fixed;
+    margin: 15px;
+    transition:padding-left 0.5s;
+  }
   
   .flexible-navbar {
     transition: padding-left 0.5s;
@@ -31,7 +40,8 @@
   
   .sidebar-fixed .logo-wrapper img{
     width: 100%;
-    padding: 2.5rem;
+    padding: 2rem;
+    margin-top: 2rem;
   }
   
   .list-group-item-custom {
@@ -164,7 +174,7 @@
   
   @media (max-width: 1199.98px) {
     .sidebar-fixed {
-      display: none;
+     
     }
     .flexible-content {
       padding-left: 0;
