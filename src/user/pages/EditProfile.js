@@ -121,7 +121,6 @@ const EditProfile = ({ match }) => {
         <div>
             {profileEdit(fName, lName, email, password, gender)}
             {redirectUser(success)}
-            {JSON.stringify(values)}
         </div>
     )
 
