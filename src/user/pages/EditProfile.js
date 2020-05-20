@@ -20,7 +20,7 @@ const EditProfile = ({ match }) => {
     const { fName, lName, email, password, gender, error, success } = values;
 
     const init = (userId) => {
-        //console.log(userId);
+       // console.log(userId);
         read(userId, token).then(data => {
             if (data.error) {
                 setValues({ ...values, error: true })
@@ -80,23 +80,23 @@ const EditProfile = ({ match }) => {
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>First Name </label>
-                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" required />
+                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" />
                     </div>
                     <div className="form-group col-sm">
                         <label >Last Name</label>
-                        <input onChange={handleChange("lName")} value={lName} type="text" className="form-control" required />
+                        <input onChange={handleChange("lName")} value={lName} type="text" className="form-control"/>
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>Password</label>
-                        <input onChange={handleChange("password")} value={password} type="password" className="form-control" required />
+                        <input onChange={handleChange("password")} value={password} type="password" className="form-control"/>
                     </div>
                     <div className="form-group col-sm">
                         <label>Gender</label>
                         <select onChange={handleChange("gender")} value={gender} className="form-control">
-                            <option selected hidden>Select Gender</option>
+                            <option defaultValue hidden>Select Gender</option>
                             <option>Male</option>
                             <option>Female</option>
                         </select>
@@ -121,6 +121,7 @@ const EditProfile = ({ match }) => {
         <div>
             {profileEdit(fName, lName, email, password, gender)}
             {redirectUser(success)}
+            {JSON.stringify(values)}
         </div>
     )
 

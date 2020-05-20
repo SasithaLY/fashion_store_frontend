@@ -36,10 +36,10 @@ const ViewUsers = () => {
     const userTable = () => (
         <div className="container-fluid">
             <h2 className="text-center">
-                Users
+                Manage Users
             </h2><br />
 
-            <table class="table table-dark">
+            <table className="table table-dark">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
