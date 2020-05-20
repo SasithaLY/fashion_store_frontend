@@ -4,7 +4,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../../../auth/auth";
 
 const TopNavigationBar = () => {
-    let history = useHistory();
+  let history = useHistory();
 
   return (
     <div>
@@ -33,19 +33,26 @@ const TopNavigationBar = () => {
               )}
 
               {isAuthenticated() && (
-                
+
                 <Fragment>
-                  Welcome <label className="mr-3">{isAuthenticated().user.fName}</label>
+                  Welcome&nbsp;
+                  <a
+                    style={{ textDecoration: "none" }}
+                    href={"/user/profile"}
+                    className="text-success"
+                  >
+                    {isAuthenticated().user.fName}&nbsp;
+                  </a>
                   <button className="btn btn-sm btn-outline-warning" onClick={() =>
-                      signout(() => {
-                        history.push("/");
-                      })
-                    }>
-                  LOGOUT</button>
+                    signout(() => {
+                      history.push("/");
+                    })
+                  }>
+                    LOGOUT</button>
                 </Fragment>
               )}
 
-              
+
             </div>
           </div>
         </div>

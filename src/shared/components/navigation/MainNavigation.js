@@ -45,7 +45,7 @@ const MainNavigation = props => {
             </Fragment>
           }
 
-          {isAuthenticated() && isAuthenticated().user.role === 1 &&
+          {isAuthenticated() && (isAuthenticated().user.role === 1 || isAuthenticated().user.role === 2) &&
             <Fragment>
               <a
                 className="nav-link"
