@@ -4,9 +4,9 @@ import { getOrdersHistory, searchOrderHistory } from "../admin/orderHelper";
 import moment from "moment";
 import DataTable, { createTheme } from "react-data-table-component";
 import ProductItem from "../components/ProductItem";
-
 import "../admin/orders.css";
 import { Link } from "react-router-dom";
+import UserNavs from "../../user/components/UserNavs"
 
 const OrderHistory = () => {
   const [values, setValues] = useState({});
@@ -311,11 +311,13 @@ const OrderHistory = () => {
   };
 
   return (
-    <div>
-      <div className="container-fluid px-5">
-        <Link to="/user/profile">
-        <a className="badge badge-warning mt-3 text-dark p-2">Back To Profile</a>
-        </Link>
+    <div className="row">
+      <UserNavs />
+      <div className="container-fluid p-5" >
+        {/* <Link to="/user/profile">
+          <a className="badge badge-warning mt-3 text-dark p-2">Back To Profile</a>
+        </Link> */}
+
         <h2 className="text-center">
           <label>Your Orders</label>
         </h2>
@@ -323,56 +325,36 @@ const OrderHistory = () => {
           <div className="card">
             <div className="card-header">
               <form className="form-inline" onSubmit={searchSubmit}>
-              <div className="row">
-                <div className="form-group m-sm-3">
-                  <label htmlFor="orderId" className="control-label mx-2">
-                    Order ID
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control-sm"
-                    id="orderId"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group m-sm-3">
-                  <label htmlFor="product" className="control-label mx-2">
-                    Product
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control-sm"
-                    id="product"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group m-sm-3">
-                  <label htmlFor="from" className="control-label mx-2">
-                    From Date
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control-sm"
-                    id="from"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group m-sm-3">
-                  <label htmlFor="to" className="control-label mx-2">
-                    To Date
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control-sm"
-                    id="to"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group m-sm-3 px-2">
-                <button type="submit" className="btn btn-primary btn-sm">
-                  Search
-                </button>
-                </div>
+                <div className="row">
+                  <div className="form-group m-sm-3">
+                    <label htmlFor="orderId" className="control-label mx-2">
+                      Order ID
+                    </label>
+                    <input type="text" className="form-control-sm" id="orderId" onChange={handleInputChange} />
+                  </div>
+                  <div className="form-group m-sm-3">
+                    <label htmlFor="product" className="control-label mx-2">
+                      Product
+                    </label>
+                    <input type="text" className="form-control-sm" id="product" onChange={handleInputChange} />
+                  </div>
+                  <div className="form-group m-sm-3">
+                    <label htmlFor="from" className="control-label mx-2">
+                      From Date
+                    </label>
+                    <input type="date" className="form-control-sm" id="from" onChange={handleInputChange} />
+                  </div>
+                  <div className="form-group m-sm-3">
+                    <label htmlFor="to" className="control-label mx-2">
+                      To Date
+                    </label>
+                    <input type="date" className="form-control-sm" id="to" onChange={handleInputChange} />
+                  </div>
+                  <div className="form-group m-sm-3 px-2">
+                    <button type="submit" className="btn btn-primary btn-sm">
+                      Search
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

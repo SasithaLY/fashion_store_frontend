@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import "../components/profileStyles.css";
 import { isAuthenticated } from "../../auth/auth";
 import userImg from "../../shared/assets/images/index.png"
+import UserNavs from "../components/UserNavs"
 
 const userProfile = () => {
 
@@ -39,7 +40,7 @@ const userProfile = () => {
   )
 }
 
-const userNavs = () => {
+/* const userNavs = () => {
 
   return (
 
@@ -79,19 +80,16 @@ const userNavs = () => {
     </div>
   )
 
-}
-
-const purchaseHistory = () => {
-
-}
+} */
 
 const Profile = () => {
 
   return (
 
     <div className="row">
+      <UserNavs/>
       <div className="col-3">
-        {userNavs()}
+        
       </div>
       <div className="col-9">
         {userProfile()}
