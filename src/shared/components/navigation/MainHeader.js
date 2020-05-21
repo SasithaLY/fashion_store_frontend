@@ -1,16 +1,32 @@
-import React, { Fragment } from "react";
+import React, { Fragment,useState, useEffect } from "react";
 import { useHistory, withRouter } from "react-router-dom";
 import { itemTotal } from "../../../cart/cartHelper";
 import MainNavigation from "./MainNavigation";
-import {countTotal} from "../../../wishList/wishAPI";
+import {countTotal, getWishList} from "../../../wishList/wishAPI";
 import { Link } from "react-router-dom";
 import "./MainHeader.css";
 import { signout, isAuthenticated } from "../../../auth/auth"
 
 const MainHeader = () => {
-
+  const [count,setCount] =  useState(0);
   let history = useHistory();
-  const { user} = isAuthenticated();
+  const { user, token} = isAuthenticated();
+  
+  useEffect(() => {
+    console.log(user);
+    getWishList(user._id, token).then((data) => {
+      console.log(data);
+      if(data){
+        setCount(data.length);
+        console.log(data.length);
+      }else{
+        setCount(0);
+      }
+      
+    });
+  }, []);
+
+  
 
   
   return (
@@ -75,7 +91,7 @@ const MainHeader = () => {
                 </span>
               </a>
               <Link to={"/wishList"}>
-                <span className="p1 fa-stack has-badge " data-count={countTotal()}>
+                <span className="p1 fa-stack has-badge " data-count={count}>
                 <i className="p3 fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
                 </span>
               </Link>
