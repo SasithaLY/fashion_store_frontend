@@ -1,98 +1,75 @@
-import React, { Fragment,useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useHistory, withRouter } from "react-router-dom";
 import { itemTotal } from "../../../cart/cartHelper";
 import MainNavigation from "./MainNavigation";
-import {countTotal, getWishList} from "../../../wishList/wishAPI";
+import { countTotal, getWishList } from "../../../wishList/wishAPI";
 import { Link } from "react-router-dom";
 import "./MainHeader.css";
-import { signout, isAuthenticated } from "../../../auth/auth"
+import { signout, isAuthenticated } from "../../../auth/auth";
 
 const MainHeader = () => {
-  const [count,setCount] =  useState(0);
+  const [count, setCount] = useState(0);
   let history = useHistory();
-  const { user, token} = isAuthenticated();
-  
+  const { user, token } = isAuthenticated();
+
   useEffect(() => {
-    console.log(user);
-    getWishList(user._id, token).then((data) => {
-      console.log(data);
-      if(data){
-        setCount(data.length);
-        console.log(data.length);
-      }else{
-        setCount(0);
-      }
-      
-    });
+    if (user) {
+      getWishList(user._id, token).then((data) => {
+        if (data) {
+          setCount(data.length);
+        } else {
+          setCount(0);
+        }
+      });
+    }
   }, []);
 
-  
-
-  
   return (
-
     <header>
       <div className="col-md-12 navbar-dark bg-dark text-light">
         <div className="row container-fluid">
           <div className="col-md-12 text-right">
             <div id="ex4" className="p-1">
-
-              {!isAuthenticated() &&
-
+              {!isAuthenticated() && (
                 <Fragment>
-                  <a
-                    style={{ textDecoration: "none" }}
-                    href={"/signin"}
-                    className="text-success"
-                  >
+                  <a style={{ textDecoration: "none" }} href={"/signin"} className="text-success">
                     LOGIN
                   </a>
 
-                  <a
-                    style={{ textDecoration: "none" }}
-                    href={"/signup"}
-                    className="mx-3 text-warning"
-                  >
+                  <a style={{ textDecoration: "none" }} href={"/signup"} className="mx-3 text-warning">
                     REGISTER
                   </a>
-
                 </Fragment>
-              }
+              )}
 
-              {isAuthenticated() &&
+              {isAuthenticated() && (
                 <Fragment>
                   Welcome&nbsp;
-                  <a
-                    style={{ textDecoration: "none" }}
-                    href={"/user/profile"}
-                    className="text-success"
-                  >
-                      {user.fName}
+                  <a style={{ textDecoration: "none" }} href={"/user/profile"} className="text-success">
+                    {user.fName}
                   </a>
-                  
                   <a
                     style={{ cursor: "pointer", color: "#ffffff" }}
                     className="mx-3 text-warning"
-                    onClick={() => signout(() => {
-                      history.push("/");
-                    })}
+                    onClick={() =>
+                      signout(() => {
+                        history.push("/");
+                      })
+                    }
                   >
                     LOGOUT
                   </a>
                 </Fragment>
+              )}
 
-              }
-
-              <a  href={"/cart"}  >
+              <a href={"/cart"}>
                 <span className="p1 fa-stack has-badge" data-count={itemTotal()}>
-                  <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white">
-
-                  </i>
+                  <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white"></i>
                 </span>
               </a>
               <Link to={"/wishList"}>
                 <span className="p1 fa-stack has-badge " data-count={count}>
-                <i className="p3 fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
+                  <i className="p3 fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
                 </span>
               </Link>
             </div>

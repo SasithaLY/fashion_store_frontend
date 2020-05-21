@@ -103,12 +103,12 @@ const SingleIProductDetails = ({ product, showCartAddButton = true, cartUpdate =
   const showCartUpdateOptions = (cartUpdate) => {
     return (
       cartUpdate && (
-        <div className="col-md-3">
-          <div className="input-group mb-3">
+        <div className="col-md-4 p-0">
+          <div className="input-group mb-3" >
             <div className="input-group-prepend">
               <span className="input-group-text">Quantity</span>
             </div>
-            <input type="number" className="form-control" value={singleProductDetails.count || 1} onChange={handleChange()} />
+            <input type="number" className="form-control"style={{minWidth:"40%"}} value={singleProductDetails.count || 1} onChange={handleChange()} />
           </div>
         </div>
       )
