@@ -65,7 +65,10 @@ const UploadProducts = () => {
     }, []);
 
     const handleChange = name => event => {
-        const value = name === 'photo' ? event.target.files[0] : event.target.value;
+        let value = name === 'photo' ? event.target.files[0] : event.target.value;
+        if (name === 'name'){
+            value = capitalize(event.target.value);
+        }
         formData.set(name, value);
         setValues({...values, [name]: value});
     };
@@ -119,6 +122,10 @@ const UploadProducts = () => {
             )
         );
     };
+
+    const capitalize = (str, lower = false) =>
+        (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
+    ;
 
     return (
         <div className="container">

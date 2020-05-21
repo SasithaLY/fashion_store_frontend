@@ -79,7 +79,13 @@ const UpdateProduct = ({match}) => {
     }, []);
 
     const handleChange = name => event => {
-        const value = name === 'photo' ? event.target.files[0] : event.target.value;
+
+        let value = name === 'photo' ? event.target.files[0] : event.target.value;
+
+        if (name === 'name'){
+            value = capitalize(event.target.value);
+        }
+
         formData.set(name, value);
         setValues({...values, [name]: value});
     };
@@ -130,6 +136,10 @@ const UpdateProduct = ({match}) => {
         );
     };
 
+    const capitalize = (str, lower = false) =>
+        (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
+    ;
+
     return (
 
         <div>
@@ -160,7 +170,7 @@ const UpdateProduct = ({match}) => {
                             <div className="form-group">
                                 <label className="text-warning">Name</label>
                                 <input onChange={handleChange('name')} type="text" className="form-control"
-                                       value={name}
+                                       value={capitalize(name)}
                                        required/>
                             </div>
 
