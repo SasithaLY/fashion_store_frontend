@@ -6,6 +6,7 @@ import DataTable, { createTheme } from "react-data-table-component";
 import ProductItem from "../components/ProductItem";
 
 import "../admin/orders.css";
+import { Link } from "react-router-dom";
 
 const OrderHistory = () => {
   const [values, setValues] = useState({});
@@ -46,6 +47,8 @@ const OrderHistory = () => {
         billingAddress: order.billingAddress,
         products: order.products,
         expanded: false,
+        promocode:order.promocode,
+        shipping:order.shipping
       };
 
       orderArr.push(obj);
@@ -87,7 +90,12 @@ const OrderHistory = () => {
     } else {
       retrieveOrders();
     }
-    //console.log(values);
+  };
+
+  const getTotal = (products) => {
+    return products.reduce((current, next) => {
+      return current + next.count * next.price;
+    }, 0);
   };
 
   const columns = [
@@ -174,42 +182,103 @@ const OrderHistory = () => {
         <div className="card-body">
           <div className="col-12">
             <div className="row" style={{ paddingTop: "20px" }}>
-              <div className="col-4">
+            <div className="col-3">
+              <ul>
+                <li>
+                  <label>Transaction ID : </label>{" "}
+                  <span>{d.data.transactionId}</span>
+                </li>
+                <li>
+                  <label>Payment Method : </label>{" "}
+                  <span>{d.data.paymentMethod}</span>
+                </li>
+              </ul>
+            </div>
+              <div className="col-3">
                 <h6>
                   <label>Shipping Address</label>
                 </h6>
-                <ul style={{ listStyleType: "none" }}>
-                  <li>
-                    {d.data.shippingAddress.firstName +
-                      " " +
-                      d.data.shippingAddress.lastName}
-                  </li>
-                  <li>{d.data.shippingAddress.address1}</li>
-                  <li>{d.data.shippingAddress.address2}</li>
-                  <li>{d.data.shippingAddress.city}</li>
-                  <li>{d.data.shippingAddress.state}</li>
-                  <li>{d.data.shippingAddress.postal}</li>
-                  <li>{d.data.shippingAddress.country}</li>
-                </ul>
+                <ul
+                style={{
+                  listStyleType: "none",
+                  padding: "0px",
+                }}
+              >
+                <li>
+                  {d.data.shippingAddress.firstName +
+                    " " +
+                    d.data.shippingAddress.lastName}
+                </li>
+                <li>{d.data.shippingAddress.address1}</li>
+                <li>{d.data.shippingAddress.address2}</li>
+                <li>
+                  {d.data.shippingAddress.city +
+                    " " +
+                    d.data.shippingAddress.postal}
+                </li>
+                <li>{d.data.shippingAddress.state}</li>
+                <li>{d.data.shippingAddress.country}</li>
+              </ul>
               </div>
-              <div className="col-4">
+              <div className="col-3">
                 <h6>
                   <label>Billing Address</label>
                 </h6>
-                <ul style={{ listStyleType: "none" }}>
-                  <li>
-                    {d.data.billingAddress.firstName +
-                      " " +
-                      d.data.billingAddress.lastName}
-                  </li>
-                  <li>{d.data.billingAddress.address1}</li>
-                  <li>{d.data.billingAddress.address2}</li>
-                  <li>{d.data.billingAddress.city}</li>
-                  <li>{d.data.billingAddress.state}</li>
-                  <li>{d.data.billingAddress.postal}</li>
-                  <li>{d.data.billingAddress.country}</li>
-                </ul>
+                <ul
+                style={{
+                  listStyleType: "none",
+                  padding: "0px",
+                }}
+              >
+                <li>
+                  {d.data.billingAddress.firstName +
+                    " " +
+                    d.data.billingAddress.lastName}
+                </li>
+                <li>{d.data.billingAddress.address1}</li>
+                <li>{d.data.billingAddress.address2}</li>
+                <li>
+                  {d.data.billingAddress.city +
+                    " " +
+                    d.data.billingAddress.postal}
+                </li>
+                <li>{d.data.billingAddress.state}</li>
+                <li>{d.data.billingAddress.country}</li>
+              </ul>
               </div>
+              <div className="col-3 px-5">
+              <center>
+                <h6>
+                  <label>Order Summery</label>
+                </h6>
+                <ul style={{ listStyleType: "none" }}>
+                  <li className="d-flex justify-content-between">
+                    <label>Sub Total (USD) :</label>{" "}
+                    {getTotal(d.data.products).toFixed(2)}
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <label>Shipping (USD) :</label>{" "}
+                    {d.data.shipping.shipping.toFixed(2)}
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <label>Discount (USD) :</label> -{" "}
+                    {(
+                      (getTotal(d.data.products) * d.data.promocode.discount) /
+                      100
+                    ).toFixed(2)}
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <label>Total (USD) :</label>{" "}
+                    {(
+                      getTotal(d.data.products) +
+                      d.data.shipping.shipping -
+                      (getTotal(d.data.products) * d.data.promocode.discount) /
+                        100
+                    ).toFixed(2)}
+                  </li>
+                </ul>
+              </center>
+            </div>
             </div>
             <div>
               <h4>
@@ -243,15 +312,19 @@ const OrderHistory = () => {
 
   return (
     <div>
-      <div className="container-fluid">
+      <div className="container-fluid px-5">
+        <Link to="/user/profile">
+        <a className="badge badge-warning mt-3 text-dark p-2">Back To Profile</a>
+        </Link>
         <h2 className="text-center">
-          <label>Orders</label>
+          <label>Your Orders</label>
         </h2>
         <div>
           <div className="card">
             <div className="card-header">
               <form className="form-inline" onSubmit={searchSubmit}>
-                <div className="form-group mx-sm-3">
+              <div className="row">
+                <div className="form-group m-sm-3">
                   <label htmlFor="orderId" className="control-label mx-2">
                     Order ID
                   </label>
@@ -262,7 +335,7 @@ const OrderHistory = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="form-group mx-sm-3">
+                <div className="form-group m-sm-3">
                   <label htmlFor="product" className="control-label mx-2">
                     Product
                   </label>
@@ -273,7 +346,7 @@ const OrderHistory = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="form-group mx-sm-3">
+                <div className="form-group m-sm-3">
                   <label htmlFor="from" className="control-label mx-2">
                     From Date
                   </label>
@@ -284,7 +357,7 @@ const OrderHistory = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="form-group mx-sm-3">
+                <div className="form-group m-sm-3">
                   <label htmlFor="to" className="control-label mx-2">
                     To Date
                   </label>
@@ -295,9 +368,12 @@ const OrderHistory = () => {
                     onChange={handleInputChange}
                   />
                 </div>
+                <div className="form-group m-sm-3 px-2">
                 <button type="submit" className="btn btn-primary btn-sm">
                   Search
                 </button>
+                </div>
+                </div>
               </form>
             </div>
             {loading ? null : (

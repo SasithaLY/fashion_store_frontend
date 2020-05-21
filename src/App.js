@@ -38,6 +38,7 @@ import NormalRoute from "./auth/NormalRoute";
 import OrderHistory from "./order/user/orderHistory";
 import Locations from "./locations/Locations";
 import Promo from "./promo/promo";
+import ViewUsers from "./user/Admin/ViewUsers";
 
 const App = () => {
   return (
@@ -69,25 +70,24 @@ const App = () => {
 
 
             {/* admin routes */}
-
-            <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>           
+        
             <AdminRoute path="/admin/user/profile" exact component={Profile}/>           
-            <AdminRoute path="/admin/orders" exact component={Orders} />
+           
             <AdminRoute path="/admin/addManager" exact component={AddManager} />
             <AdminRoute path="/admin/addAdmin" exact component={AddAdmin} />
-            <AdminRoute path="/addProduct" exact component={UploadProducts} />
             <AdminRoute path="/admin/locations" exact component={Locations} />
-            <AdminRoute path="/admin/promocodes" exact component={Promo} />
+            <AdminRoute path="/admin/viewUsers" exact component={ViewUsers} />
 
             {/* PRODUCTS AND CATEGORIES */}
             
             <AdminRoute path="/addCategory" exact component={UploadCategories}/>
             <AdminRoute path="/uploadMultiple" exact component={UploadProductsMultiple} />
 
-            {/* PRODUCTS AND CATEGORIES */}
-            
-
             {/* STORE MANAGER PRIVILEGES */}
+
+            <StoreManagerRoute path="/admin/promocodes" exact component={Promo} />
+            <StoreManagerRoute path="/addProduct" exact component={UploadProducts} />
+            <StoreManagerRoute path="/admin/dashboard" exact component={Dashboard}/>   
             <StoreManagerRoute path="/admin/orders" exact component={Orders} />
             <StoreManagerRoute path="/storeManager/updateProducts/:productId" exact component={UpdateProduct}/>
             <StoreManagerRoute path="/storeManager/allProducts" exact component={ProductsByAdmin}/>

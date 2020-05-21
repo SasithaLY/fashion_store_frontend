@@ -2,14 +2,7 @@ import React, { useEffect, useState, createRef } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 import Modal from "react-bootstrap/Modal";
 import swal from "@sweetalert/with-react";
-import {
-  addCountry,
-  getCountries,
-  updateCountry,
-  deleteCountry,
-  getSingleCountry,
-  search
-} from "./locationHelper";
+import { addCountry, getCountries, updateCountry, deleteCountry, getSingleCountry, search } from "./locationHelper";
 import { isAuthenticated } from "../auth/auth";
 
 const Locations = () => {
@@ -43,16 +36,10 @@ const Locations = () => {
       name: "Action",
       cell: (row) => (
         <div>
-          <button
-            className="btn btn-primary btn-sm mx-2"
-            onClick={() => handleSelect(row._id)}
-          >
+          <button className="btn btn-primary btn-sm mx-2" onClick={() => handleSelect(row._id)}>
             Edit
           </button>
-          <button
-            className="btn btn-danger btn-sm mx-2"
-            onClick={() => handleDelete(row._id)}
-          >
+          <button className="btn btn-danger btn-sm mx-2" onClick={() => handleDelete(row._id)}>
             Delete
           </button>
         </div>
@@ -92,11 +79,9 @@ const Locations = () => {
     });
     setEdit(true);
     handleShow();
-    //setModalLoading(true);
   };
 
   const handleDelete = (id) => {
-    //setSelectedOrder(id);
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover!",
@@ -104,7 +89,7 @@ const Locations = () => {
       buttons: true,
       dangerMode: true,
     }).then((willDelete) => {
-      if(willDelete){
+      if (willDelete) {
         deleteCountry(user._id, token, id).then((data) => {
           loadCountries(user._id, token);
           if (data.error) {
@@ -118,23 +103,22 @@ const Locations = () => {
           }
         });
       }
-      
     });
   };
 
   const searchSubmit = (e) => {
     e.preventDefault();
-    if(values.searchCountry && values.searchCountry != ""){
+    if (values.searchCountry && values.searchCountry != "") {
       setLoading(true);
-      search(user._id, token, {country:values.searchCountry} || undefined ).then(response => {
+      search(user._id, token, { country: values.searchCountry } || undefined).then((response) => {
         setLoading(false);
-        if(response.error){
+        if (response.error) {
           console.log(response.error);
-        }else{
+        } else {
           setCountries(response);
         }
-      })
-    }else{
+      });
+    } else {
       loadCountries(user._id, token);
     }
   };
@@ -177,13 +161,13 @@ const Locations = () => {
     let letters = /^[a-zA-Z][a-zA-Z\s]*$/;
     let count = 0;
     let err = {};
-    if ((values.country === "") || (!letters.test(values.country))) {
+    if (values.country === "" || !letters.test(values.country)) {
       count++;
       err.country = "Please Enter Country!";
     } else {
       err.country = "";
     }
-    if ((values.shipping === "") || (!number.test(values.shipping))) {
+    if (values.shipping === "" || !number.test(values.shipping)) {
       count++;
       err.shipping = "Please Enter Valid Amount!";
     } else {
@@ -264,41 +248,38 @@ const Locations = () => {
       <div className="my-2">
         <div className="card">
           <div className="card-header">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                showInsert();
-              }}
-            >
-              Add Country
-            </button>
-            <div className="float-right">
-              <form className="form-inline " onSubmit={searchSubmit}>
-                <div className="form-group mx-sm-3">
-                  <input
-                    type="text"
-                    className="form-control-sm"
-                    id="searchCountry"
-                    placeholder="Country"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary btn-sm ">
-                  Search
+            <div className="row">
+              <div className="col p-2">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    showInsert();
+                  }}
+                >
+                  Add Country
                 </button>
-              </form>
+              </div>
+              <div className="col p-2">
+                <div className="float-right">
+                  <form className="form-inline" onSubmit={searchSubmit}>
+                    <div className="row mx-auto">
+                      <div className="form-group">
+                        <input type="text" className="form-control-sm" id="searchCountry" placeholder="Country" onChange={handleInputChange} />
+                      </div>
+                      <div className="form-group  px-2">
+                        <button type="submit" className="btn btn-primary btn-sm ">
+                          Search
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
           {loading ? null : (
             <div className="card-body">
-              <DataTable
-                theme="dark"
-                columns={columns}
-                data={countries}
-                noHeader
-                pagination={true}
-                customStyles={customStyles}
-              />
+              <DataTable theme="dark" columns={columns} data={countries} noHeader pagination={true} customStyles={customStyles} />
             </div>
           )}
           {showLoading()}
@@ -306,10 +287,7 @@ const Locations = () => {
       </div>
 
       <Modal size="md" show={showModal} onHide={handleClose}>
-        <form
-          className="needs-validation"
-          onSubmit={edit ? handleUpdateLocation : submitLocation}
-        >
+        <form className="needs-validation" onSubmit={edit ? handleUpdateLocation : submitLocation}>
           <Modal.Header closeButton>
             <h4>{edit ? "Edit Country" : "Insert Country"}</h4>
           </Modal.Header>
@@ -318,20 +296,13 @@ const Locations = () => {
             {modalLoading ? null : (
               <div>
                 <div className="form-group row">
-                  <label
-                    htmlFor="country"
-                    className="col-sm-4 col-form-label text-dark"
-                  >
+                  <label htmlFor="country" className="col-sm-4 col-form-label text-dark">
                     Country
                   </label>
                   <div className="col-sm-8">
                     <input
                       type="text"
-                      className={
-                        errors.country
-                          ? "form-control cus-invalid"
-                          : "form-control"
-                      }
+                      className={errors.country ? "form-control cus-invalid" : "form-control"}
                       id="country"
                       placeholder="Country"
                       onChange={handleInputChange}
@@ -341,20 +312,13 @@ const Locations = () => {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label
-                    htmlFor="shipping"
-                    className="col-sm-4 col-form-label text-dark"
-                  >
+                  <label htmlFor="shipping" className="col-sm-4 col-form-label text-dark">
                     Shipping Amount
                   </label>
                   <div className="col-sm-8">
                     <input
                       type="text"
-                      className={
-                        errors.shipping
-                          ? "form-control cus-invalid"
-                          : "form-control"
-                      }
+                      className={errors.shipping ? "form-control cus-invalid" : "form-control"}
                       id="shipping"
                       placeholder="Amount"
                       onChange={handleInputChange}
@@ -367,11 +331,7 @@ const Locations = () => {
             )}
           </Modal.Body>
           <Modal.Footer>
-            <button
-              type="submit"
-              className="btn btn-success"
-              disabled={btnDisable}
-            >
+            <button type="submit" className="btn btn-success" disabled={btnDisable}>
               {edit ? "Edit" : "Add"}
             </button>
           </Modal.Footer>

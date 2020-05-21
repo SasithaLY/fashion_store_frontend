@@ -9,14 +9,19 @@ class NavLinks extends Component {
 
     constructor(props) {
         super(props);
-
+        this._isMounted = false;
         this.state = {
             moreCategories: [] = []
         };    
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+     }
+
     componentDidMount(){
-        this.getCategoryList().then();
+        this._isMounted = true;
+        this._isMounted && this.getCategoryList().then();
       }
 
     async getCategoryList() {
@@ -25,7 +30,7 @@ class NavLinks extends Component {
                 response.data.map((value, index) =>{
                     this.state.moreCategories.push(value);
                 })
-                this.setState({
+                this._isMounted && this.setState({
                     moreCategories : this.state.moreCategories
                 })
             }).catch(error=> {
