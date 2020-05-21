@@ -111,13 +111,6 @@ const Checkout = (product) => {
         console.log(data.error);
       } else {
         setAddresses(data);
-        /*  if(values.shippingAddress !== ""){
-          const selectCountry = countries.find(
-            (country) => country.country === values.shippingAddress.country
-          );
-          setShipping({country:"shsdfjk", shipping:55});
-          console.log(selectCountry);
-        } */
       }
     });
   };
@@ -133,18 +126,20 @@ const Checkout = (product) => {
   };
 
   useEffect(() => {
-    initAddress(userId, token);
-    loadCountries(userId, token);
-    getToken(userId, token);
-    
     if (product.location.product) {
       setCart([product.location.product]);
+      initAddress(userId, token);
+      loadCountries(userId, token);
+      getToken(userId, token);
     } else {
       let data = getCart();
       if (data.length == 0) {
         setRedirect(true);
       } else {
         setCart(data);
+        initAddress(userId, token);
+        loadCountries(userId, token);
+        getToken(userId, token);
       }
     }
   }, []);
@@ -182,7 +177,6 @@ const Checkout = (product) => {
     }
     if (shippingCost.shipping !== "") {
       cartTotal = cartTotal + shippingCost.shipping;
-      console.log(shippingCost);
     }
     return cartTotal;
   };
@@ -207,7 +201,6 @@ const Checkout = (product) => {
 
   const onAddressChange = (event) => {
     const address = addresses.find((address) => address._id == event.target.value);
-    console.log(address);
     const newErr = values.errors;
 
     const selectCountry = countries.find((country) => country.country === address.country);
@@ -314,10 +307,11 @@ const Checkout = (product) => {
       newErr["shippingAddress"] = null;
     }
     if (values.paymentMethod === "paynow" && Object.keys(payment.instance).length === 0) {
-      newErr["paymentMethod"] = "Wait for payment methods to load.";
+      //newErr["paymentMethod"] = "Wait for payment methods to load.";
+      setPayment({ ...payment, error: "Wait for payment methods to load." });
       count++;
     } else {
-      newErr["paymentMethod"] = null;
+      setPayment({ ...payment, error: "" });
     }
 
     setValues({
@@ -410,7 +404,7 @@ const Checkout = (product) => {
 
   const submitCheckout = (e) => {
     e.preventDefault();
-    console.log(Object.keys(payment.instance).length !== 0);
+   
     if (validate()) {
       setPayment({ ...payment, error: "" });
       setValues({ ...values, btnDissable: true });
@@ -458,7 +452,7 @@ const Checkout = (product) => {
 
             processPayment(userId, token, payData)
               .then((response) => {
-                console.log(response);
+                
                 orderData.paymentMethod = data.type;
                 orderData.transactionId = response.transaction.id;
                 orderData.amount = response.transaction.amount;
@@ -487,7 +481,7 @@ const Checkout = (product) => {
     if (values.code && values.code !== "") {
       getSinglePromoCode(userId, token, { promocode: values.code } || undefined).then((response) => {
         if (response.error) {
-          console.log(response.error);
+          
           let newErr = values.errors;
           newErr.promocode = response.error;
           setValues({ ...values, errors: newErr });
@@ -503,7 +497,7 @@ const Checkout = (product) => {
             },
             errors: newErr,
           });
-          console.log(response);
+         
         }
       });
     }
@@ -532,7 +526,7 @@ const Checkout = (product) => {
       insertAddress(userId, token, getAddressData()).then((data) => {
         if (data.error) {
           setError({ isSet: true, message: data.error });
-          console.log(data.error);
+          
         } else {
           handleCancel();
           setSuccess({ isSet: true, message: "Address added successfully!" });
@@ -542,7 +536,7 @@ const Checkout = (product) => {
           }, 5000);
         }
       });
-      console.log("input new address");
+      
     }
   };
 
@@ -586,7 +580,7 @@ const Checkout = (product) => {
       updateAddress(userId, token, values.editAddress._id, getAddressData()).then((data) => {
         if (data.error) {
           setError({ isSet: true, message: data.error });
-          console.log(data.error);
+          
         } else {
           handleCancel();
           setSuccess({
@@ -639,7 +633,7 @@ const Checkout = (product) => {
 
   const handleEdit = (id) => {
     const selectAddress = addresses.find((address) => address._id === id);
-    console.log(selectAddress);
+   
 
     setValues({
       ...values,
@@ -800,7 +794,9 @@ const Checkout = (product) => {
                   </div>
 
                   <div>
-                    {values.billingSame ? null : <BillingAddress handleInputChange={handleInputChange} errors={values.errors} validate={validate} countries={countries}/>}
+                    {values.billingSame ? null : (
+                      <BillingAddress handleInputChange={handleInputChange} errors={values.errors} validate={validate} countries={countries} />
+                    )}
                   </div>
                 </div>
               </div>
@@ -833,7 +829,7 @@ const Checkout = (product) => {
                   {showDropIn()}
                   <hr className="mb-4" />
                   <button className="btn btn-primary btn-lg btn-block" type="submit" onClick={submitCheckout} disabled={values.btnDissable}>
-                    Continue to checkout
+                    Checkout
                   </button>
                 </div>
               </div>

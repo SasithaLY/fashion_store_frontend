@@ -144,7 +144,7 @@ export default class AddressInput extends Component {
               <div className="cus-invalid-feedback">{errors.country}</div>
             </div>
             <div className="col-md-4 mb-3">
-              <label htmlFor="state">State</label>
+              <label htmlFor="state">State/District</label>
               <input
                 type="text"
                 className={

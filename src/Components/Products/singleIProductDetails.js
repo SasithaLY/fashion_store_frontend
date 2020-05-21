@@ -27,7 +27,7 @@ const SingleIProductDetails = ({ product, showCartAddButton = true, cartUpdate =
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [currentReviews, setCurrentReviews] = useState([]);
-  const [buyOptions, setOptions] = useState(true);
+  const [buyOptions, setOptions] = useState(false);
 
   const params = useParams();
 
@@ -49,6 +49,8 @@ const SingleIProductDetails = ({ product, showCartAddButton = true, cartUpdate =
         setOverallRating(total / dataLength);
         if (data.quantity == 0) {
           setOptions(false);
+        } else {
+          setOptions(true);
         }
       })
       .catch((error) => {
@@ -192,7 +194,7 @@ const SingleIProductDetails = ({ product, showCartAddButton = true, cartUpdate =
 
         <div className="row">
           <div className="card p-1 col-md-6 ">
-            <ProductImageDisplay Product={singleProductDetails} xsize="100%" ysize="auto" />
+            {singleProductDetails === "" ? null : <ProductImageDisplay Product={singleProductDetails} xsize="100%" ysize="auto" />}
           </div>
 
           <div className="col-md-5 ml-5">
