@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { useHistory, withRouter } from "react-router-dom";
 import { itemTotal } from "../../../cart/cartHelper";
 import MainNavigation from "./MainNavigation";
+import {countTotal} from "../../../wishList/wishAPI";
 import { Link } from "react-router-dom";
 import "./MainHeader.css";
 import { signout, isAuthenticated } from "../../../auth/auth"
@@ -11,6 +12,7 @@ const MainHeader = () => {
   let history = useHistory();
   const { user} = isAuthenticated();
 
+  
   return (
 
     <header>
@@ -73,8 +75,8 @@ const MainHeader = () => {
                 </span>
               </a>
               <Link to={"/wishList"}>
-                <span className="p1 fa-stack has-badge ">
-                <i className="fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
+                <span className="p1 fa-stack has-badge " data-count={countTotal()}>
+                <i className="p3 fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
                 </span>
               </Link>
             </div>

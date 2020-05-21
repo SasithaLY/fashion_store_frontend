@@ -30,6 +30,7 @@ const Cart = () => {
                 Product={product}
                 showWishListButton = {false}
                 showAddToCartButton={false}
+                showRemoveWishlistButton={false}
                 cartUpdate={true}
                 showRemoveButton={true}
                 setRun = {setRun}
@@ -47,7 +48,7 @@ const Cart = () => {
 
   const noItemMessage = () => (
     <h3 class="yell-text">
-      Your cart is Empty.
+      There are no items in your Cart.
       <br />
       <Link to="../Components/Products">Click here to continue shopping...</Link>
     </h3>
@@ -63,7 +64,7 @@ const Cart = () => {
         </div>
       </div> 
       <div className="col-6">
-          <h3> Your Total</h3>
+          <h3></h3>
           <CheckoutCart products={items}/>
          
         </div>

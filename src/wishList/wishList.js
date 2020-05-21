@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
-import {createWishlist, getWishList} from "./wishAPI";
+import {createWishlist, getWishList, deleteWishList} from "./wishAPI";
 import {isAuthenticated} from "../auth/auth";
 import ProductCard from "../Components/Products/productCard";
 
@@ -35,22 +35,23 @@ const showItems = () => {
         <div className="col-12">
           <div className="row">
               {items.map((WishItem, i) => (
-              
-                WishItem.products.map((product, p)=>(  
+                
                   <div className="col mx-2"> 
                   <ProductCard
-                    key={p}
-                    Product={product}
+                    key={i}
+                    WishListId={WishItem._id}
+                    Product={ WishItem.products}
                     showWishListButton = {false}
                     showAddToCartButton={true}
                     showRemoveButton={false}
+                    showRemoveWishlistButton ={true}
                     setRun = {setRun}
                     run ={run}
                 />
                 </div> 
-                ))
+                )
                
-              ))}
+              )}
             </div>
         </div>
       </div>
@@ -66,7 +67,7 @@ const showItems = () => {
   );
   return (
     <div className="container-fluid">
-      <center><h3 class="yell-text" >Wish List</h3></center>
+      <center><h3 class="yell-text" > My Wishlist</h3></center>
       <div>
      
          

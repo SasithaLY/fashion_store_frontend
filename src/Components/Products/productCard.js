@@ -2,15 +2,16 @@ import React, {Component, useState} from 'react';
 import model1 from "../../shared/assets/tempImages/shop_model_1.png";
 import ProductImageDisplay from "./ProductImageDisplay";
 import moment from "moment";
+import swal from "@sweetalert/with-react";
 import {addItem, updateItem, removeItem} from "../../cart/cartHelper";
 import {Link, Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {deleteProduct} from "../APIBridge/APIProduct";
 import {isAuthenticated} from "../../auth/auth";
-import {createWishlist} from "../../wishList/wishAPI";
+import {createWishlist, deleteWishList} from "../../wishList/wishAPI";
 
 let showAdminOptions = false;
-const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showAddToCartButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
+const ProductCard = ({Product, WishListId,showRemoveWishlistButton= false,showWishListButton = true,showsoldout= true, showAddToCartButton = true, showRemoveButton=false, setRun = f => f,run = undefined, cartUpdate = false, Admin}) => {
     // console.log(Product)
     const { user, token } = isAuthenticated();
 
@@ -22,20 +23,59 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
 
     const [redirect, setRedirect] = useState(false);
     const [count, setCount] = useState(Product.count);
+    const [success, setSuccess] = useState({ isAdd: false, message: "" });
 
+    //notification msg after add products to cart/ wishlist
+    const showSuccessMsg = () => {
+        if (success.isAdd) {
+          return (
+            <div
+              className="alert alert-success alert-dismissible fade show"
+              role="alert"
+              style={{ display: success.isAdd ? "" : "none" }}
+            >
+              {success.message}
+            </div>
+          );
+        }
+      };
+    //add item to cart
     const addToCart = () => {
         addItem(Product, () => {
             setRedirect(true);
+            setSuccess({ isAdd: true, message: "Product added successfully!" });
+            window.setTimeout(() => {
+                setSuccess({ isAdd: false, message: "" });
+              }, 1000);
         });
     };
     //const userId = isAuthenticated().user._id;
-    
-
+    //show remove button in wishlist page
+    const removeWishlist  = showRemoveWishlistButton => {
+        return (
+            showRemoveWishlistButton && (
+                <button
+                    onClick={() => {handleRemoveWishlistItem(WishListId); }}
+                    className="btn btn-outline-danger mt-1 mb-1 mx-1"
+                >
+                   Remove Product
+                </button>
+            )
+        );
+    };
+    // add product to wishlist
     const AddToWishList =() =>{
-        let createWishData = {
-            products: Product
-        }
-        createWishlist(user._id, token, createWishData);
+      
+                let createWishData = {
+                    products: Product
+                }
+                createWishlist(user._id, token, createWishData);
+                setSuccess({ isAdd: true, message: "Product added to wishlist!" });
+                window.setTimeout(() => {
+                    setSuccess({ isAdd: false, message: "" });
+                }, 1000);
+           
+       
             
     };
     const shouldRedirect = (redirect) => {
@@ -43,7 +83,7 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
             return <Redirect to="/cart"/>;
         }
     };
-
+    //show add to cart button in suitable place
     const showAddToCart = (showAddToCartButton) => {
         if(Product.quantity !== 0){
             return (
@@ -61,6 +101,7 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
         }
        
     };
+    //when qty = 0 show soldout msg
     const showSoldOut = (showsoldout) =>{
        if(Product.quantity <= 0){
         return (
@@ -69,11 +110,9 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
                <label className="badge badge-danger mt-3 text-white p-2">Sold Out</label>
             )
         );
-       }
-            
-
-        
+       }     
     }
+    // show the add to wishlist button
     const showWishList = (showWishListButton) => {
         return (
             showWishListButton && (
@@ -81,6 +120,7 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
             )
         );
     };
+    // change the qty of product in cart until the stock lasts
     const handleChange = productId => event => {
         setRun(!run);
         setCount(event.target.value < 1 ? 1 : event.target.value);
@@ -89,6 +129,10 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
                 updateItem(productId, event.target.value);
             }else{
                 setCount(event.target.value = Product.quantity);
+                setSuccess({ isAdd: true, message: "You exceed the Stock Limit!" });
+                window.setTimeout(() => {
+                    setSuccess({ isAdd: false, message: "" });
+                }, 1000);
                 
             }
            
@@ -98,7 +142,7 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
         return (
             showRemoveButton && (
                 <button
-                    onClick={() => {removeItem(Product._id); setRun(!run);}}
+                    onClick={() => {handleRemoveItem(Product._id); }}
                     className="btn btn-outline-danger mt-1 mb-1 mx-1"
                 >
                    Remove Product
@@ -106,10 +150,57 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
             )
         );
     };
+
+
+    const handleRemoveItem = (id)=>{
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if(willDelete){
+                setSuccess({ isAdd: true, message: "Product Removed Successfully!" });
+                window.setTimeout(() => {
+                    setSuccess({ isAdd: false, message: "" });
+                }, 1000);
+                removeItem(id);
+                setRun(!run);
+               
+                
+            }
+            
+        });
+    }
+
+    const handleRemoveWishlistItem = (wishlistId)=>{
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if(willDelete){
+            
+                deleteWishList(wishlistId,user._id,token).then((data) => {
+                    setRun(!run);   
+                    setSuccess({ isAdd: true, message: "Product Removed Successfully!" });
+                    window.setTimeout(() => {
+                        setSuccess({ isAdd: false, message: "" });
+                    }, 1000);
+                })
+                
+            }
+            
+        });
+    }
+
     const showCartUpdateOption = cartUpdate => {
 
         return cartUpdate && <div>
-            <div className ="input-group mb-1">
+            <div className ="input-group mt-2 mb-2 mx-2">
                 <div className="input-group-prepend">
                     <span className="input-group-text">Product Quantity:</span>
                 </div>
@@ -126,6 +217,8 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
                     {showWishList(showWishListButton)}
                
                 {showAddToCart(showAddToCartButton)}
+                {showSuccessMsg()}
+
                 
                 {/* <a href="#" className="btn btn-warning text-white ml-3">Add to Cart</a> */}
             </div>
@@ -143,6 +236,8 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
     };
 
     const handleDelete = (ID) => {
+
+       
         deleteProduct(ID, user._id, token).then(data => {
             console.log(data)
             alert('Successfully deleted!');
@@ -150,6 +245,7 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
         }).catch(reason => {
             alert(reason);
         })
+          
     };
 
     return (
@@ -160,13 +256,14 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
             </div>
             <div className="card-body">
 
-                <h5 className="card-title">{Product.name} <span>{showSoldOut(showsoldout)}</span></h5>
+                <h6 className="card-title">{Product.name} <span>{showSoldOut(showsoldout)}</span></h6>
                 <p className="card-text overflow-hidden opacity-70"
                    style={{height: "60px", lineHeight: "20px", overflow: "hidden"}}>{Product.description}</p>
                 <div className="row ml-1">
                     <p className='text-warning'>USD {Product.price}</p>
                     <p className='text-secondary ml-2' hidden={!Product.oldPrice}><s>USD {Product.oldPrice}</s></p>
                 </div>
+                
 
                 {showAdminSegment()}
                 <div id="outerButton">
@@ -175,6 +272,7 @@ const ProductCard = ({Product,showWishListButton = true,showsoldout= true, showA
                     </div>
                     <div className="innerButton">
                         {showRemoveButtonCart(showRemoveButton)}
+                        { removeWishlist(showRemoveWishlistButton)}
                     </div>
                 </div>
                 {showCartUpdateOption(cartUpdate)}
