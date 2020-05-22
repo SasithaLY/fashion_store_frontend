@@ -18,7 +18,7 @@ const userProfile = () => {
                 <p className="card-text">Gender: {gender}</p>
                 <p className="card-text">Role: {role === 1 ? "Admin" : role === 2 ? "Store Manager" : "Registered User"} </p>
                 <p>
-                    <Link classNameName="nav-link" aria-selected="true" to={`/user/editProfile/${_id}`}>
+                <Link classNameName="nav-link" aria-selected="true" to={`/user/editProfile/${_id}`}>
                         Edit Profile
                 </Link>
                 </p>
