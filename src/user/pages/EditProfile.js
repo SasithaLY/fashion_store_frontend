@@ -51,7 +51,7 @@ const EditProfile = ({ match }) => {
             if (data.error) {
                 console.log(data.error)
             }
-            else if (fName == "" || lName == "" || gender == "") {
+            else if (fName === "" || lName === "" || gender === "") {
                 setValues({ ...values, error: "Please fill all the fields!" })
             }
             else if (!fName.match(/^[A-Za-z]+$/) || !lName.match(/^[A-Za-z]+$/)) {
