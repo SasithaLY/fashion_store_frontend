@@ -72,8 +72,8 @@ const Sidebar = () => {
 
           <NavLink to="/storeManager/allProducts" activeClassName="activeClass">
             <MDBListGroupItem className="list-group-item-custom">
-              <MDBIcon icon="portrait" className="mr-3" />
-                All Products
+              <MDBIcon icon="th" className="mr-3" />
+                Manage Products
             </MDBListGroupItem>
           </NavLink>
 
