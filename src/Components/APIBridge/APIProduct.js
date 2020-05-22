@@ -185,7 +185,7 @@ export const getProductsByAdmin = (skip, limit, token, filters = {}) => {
         filters
     };
 
-    console.log(token)
+    // console.log(token)
     return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/productsByAdmin`, {
         method: "POST",
         headers: {

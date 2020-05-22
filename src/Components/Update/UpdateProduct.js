@@ -194,7 +194,7 @@ const UpdateProduct = ({match}) => {
                             <div className="form-group">
                                 <label className="text-warning">Old Price</label>
                                 <input onChange={handleChange('oldPrice')} type="number" className="form-control"
-                                       value={oldPrice}
+                                       value={oldPrice || ''}
                                        placeholder="If you're done with discount, just wipe this away.."/>
                             </div>
 
@@ -213,8 +213,7 @@ const UpdateProduct = ({match}) => {
                             <div className="form-group">
                                 <label className="text-warning">Shipping</label>
                                 <select onChange={handleChange('shipping')} className="form-control">
-                                    <option>Please select</option>
-                                    <option value="1" selected={shipping === true}>Yes</option>
+                                    <option value="1" selected={shipping === true} >Yes</option>
                                     <option value="0" selected={shipping === false}>No</option>
                                 </select>
                             </div>
