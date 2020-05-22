@@ -58,7 +58,7 @@ const AllProductsByCategory = () => {
         return (
             size > 0 &&
             size >= limit && (
-                <button onClick={loadMoreData} className="btn btn-warning mb-5">
+                <button onClick={loadMoreData} className="btn btn-outline-warning">
                     Load more
                 </button>
             )
@@ -120,8 +120,8 @@ const AllProductsByCategory = () => {
 
     return (
         <div className="container-fluid">
-            <p>
-                <a className="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+            <p className="d-flex flex-row-reverse">
+                <a className="badge badge-warning p-2" data-toggle="collapse" href="#collapseExample" role="button"
                    aria-expanded="false" aria-controls="collapseExample">
                     More Filters
                 </a>

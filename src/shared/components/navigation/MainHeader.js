@@ -49,8 +49,7 @@ const MainHeader = () => {
                     {user.fName}
                   </a>
                   <a
-                    style={{ cursor: "pointer", color: "#ffffff" }}
-                    className="mx-3 text-warning"
+                    className="mx-2 text-warning btn btn-sm btn-outline-warning"
                     onClick={() =>
                       signout(() => {
                         history.push("/");
@@ -64,12 +63,12 @@ const MainHeader = () => {
 
               <a href={"/cart"}>
                 <span className="p1 fa-stack has-badge" data-count={itemTotal()}>
-                  <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white"></i>
+                  <i className="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse icon-white btn-outline-warning"></i>
                 </span>
               </a>
               <Link to={"/wishList"}>
                 <span className="p1 fa-stack has-badge " data-count={count}>
-                  <i className="p3 fas fa-heart fa-stack-1x xfa-inverse icon-white"></i>
+                  <i className="p3 fas fa-heart fa-stack-1x xfa-inverse icon-white btn-outline-warning"></i>
                 </span>
               </Link>
             </div>
