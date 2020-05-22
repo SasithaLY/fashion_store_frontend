@@ -59,7 +59,7 @@ const AllProducts = (props) => {
         return (
             size > 0 &&
             size >= limit && (
-                <button onClick={loadMore} className="btn btn-warning mb-5">
+                <button onClick={loadMore} className="btn btn-outline-warning">
                     Load more
                 </button>
             )
@@ -114,8 +114,8 @@ const AllProducts = (props) => {
 
     return (
         <div className="container-fluid">
-            <p>
-                <a className="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button"
+            <p className="d-flex flex-row-reverse">
+                <a className="badge badge-warning p-2" data-toggle="collapse" href="#collapseExample" role="button"
                    aria-expanded="false" aria-controls="collapseExample">
                     More Filters
                 </a>
