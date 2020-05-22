@@ -28,7 +28,7 @@ const Register = () => {
         if (fName == "" || lName == "" || password == "" || cPass == "" || email == "" | gender == "") {
             setValues({ ...values, error: "Please fill all the fields!" })
         }       
-        else if (!fName.match(/^[A-Za-z]+$/) || !lName.match(/^[A-Za-z]+$/)) {
+        else if (!fName.match(/^[A-Za-z, ]+$/) || !lName.match(/^[A-Za-z, ]+$/)) {
             setValues({ ...values, error: "You are only allowed to enter letters in First Name and Last Name!" })
         }
         else if (password != cPass) {
