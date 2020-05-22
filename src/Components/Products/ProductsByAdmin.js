@@ -99,9 +99,14 @@ const ProductsByAdmin = () => {
 
     return (
         <div className="container-fluid">
-            <a className="badge badge-warning fixed-top" href="/admin/dashboard" style={{width : "150px", marginTop: "77px", marginLeft: "5px"}}>
+            <div className="card mb-2">
+                <div className="card-body d-flex justify-content-center">
+                    <label>Store Manager</label>
+                </div>
+            </div> <br/>
+            {/* <a className="badge badge-warning" href="/admin/dashboard" style={{width : "150px", marginTop: "77px", marginLeft: "5px"}}>
                 Back to Dashboard
-            </a>
+            </a> */}
             <p className='mt-5'>
                 <a className="badge badge-warning" data-toggle="collapse" href="#collapseExample" role="button" style={{ marginLeft: "145px"}}
                    aria-expanded="false" aria-controls="collapseExample">
