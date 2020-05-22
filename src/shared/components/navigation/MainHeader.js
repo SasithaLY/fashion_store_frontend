@@ -49,7 +49,7 @@ const MainHeader = () => {
                     {user.fName}
                   </a>
                   <a
-                    className="mx-3 text-warning btn btn-sm btn-outline-warning"
+                    className="mx-2 text-warning btn btn-sm btn-outline-warning"
                     onClick={() =>
                       signout(() => {
                         history.push("/");
