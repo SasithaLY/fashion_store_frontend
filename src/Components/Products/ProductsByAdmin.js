@@ -15,7 +15,7 @@ const ProductsByAdmin = () => {
     // console.log('jkhkjhkjh' ,params.categoryId);
 
     const [customFilters, setCustomFilters] = useState({
-        filters: {storeMgrID: [user._id], price: []}
+        filters: {storeMgrID: [/*user._id*/], price: []}
     });
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(4);
@@ -27,7 +27,7 @@ const ProductsByAdmin = () => {
     const loadFilteredResults = newFilters => {
         let price = newFilters.price;
         newFilters = {
-            storeMgrID: [user._id],
+            /*storeMgrID: [user._id],*/
             price : price
         };
         // setCustomFilters(newFilters);
@@ -36,7 +36,7 @@ const ProductsByAdmin = () => {
             setFilteredResults(data.data);
             setSize(data.size);
             setSkip(0);
-            console.log('sizeeeeeeeeeeeeeeeeeeeeee', size, data.size)
+            // console.log('sizeeeeeeeeeeeeeeeeeeeeee', size, data.size)
         });
     };
 

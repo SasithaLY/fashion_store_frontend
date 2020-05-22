@@ -1,7 +1,7 @@
 import React from "react";
 
 export const createProduct = (product, token, userId) => {
-    console.log(product);
+    // console.log(product);
     return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/product/create/${userId}`, {
         method: 'POST',
         headers: {
@@ -11,10 +11,10 @@ export const createProduct = (product, token, userId) => {
         body: product
     }).then(response => {
             return response.json();
-            console.log(response.json());
+            // console.log(response.json());
         })
         .catch(err => {
-            console.log('ddddddddddddddddddddddd',err);
+            // console.log('ddddddddddddddddddddddd',err);
             alert(err);
         });
 };
@@ -185,7 +185,7 @@ export const getProductsByAdmin = (skip, limit, token, filters = {}) => {
         filters
     };
 
-    console.log(token)
+    // console.log(token)
     return fetch(`${process.env.REACT_APP_APIURL}/productsRouter/products/productsByAdmin`, {
         method: "POST",
         headers: {

@@ -70,14 +70,13 @@ const Sidebar = () => {
             </NavLink>
           }
 
-          {isAuthenticated() && (isAuthenticated().user.role === 2) &&
           <NavLink to="/storeManager/allProducts" activeClassName="activeClass">
             <MDBListGroupItem className="list-group-item-custom">
               <MDBIcon icon="portrait" className="mr-3" />
-              My Products
+                All Products
             </MDBListGroupItem>
           </NavLink>
-          }
+
 
           <NavLink to="/addProduct" activeClassName="activeClass">
             <MDBListGroupItem className="list-group-item-custom">
