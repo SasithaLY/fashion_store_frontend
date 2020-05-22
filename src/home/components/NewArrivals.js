@@ -21,7 +21,7 @@ const NewArrivals = () => {
     };
 
     const changeLimit = () =>{
-        console.log('called')
+        // console.log('called')
         limit = limit + 4;
     }
 

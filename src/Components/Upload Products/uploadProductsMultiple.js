@@ -16,7 +16,7 @@ class UploadProductsMultiple extends Component {
 
     onSubmitFunction(e){
         e.preventDefault();
-        console.log('submit');
+        // console.log('submit');
         window.location.assign("http://localhost:3000/");
     }
 

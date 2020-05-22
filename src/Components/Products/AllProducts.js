@@ -68,7 +68,7 @@ const AllProducts = (props) => {
 
 
     const showAlertEmpty = () => {
-        console.log(totalSize);
+        // console.log(totalSize);
         totalSize = totalSize + size;
         return (
             totalSize === 0 && (
@@ -84,11 +84,11 @@ const AllProducts = (props) => {
     useEffect(() => {
 
         loadFilteredResults(skip, limit, myFilters.filters);
-        console.log(size)
+        // console.log(size)
     }, []);
 
     const handleFilters = (filters, filterBy) => {
-        console.log("SHOP", filters, filterBy);
+        // console.log("SHOP", filters, filterBy);
         const newFilters = {...myFilters};
         newFilters.filters[filterBy] = filters;
 
