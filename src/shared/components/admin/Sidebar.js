@@ -21,7 +21,7 @@ const Sidebar = () => {
         <a href="/" className="logo-wrapper waves-effect">
           <img alt="MDB React Logo" className="img-fluid" src={logo} />
         </a>
-        
+
         <MDBListGroup className="list-group-flush">
           <NavLink
             exact={true}
