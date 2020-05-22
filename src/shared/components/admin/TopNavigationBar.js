@@ -35,13 +35,13 @@ const TopNavigationBar = () => {
               {isAuthenticated() && (
 
                 <Fragment>
-                  Welcome&nbsp;
+                  <b>WELCOME!</b>&nbsp;
                   <a
                     style={{ textDecoration: "none" }}
                     href={"/user/profile"}
                     className="text-success"
                   >
-                    {isAuthenticated().user.fName}&nbsp;
+                    <b>{isAuthenticated().user.fName}</b>&nbsp;
                   </a>
                   <button className="btn btn-sm btn-outline-warning" onClick={() =>
                     signout(() => {
