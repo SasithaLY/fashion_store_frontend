@@ -34,7 +34,7 @@ const MainNavigation = props => {
           {isAuthenticated() && isAuthenticated().user.role === 0 &&
             <Fragment>
               <a
-                className="nav-link"
+                className="nav-link btn-sm btn-outline-warning"
                 id="navbarDropdownMenuLink-4"
                 aria-haspopup="true"
                 aria-expanded="false"
@@ -48,7 +48,7 @@ const MainNavigation = props => {
           {isAuthenticated() && (isAuthenticated().user.role === 1 || isAuthenticated().user.role === 2) &&
             <Fragment>
               <a
-                className="nav-link"
+                className="nav-link btn-sm btn-outline-warning"
                 id="navbarDropdownMenuLink-4"
                 aria-haspopup="true"
                 aria-expanded="false"
