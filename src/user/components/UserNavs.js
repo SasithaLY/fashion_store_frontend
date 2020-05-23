@@ -35,6 +35,20 @@ const UserNavs = () => {
           </MDBListGroupItem>
           </NavLink>
 
+          <NavLink to="/cart" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="shopping-cart" className="mr-3" />
+            Shopping Cart
+          </MDBListGroupItem>
+          </NavLink>
+
+          <NavLink to="/whishlist" activeClassName="activeClass">
+            <MDBListGroupItem className="list-group-item-custom">
+              <MDBIcon icon="heart" className="mr-3" />
+            Whish List
+          </MDBListGroupItem>
+          </NavLink>
+
         </MDBListGroup>
       </div>
     </div>

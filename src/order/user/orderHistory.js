@@ -6,7 +6,8 @@ import DataTable, { createTheme } from "react-data-table-component";
 import ProductItem from "../components/ProductItem";
 import "../admin/orders.css";
 import { Link } from "react-router-dom";
-import UserNavs from "../../user/components/UserNavs"
+import UserNavs from "../../user/components/UserNavs";
+import "../../user/components/profileStyles.css";
 
 const OrderHistory = () => {
   const [values, setValues] = useState({});
@@ -313,7 +314,7 @@ const OrderHistory = () => {
   return (
     <div className="row">
       <UserNavs />
-      <div className="container-fluid p-5" >
+      <div className="container-fluid profile-content" >
         {/* <Link to="/user/profile">
           <a className="badge badge-warning mt-3 text-dark p-2">Back To Profile</a>
         </Link> */}

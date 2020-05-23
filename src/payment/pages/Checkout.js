@@ -91,7 +91,8 @@ const Checkout = (product) => {
       discount: 0,
     },
   });
-
+  const [order, setOrder] = useState({});
+  const [loading, setLoading] = useState(false);
   const userId = isAuthenticated().user._id;
   const token = isAuthenticated().token;
 
@@ -404,11 +405,11 @@ const Checkout = (product) => {
 
   const submitCheckout = (e) => {
     e.preventDefault();
-   
+
     if (validate()) {
       setPayment({ ...payment, error: "" });
       setValues({ ...values, btnDissable: true });
-
+      setLoading(true);
       //collect order data
       let billAddress = {};
       if (values.billingSame) {
@@ -430,7 +431,10 @@ const Checkout = (product) => {
         orderData.transactionId = "";
         orderData.amount = getTotal(cart);
 
-        createOrder(userId, token, orderData);
+        createOrder(userId, token, orderData).then((data) => {
+          setOrder(data);
+          setLoading(false);
+        });
         setPayment({ ...payment, success: true });
         setValues({ ...values, showDivs: false });
 
@@ -452,12 +456,14 @@ const Checkout = (product) => {
 
             processPayment(userId, token, payData)
               .then((response) => {
-                
                 orderData.paymentMethod = data.type;
                 orderData.transactionId = response.transaction.id;
                 orderData.amount = response.transaction.amount;
 
-                createOrder(userId, token, orderData);
+                createOrder(userId, token, orderData).then((data) => {
+                  setOrder(data);
+                  setLoading(false);
+                });
                 setPayment({ ...payment, success: true });
                 setValues({ ...values, showDivs: false });
 
@@ -481,7 +487,6 @@ const Checkout = (product) => {
     if (values.code && values.code !== "") {
       getSinglePromoCode(userId, token, { promocode: values.code } || undefined).then((response) => {
         if (response.error) {
-          
           let newErr = values.errors;
           newErr.promocode = response.error;
           setValues({ ...values, errors: newErr });
@@ -497,7 +502,6 @@ const Checkout = (product) => {
             },
             errors: newErr,
           });
-         
         }
       });
     }
@@ -526,7 +530,6 @@ const Checkout = (product) => {
       insertAddress(userId, token, getAddressData()).then((data) => {
         if (data.error) {
           setError({ isSet: true, message: data.error });
-          
         } else {
           handleCancel();
           setSuccess({ isSet: true, message: "Address added successfully!" });
@@ -536,7 +539,6 @@ const Checkout = (product) => {
           }, 5000);
         }
       });
-      
     }
   };
 
@@ -580,7 +582,6 @@ const Checkout = (product) => {
       updateAddress(userId, token, values.editAddress._id, getAddressData()).then((data) => {
         if (data.error) {
           setError({ isSet: true, message: data.error });
-          
         } else {
           handleCancel();
           setSuccess({
@@ -633,7 +634,6 @@ const Checkout = (product) => {
 
   const handleEdit = (id) => {
     const selectAddress = addresses.find((address) => address._id === id);
-   
 
     setValues({
       ...values,
@@ -680,6 +680,39 @@ const Checkout = (product) => {
     });
   };
 
+  const viewOrderData = (isShow) => {
+    if (isShow) {
+      return (
+        <div className="card card-body border-success">
+          <center>
+            <h6>Thank you for your purchase. You will receive an email with the order receipt.</h6>
+            <h4>
+              <label>Order ID : </label>
+              {order._id}
+            </h4>
+          </center>
+          <div className="">
+            <Link to="user/orderHistory">
+              <button className="btn btn-outline-warning float-right">View Orders</button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+  };
+
+  const showLoading = () => {
+    return (
+      loading && (
+        <div className="container d-flex justify-content-center">
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      )
+    );
+  };
+
   return (
     <div className="container-lg" onBlur={() => setPayment({ ...payment, error: "" })}>
       {shouldRedirect(redirect)}
@@ -688,12 +721,15 @@ const Checkout = (product) => {
       </h2>
       <div style={{ display: !values.showDivs ? "" : "none" }}>
         {showPaySuccess(payment.success)}
-        <h4>
+
+        {viewOrderData(payment.success)}
+        <h4 className="mt-3">
           <Link to="/home">Continue Shopping...</Link>
         </h4>
       </div>
 
       <div className="col-md-12" style={{ display: values.showDivs ? "" : "none" }}>
+        
         <div className="row my-3">
           <div className="col-md-8">
             <div className="card">
@@ -827,6 +863,7 @@ const Checkout = (product) => {
                   </div>
                   {showPayError(payment.error)}
                   {showDropIn()}
+                  {showLoading()}
                   <hr className="mb-4" />
                   <button className="btn btn-primary btn-lg btn-block" type="submit" onClick={submitCheckout} disabled={values.btnDissable}>
                     Checkout
