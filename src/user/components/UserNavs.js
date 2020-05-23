@@ -42,10 +42,10 @@ const UserNavs = () => {
           </MDBListGroupItem>
           </NavLink>
 
-          <NavLink to="/whishlist" activeClassName="activeClass">
+          <NavLink to="/wishList" activeClassName="activeClass">
             <MDBListGroupItem className="list-group-item-custom">
               <MDBIcon icon="heart" className="mr-3" />
-            Whish List
+            Wish List
           </MDBListGroupItem>
           </NavLink>
 
