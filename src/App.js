@@ -71,8 +71,7 @@ const App = () => {
 
             {/* admin routes */}
         
-            <AdminRoute path="/admin/user/profile" exact component={Profile}/>           
-           
+            <AdminRoute path="/admin/user/profile" exact component={Profile}/>                     
             <AdminRoute path="/admin/addManager" exact component={AddManager} />
             <AdminRoute path="/admin/addAdmin" exact component={AddAdmin} />
             <AdminRoute path="/admin/locations" exact component={Locations} />

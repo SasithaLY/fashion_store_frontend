@@ -33,16 +33,16 @@ const Footer = () => {
 
             <ul className="list-unstyled">
               <li>
-                <a href="#!">Home</a>
+                <a href="/">Home</a>
               </li>
               <li>
-                <a href="#!">My Account</a>
+                <a href="/user/profile">My Account</a>
               </li>
               <li>
-                <a href="#!">Products</a>
+                <a href="/allProducts">Products</a>
               </li>
               <li>
-                <a href="#!">Shopping Cart</a>
+                <a href="/cart">Shopping Cart</a>
               </li>
             </ul>
           </div>
