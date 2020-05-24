@@ -3,9 +3,7 @@ import RadioSelector from "./RadioSelector";
 import {getProductsByAdmin} from "../APIBridge/APIProduct";
 import ProductCard from "./productCard";
 import {prices} from "./Prices";
-import {useParams} from "react-router-dom";
 import {isAuthenticated} from "../../auth/auth";
-import logo from "../../shared/assets/images/logowhite.png";
 
 const ProductsByAdmin = () => {
 
