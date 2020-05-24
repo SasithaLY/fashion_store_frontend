@@ -255,7 +255,7 @@ const Promo = () => {
                     showInsert();
                   }}
                 >
-                  Add Country
+                  Add Promo Code
                 </button>
               </div>
               <div className="col p-2">
@@ -288,7 +288,7 @@ const Promo = () => {
       <Modal size="md" show={showModal} onHide={handleClose}>
         <form className="needs-validation" onSubmit={edit ? handleUpdatePromocode : submitPromocode}>
           <Modal.Header closeButton>
-            <h4>{edit ? "Edit Country" : "Insert Country"}</h4>
+            <h4>{edit ? "Edit Promo Code" : "Insert Promo Code"}</h4>
           </Modal.Header>
           <Modal.Body>
             {showModalLoading()}
@@ -296,7 +296,7 @@ const Promo = () => {
               <div>
                 <div className="form-group row">
                   <label htmlFor="promocode" className="col-sm-4 col-form-label text-dark">
-                    Country
+                    Code
                   </label>
                   <div className="col-sm-8">
                     <input
@@ -312,7 +312,7 @@ const Promo = () => {
                 </div>
                 <div className="form-group row">
                   <label htmlFor="discount" className="col-sm-4 col-form-label text-dark">
-                    Shipping Amount
+                    Discount
                   </label>
                   <div className="col-sm-8">
                     <input
