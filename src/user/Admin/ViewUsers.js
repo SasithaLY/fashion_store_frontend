@@ -45,7 +45,7 @@ const ViewUsers = () => {
                         <th scope="col">ID</th>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
-                        <th scope="col">Gender</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Role</th>
                     </tr>
                 </thead>
@@ -56,7 +56,7 @@ const ViewUsers = () => {
                                 <td>{u._id}</td>
                                 <td>{u.fName}</td>
                                 <td>{u.lName}</td>
-                                <td>{u.gender}</td>
+                                <td>{u.email}</td>
                                 <td>{u.role == 0 ? "Registered User" : u.role === 1 ? "Admin" : "Store Manager"}</td>
                             </tr>
                         )

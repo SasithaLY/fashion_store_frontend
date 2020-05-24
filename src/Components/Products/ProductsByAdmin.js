@@ -57,7 +57,7 @@ const ProductsByAdmin = () => {
         return (
             size > 0 &&
             size >= limit && (
-                <button onClick={loadMoreData} className="btn btn-warning mb-5">
+                <button onClick={loadMoreData} className="btn btn-outline-warning">
                     Load more
                 </button>
             )
@@ -99,11 +99,12 @@ const ProductsByAdmin = () => {
 
     return (
         <div className="container-fluid">
-            <div className="card mb-2">
+            <h2><center>Manage Products</center></h2><br />
+            {/* <div className="card mb-2">
                 <div className="card-body d-flex justify-content-center">
                     <label>Store Manager</label>
                 </div>
-            </div> <br/>
+            </div> <br/> */}
             {/* <a className="badge badge-warning" href="/admin/dashboard" style={{width : "150px", marginTop: "77px", marginLeft: "5px"}}>
                 Back to Dashboard
             </a> */}

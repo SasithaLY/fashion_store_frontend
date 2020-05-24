@@ -23,7 +23,7 @@ const EditProfile = ({ match }) => {
         // console.log(userId);
         read(userId, token).then(data => {
             if (data.error) {
-                setValues({ ...values, error: true })
+                setValues({...values, error: true })
             }
             else {
                 setValues({
@@ -40,36 +40,39 @@ const EditProfile = ({ match }) => {
     useEffect(() => {
         init(match.params.userId);
     }, [])
-
+ 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
     };
 
     const clickSubmit = event => {
         event.preventDefault();
-        update(match.params.userId, token, { fName, lName, password, email, gender }).then(data => {
-            if (data.error) {
-                console.log(data.error)
-            }
-            else if (fName === "" || lName === "" || gender === "") {
-                setValues({ ...values, error: "Please fill all the fields!" })
-            }
-            else if (!fName.match(/^[A-Za-z]+$/) || !lName.match(/^[A-Za-z]+$/)) {
-                setValues({ ...values, error: "You are only allowed to enter letters in First Name and Last Name!" })
-            }
-            else {
-                updateUser(data, () => {
-                    setValues({
-                        ...values,
-                        fName: data.fName,
-                        lName: data.lName,
-                        email: data.email,
-                        gender: data.gender,
-                        success: true
+        if (fName === "" || lName === "" || gender === "") {
+            setValues({ ...values, error: "Please fill all the fields!" })
+        }
+        else if (!fName.match(/^[A-Za-z, ]+$/) || !lName.match(/^[A-Za-z, ]+$/)) {
+            setValues({ ...values, error: "You are only allowed to enter letters in First Name and Last Name!" })
+        }
+        else{
+            update(match.params.userId, token, {fName, lName, email, password, gender }).then(data => {
+                if (data.error) {
+                    console.log(data.error)
+                }
+                else {
+                    updateUser(data, () => {
+                        setValues({
+                            ...values,
+                            fName: data.fName,
+                            lName: data.lName,
+                            email: data.email,
+                            gender: data.gender,
+                            success: true
+                        })
                     })
-                })
-            }
-        })
+                }
+            })
+        }
+
 
     };
 

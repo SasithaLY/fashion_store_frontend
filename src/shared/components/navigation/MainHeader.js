@@ -44,9 +44,9 @@ const MainHeader = () => {
 
               {isAuthenticated() && (
                 <Fragment>
-                  Welcome&nbsp;
+                  <b>WELCOME!</b>&nbsp;
                   <a style={{ textDecoration: "none" }} href={"/user/profile"} className="text-success">
-                    {user.fName}
+                    <b>{user.fName}</b>
                   </a>
                   <a
                     className="mx-2 text-warning btn btn-sm btn-outline-warning"
