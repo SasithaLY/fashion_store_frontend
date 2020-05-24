@@ -27,7 +27,7 @@ const Register = () => {
 
         if (fName == "" || lName == "" || password == "" || cPass == "" || email == "" | gender == "") {
             setValues({ ...values, error: "Please fill all the fields!" })
-        }       
+        }
         else if (!fName.match(/^[A-Za-z, ]+$/) || !lName.match(/^[A-Za-z, ]+$/)) {
             setValues({ ...values, error: "You are only allowed to enter letters in First Name and Last Name!" })
         }
@@ -65,7 +65,7 @@ const Register = () => {
                 <div className="form-row">
                     <div className="form-group col-sm">
                         <label>First Name </label>
-                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" pattern = "[A-Za-z]" required />
+                        <input onChange={handleChange("fName")} value={fName} type="text" className="form-control textColor" pattern="[A-Za-z]" required />
                     </div>
                     <div className="form-group col-sm">
                         <label >Last Name</label>
@@ -112,19 +112,19 @@ const Register = () => {
         </div>
     )
 
-const showSuccess = () => (
-    <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-        <center><strong>Account Created Succesfully!. Please <Link to="/signin">Signin!</Link></strong></center>      
-    </div>
-)
+    const showSuccess = () => (
+        <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
+            <center><strong>Account Created Succesfully!. Please <Link to="/signin">Signin!</Link></strong></center>
+        </div>
+    )
 
-return (
-    <div>
-        {showSuccess()}
-        {showError()}
-        {signUpForm()}
-    </div>
-);
+    return (
+        <div>
+            {showSuccess()}
+            {showError()}
+            {signUpForm()}
+        </div>
+    );
 }
 
 export default Register;

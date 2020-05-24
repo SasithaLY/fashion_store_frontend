@@ -13,7 +13,7 @@ const Login = () => {
     });
 
     const { password, email, loading, error, redirectUser } = values;
-    const {user} = isAuthenticated();
+    const { user } = isAuthenticated();
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
@@ -32,7 +32,7 @@ const Login = () => {
                             ...values,
                             redirectUser: true
                         });
-                    });  
+                    });
                 }
             })
     };
@@ -48,7 +48,7 @@ const Login = () => {
                         <input type="email" onChange={handleChange("email")} value={email} className="form-control" />
 
                         <label>Password</label>
-                        <input type="password" onChange={handleChange("password")} value={password} className="form-control" /> <br/>
+                        <input type="password" onChange={handleChange("password")} value={password} className="form-control" /> <br />
 
                         {/* <label className="form-check-label mb-2 mt-2">
                             <a href="#">Forgot Password?</a>
@@ -76,16 +76,18 @@ const Login = () => {
 
     const showLoading = () => (
         loading && (
-            <div className="alert alert-info">
-                <h3>Loading....Please Wait!</h3>
+            <div className="container d-flex justify-content-center">
+                <div className="spinner-grow text-warning" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
             </div>
         )
     )
 
     const redirect = () => {
         if (redirectUser) {
-            if(user && (user.role === 1 || user.role === 2)) {
-                return <Redirect to= "/admin/dashboard" />
+            if (user && (user.role === 1 || user.role === 2)) {
+                return <Redirect to="/admin/dashboard" />
             } else {
                 return <Redirect to="/user/profile" />
             }

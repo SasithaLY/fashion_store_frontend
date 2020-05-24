@@ -5,11 +5,14 @@ import { listUsers } from "../UserAPIs/userApi";
 
 const ViewUsers = () => {
 
+    const [loading, setLoading] = useState(false);
+
     const [users, setUsers] = useState([])
 
     const { user, token } = isAuthenticated()
 
     const loadUsers = () => {
+        setLoading(true);
         listUsers(user._id, token).then(data => {
             if (data.error) {
                 console.log(data.error)
@@ -32,6 +35,16 @@ const ViewUsers = () => {
             )
         }
     }
+
+    const showLoading = () => (
+        loading && (
+            <div className="container d-flex justify-content-center">
+                <div className="spinner-grow text-warning" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+            </div>
+        )
+    )
 
     const userTable = () => (
         <div className="container-fluid">
@@ -68,6 +81,7 @@ const ViewUsers = () => {
 
     return (
         <div>
+            {showLoading()}
             {userTable()}
             {showTotalUsers()}
         </div>
