@@ -234,6 +234,11 @@ height: 65%;
   width: 100%;
 }
 
+.profile-content{
+  margin-left: 270px;
+  margin-right: 20px;
+}
+
 @media (max-width: 1199.98px) {
   .sidebar-button {
     position: absolute;
@@ -257,6 +262,11 @@ height: 65%;
     margin-left: 0px;
   }
 
+  .profile-content{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
   .page-footer {
     margin-left: 0px;
   }

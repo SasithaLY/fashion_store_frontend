@@ -35,9 +35,9 @@ const Profile = () => {
 
   return (
 
-    <div>
+    <div className="row">
       <UserNavs />
-      <div>
+      <div className="container-fluid mr-3 profile-content">
         {userProfile()}
       </div>
     </div>
