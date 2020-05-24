@@ -4,9 +4,6 @@ import { BrowserRouter, Redirect, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Header from "./shared/components/navigation/MainHeader";
-import Footer from "./shared/components/footer/Footer";
-
 import Login from "./user/pages/Login";
 import Register from "./user/pages/register";
 import Profile from "./user/pages/Profile";
@@ -29,7 +26,6 @@ import AllProducts from "./Components/Products/AllProducts";
 import UpdateProduct from "./Components/Update/UpdateProduct";
 import ProductsByAdmin from "./Components/Products/ProductsByAdmin";
 import Orders from "./order/admin/orders";
-import OrdersHistory from "./order/user/orderHistory";
 
 import PrivateRoute from "./auth/PrivateRoute";
 import AdminRoute from "./auth/AdminRoute";
