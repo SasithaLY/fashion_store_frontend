@@ -409,7 +409,7 @@ const Checkout = (product) => {
     if (validate()) {
       setPayment({ ...payment, error: "" });
       setValues({ ...values, btnDissable: true });
-      setLoading(true);
+
       //collect order data
       let billAddress = {};
       if (values.billingSame) {
@@ -427,6 +427,7 @@ const Checkout = (product) => {
       };
 
       if (values.paymentMethod === "cod") {
+        setLoading(true);
         orderData.paymentMethod = "COD";
         orderData.transactionId = "";
         orderData.amount = getTotal(cart);
@@ -443,12 +444,13 @@ const Checkout = (product) => {
         });
         setCart(getCart());
       } else {
+        
         let nonce;
         let getNonce = payment.instance
           .requestPaymentMethod()
           .then((data) => {
             nonce = data.nonce;
-
+            setLoading(true);
             const payData = {
               paymentMethodNonce: nonce,
               amount: getTotal(cart),
@@ -459,7 +461,7 @@ const Checkout = (product) => {
                 orderData.paymentMethod = data.type;
                 orderData.transactionId = response.transaction.id;
                 orderData.amount = response.transaction.amount;
-
+                
                 createOrder(userId, token, orderData).then((data) => {
                   setOrder(data);
                   setLoading(false);
@@ -729,7 +731,6 @@ const Checkout = (product) => {
       </div>
 
       <div className="col-md-12" style={{ display: values.showDivs ? "" : "none" }}>
-        
         <div className="row my-3">
           <div className="col-md-8">
             <div className="card">
