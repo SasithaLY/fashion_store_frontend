@@ -40,6 +40,7 @@ import Locations from "./locations/Locations";
 import Promo from "./promo/promo";
 import ViewUsers from "./user/Admin/ViewUsers";
 import aboutUs from "./shared/components/footer/aboutus";
+import contactUs from "./shared/components/footer/contactUs";
 
 
 const App = () => {
@@ -53,6 +54,7 @@ const App = () => {
             <NormalRoute path="/signin" exact component={Login} />
             <NormalRoute path="/signup" exact component={Register} />
             <NormalRoute path="/aboutUs" exact component={aboutUs} />
+            <NormalRoute path="/contactUs" exact component={contactUs} />
 
             {/* PRODUCTS AND CATEGORIES */}
 
