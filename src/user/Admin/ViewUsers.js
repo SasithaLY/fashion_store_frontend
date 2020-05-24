@@ -18,6 +18,7 @@ const ViewUsers = () => {
                 console.log(data.error)
             } else {
                 setUsers(data)
+                setLoading(false);
             }
         })
     }
@@ -51,7 +52,7 @@ const ViewUsers = () => {
             <h2 className="text-center">
                 Manage Users
             </h2><br />
-
+            {showLoading()}
             <table className="table table-dark">
                 <thead>
                     <tr>
@@ -81,7 +82,6 @@ const ViewUsers = () => {
 
     return (
         <div>
-            {showLoading()}
             {userTable()}
             {showTotalUsers()}
         </div>
