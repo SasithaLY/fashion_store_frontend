@@ -10,18 +10,13 @@ const Footer = () => {
             <div className="row">
             <div className="col-md-6">
               <h5 className="text-uppercase">FASHION STORE</h5>
-              <p>Company Description</p>
               </div>
             </div>
 
             <div className="row">
               <div className="col-md-3 p-2 mx-2">
-                <i className="fas fa-phone icon-white"></i>&nbsp;
-                {process.env.REACT_APP_PHONE}
-              </div>
-              <div className="col-md-3 p-2">
-                <i className="fas fa-envelope icon-white"></i>&nbsp;
-                {process.env.REACT_APP_EMAIL}
+                <i className="fas fa-phone icon-white">&nbsp;{process.env.REACT_APP_PHONE}</i>
+                <i className="fas fa-envelope icon-white">&nbsp;{process.env.REACT_APP_EMAIL}</i>
               </div>
             </div>
           </div>
