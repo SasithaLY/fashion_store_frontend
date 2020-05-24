@@ -9,8 +9,8 @@ const contactUsCard = () => {
             </div>
             <div className="card-body">
                 <h5 className="card-title">{process.env.REACT_APP_COMPANY} </h5>
-                <p className="card-text">{process.env.REACT_APP_EMAIL}</p>
-                <p className="card-text">{process.env.REACT_APP_PHONE}</p>
+                <p className="card-text">codeignitors@gmail.com</p>
+                <p className="card-text">0715659749</p>
             </div>
             <div className="card-footer text-muted">
                 {process.env.REACT_APP_COMPANY}
