@@ -41,8 +41,8 @@ const Login = () => {
         <div className="container">
             <form>
                 <center>
+                    {showLoading()}
                     <h2>Login</h2><br />
-
                     <div className="form-group col-md-6">
                         <label>E-mail</label>
                         <input type="email" onChange={handleChange("email")} value={email} className="form-control" />
@@ -100,7 +100,6 @@ const Login = () => {
 
     return (
         <div>
-            {showLoading()}
             {showError()}
             {signinForm()}
             {redirect()}
