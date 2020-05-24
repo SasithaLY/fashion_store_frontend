@@ -39,6 +39,8 @@ import OrderHistory from "./order/user/orderHistory";
 import Locations from "./locations/Locations";
 import Promo from "./promo/promo";
 import ViewUsers from "./user/Admin/ViewUsers";
+import aboutUs from "./shared/components/footer/aboutus";
+
 
 const App = () => {
   return (
@@ -50,6 +52,7 @@ const App = () => {
             <NormalRoute path="/cart" exact component={Cart} />
             <NormalRoute path="/signin" exact component={Login} />
             <NormalRoute path="/signup" exact component={Register} />
+            <NormalRoute path="/aboutUs" exact component={aboutUs} />
 
             {/* PRODUCTS AND CATEGORIES */}
 
